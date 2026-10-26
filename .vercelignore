@@ -1,0 +1,4 @@
+# Ignore local Windows server scripts for Vercel deployments
+server.js
+servidor.ps1
+Abrir_Aldaz_Chocolate_Farm.bat
