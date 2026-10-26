@@ -1,0 +1,612 @@
+﻿{
+  "trabajadores": [
+    {
+      "id": "trab_1792373853758",
+      "nombre": "Mohamed",
+      "tarifaDiaCompleto": 20,
+      "tarifaMedioDia": 10,
+      "telefono": ""
+    },
+    {
+      "id": "trab_1792373859776",
+      "nombre": "Selina",
+      "tarifaDiaCompleto": 20,
+      "tarifaMedioDia": 10,
+      "telefono": ""
+    },
+    {
+      "id": "trab_1792373870123",
+      "nombre": "franklin",
+      "tarifaDiaCompleto": 20,
+      "tarifaMedioDia": 10,
+      "telefono": ""
+    },
+    {
+      "id": "trab_1792373876261",
+      "nombre": "Edwin",
+      "tarifaDiaCompleto": 20,
+      "tarifaMedioDia": 10,
+      "telefono": ""
+    }
+  ],
+  "horarios": {
+    "2026-10-12__trab_1": {
+      "semanaLunes": "2026-10-12",
+      "trabajadorId": "trab_1",
+      "turnos": {
+        "El Guineo": {
+          "lunes": "FULL",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "La Fortuna": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "El Guabo 1": {
+          "lunes": "FULL",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "Guabo 2": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        }
+      },
+      "firma": "",
+      "comentarios": ""
+    },
+    "2026-10-12__trab_1792372640858": {
+      "semanaLunes": "2026-10-12",
+      "trabajadorId": "trab_1792372640858",
+      "turnos": {
+        "El Guineo": {
+          "lunes": "FULL",
+          "martes": "FULL",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "La Fortuna": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "FULL",
+          "jueves": "FULL",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "El Guabo 1": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "FULL",
+          "sabado": "NONE"
+        },
+        "Guabo 2": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "FULL"
+        }
+      },
+      "firma": "",
+      "comentarios": ""
+    },
+    "2026-10-12__trab_1792373853758": {
+      "semanaLunes": "2026-10-12",
+      "trabajadorId": "trab_1792373853758",
+      "turnos": {
+        "El Guineo": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "La Fortuna": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "El Guabo 1": {
+          "lunes": "FULL",
+          "martes": "FULL",
+          "miercoles": "FULL",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "Guabo 2": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        }
+      },
+      "firma": "",
+      "comentarios": "",
+      "enviado": true,
+      "fechaEnvio": "18/10/2026"
+    },
+    "2026-10-12__trab_1792373859776": {
+      "semanaLunes": "2026-10-12",
+      "trabajadorId": "trab_1792373859776",
+      "turnos": {
+        "El Guineo": {
+          "lunes": "FULL",
+          "martes": "FULL",
+          "miercoles": "FULL",
+          "jueves": "FULL",
+          "viernes": "FULL",
+          "sabado": "FULL"
+        },
+        "La Fortuna": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "El Guabo 1": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "Guabo 2": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        }
+      },
+      "firma": "Firmado: Selina (18/10/2026)",
+      "comentarios": "",
+      "firmado": true,
+      "fechaFirma": "18/10/2026",
+      "enviado": true,
+      "fechaEnvio": "18/10/2026"
+    },
+    "2026-10-12__trab_1792373870123": {
+      "semanaLunes": "2026-10-12",
+      "trabajadorId": "trab_1792373870123",
+      "turnos": {
+        "El Guineo": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "La Fortuna": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "El Guabo 1": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "Guabo 2": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        }
+      },
+      "firma": "",
+      "comentarios": ""
+    },
+    "2026-10-12__trab_1792373876261": {
+      "semanaLunes": "2026-10-12",
+      "trabajadorId": "trab_1792373876261",
+      "turnos": {
+        "El Guineo": {
+          "lunes": "FULL",
+          "martes": "FULL",
+          "miercoles": "FULL",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "La Fortuna": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "FULL",
+          "viernes": "FULL",
+          "sabado": "NONE"
+        },
+        "El Guabo 1": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "Guabo 2": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "FULL"
+        }
+      },
+      "firma": "dfgdfgdf",
+      "comentarios": ""
+    },
+    "2026-10-19__trab_1792373859776": {
+      "semanaLunes": "2026-10-19",
+      "trabajadorId": "trab_1792373859776",
+      "turnos": {
+        "El Guineo": {
+          "lunes": "FULL",
+          "martes": "FULL",
+          "miercoles": "FULL",
+          "jueves": "FULL",
+          "viernes": "FULL",
+          "sabado": "FULL"
+        },
+        "La Fortuna": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "El Guabo 1": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "Guabo 2": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        }
+      },
+      "comentarios": "",
+      "enviado": true,
+      "fechaEnvio": "18/10/2026"
+    },
+    "2026-10-19__trab_1792373853758": {
+      "semanaLunes": "2026-10-19",
+      "trabajadorId": "trab_1792373853758",
+      "turnos": {
+        "El Guineo": {
+          "lunes": "FULL",
+          "martes": "FULL",
+          "miercoles": "FULL",
+          "jueves": "FULL",
+          "viernes": "FULL",
+          "sabado": "FULL"
+        },
+        "La Fortuna": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "El Guabo 1": {
+          "lunes": "FULL",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "Guabo 2": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        }
+      },
+      "comentarios": "",
+      "enviado": true,
+      "fechaEnvio": "19/10/2026"
+    },
+    "2026-10-19__trab_1792373870123": {
+      "semanaLunes": "2026-10-19",
+      "trabajadorId": "trab_1792373870123",
+      "turnos": {
+        "El Guineo": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "La Fortuna": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "El Guabo 1": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "Guabo 2": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        }
+      },
+      "comentarios": "",
+      "enviado": false,
+      "fechaEnvio": ""
+    },
+    "2026-10-19__trab_1792373876261": {
+      "semanaLunes": "2026-10-19",
+      "trabajadorId": "trab_1792373876261",
+      "turnos": {
+        "El Guineo": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "La Fortuna": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "El Guabo 1": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        },
+        "Guabo 2": {
+          "lunes": "NONE",
+          "martes": "NONE",
+          "miercoles": "NONE",
+          "jueves": "NONE",
+          "viernes": "NONE",
+          "sabado": "NONE"
+        }
+      },
+      "comentarios": "",
+      "enviado": false,
+      "fechaEnvio": ""
+    }
+  },
+  "ventas": [
+    {
+      "id": "venta_1792973500389",
+      "fecha": "2026-10-25",
+      "sector": "Toda la Finca",
+      "tipo": "Cacao Seco",
+      "comprador": "selina",
+      "quintales": 50,
+      "libras": 0,
+      "totalQuintales": 50,
+      "precioPorQQ": 252.2,
+      "totalDinero": 12610,
+      "notas": ""
+    },
+    {
+      "id": "venta_1792391992883",
+      "fecha": "2026-10-19",
+      "sector": "La Fortuna",
+      "tipo": "Cacao Seco",
+      "comprador": "",
+      "quintales": 2,
+      "libras": 80,
+      "totalQuintales": 2.8,
+      "precioPorQQ": 257.91,
+      "totalDinero": 722.148,
+      "notas": ""
+    },
+    {
+      "id": "venta_1792391968771",
+      "fecha": "2026-10-19",
+      "sector": "El Guineo",
+      "tipo": "Cacao Seco",
+      "comprador": "",
+      "quintales": 2,
+      "libras": 80,
+      "totalQuintales": 2.8,
+      "precioPorQQ": 257.91,
+      "totalDinero": 722.148,
+      "notas": ""
+    },
+    {
+      "id": "venta_1792372907105",
+      "fecha": "2026-10-18",
+      "sector": "Toda la Finca",
+      "tipo": "Cacao Seco",
+      "comprador": "",
+      "quintales": 20,
+      "libras": 0,
+      "totalQuintales": 20,
+      "precioPorQQ": 180,
+      "totalDinero": 3600,
+      "notas": ""
+    }
+  ],
+  "gastos": [
+    {
+      "id": "gasto_1792377687444",
+      "fecha": "2026-10-18",
+      "categoria": "Materiales y Herramientas",
+      "concepto": "tubes",
+      "sector": "Toda la Finca",
+      "monto": 570
+    },
+    {
+      "id": "gasto_1792372975440",
+      "fecha": "2026-10-18",
+      "concepto": "5 fertilizer",
+      "sector": "Toda la Finca",
+      "monto": 45
+    }
+  ],
+  "cosechas": [
+    {
+      "id": "cosecha_1792973465441",
+      "fecha": "2026-10-25",
+      "sector": "El Guineo",
+      "fincaQQ": 111,
+      "fincaLB": 0,
+      "totalFincaQQ": 111,
+      "secoQQ": 111,
+      "secoLB": 0,
+      "totalSecoQQ": 111,
+      "notas": ""
+    },
+    {
+      "id": "cosecha_1792973442980",
+      "fecha": "2026-10-25",
+      "sector": "El Guineo",
+      "fincaQQ": 111,
+      "fincaLB": 0,
+      "totalFincaQQ": 111,
+      "secoQQ": 0,
+      "secoLB": 0,
+      "totalSecoQQ": 0,
+      "notas": ""
+    },
+    {
+      "id": "cosecha_1792973372871",
+      "fecha": "2026-10-25",
+      "sector": "La Fortuna",
+      "fincaQQ": 111,
+      "fincaLB": 0,
+      "totalFincaQQ": 111,
+      "secoQQ": 0,
+      "secoLB": 0,
+      "totalSecoQQ": 0,
+      "notas": ""
+    },
+    {
+      "id": "cosecha_1792381310354",
+      "fecha": "2026-10-18",
+      "sector": "La Fortuna",
+      "fincaQQ": 3,
+      "fincaLB": 0,
+      "totalFincaQQ": 3,
+      "secoQQ": 2.8,
+      "secoLB": 0,
+      "totalSecoQQ": 2.8,
+      "notas": ""
+    },
+    {
+      "id": "cosecha_1792381290921",
+      "fecha": "2026-10-18",
+      "sector": "El Guineo",
+      "fincaQQ": 3,
+      "fincaLB": 0,
+      "totalFincaQQ": 3,
+      "secoQQ": 2.8,
+      "secoLB": 0,
+      "totalSecoQQ": 2.8,
+      "notas": ""
+    }
+  ],
+  "anomaliasReconocidas": [
+    "sec_trab_sin_prod_El Guabo 1",
+    "sec_perdida_Guabo 2",
+    "sec_perdida_El Guabo 1",
+    "ven_caida_2026-10-19",
+    "ven_precio_alto_venta_1792391968771",
+    "ven_precio_alto_venta_1792391992883",
+    "ven_supera_cosecha",
+    "emp_sin_cos_El Guabo 1",
+    "emp_sin_enviar"
+  ],
+  "sectores": [
+    {
+      "id": "sec_1",
+      "nombre": "El Guineo",
+      "acres": 25
+    },
+    {
+      "id": "sec_2",
+      "nombre": "La Fortuna",
+      "acres": 25
+    },
+    {
+      "id": "sec_3",
+      "nombre": "El Guabo 1",
+      "acres": 25
+    },
+    {
+      "id": "sec_4",
+      "nombre": "Guabo 2",
+      "acres": 25
+    }
+  ],
+  "ultimaModificacion": "2026-10-26T00:53:39.654Z",
+  "version": 1
+}

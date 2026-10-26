@@ -1,0 +1,599 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="pageDocumentTitle">ALDAZ CHOCOLATE FARM — Precio Mercado Cacao: $5,686.00/Ton ($257.91/qq)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ENCABEZADO PRINCIPAL CON PRECIO DEL CACAO EN EL MERCADO ACTUALIZADO EN VIVO -->
+  <header class="app-header">
+    <div class="brand-box">
+      <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+        <h1>🍫 ALDAZ CHOCOLATE FARM</h1>
+        <span id="headerTituloPrecioBadge" style="background:#fef08a; color:#3b1c0e; font-size:21px; font-weight:900; padding:6px 16px; border-radius:10px; border:2px solid #f59e0b; display:inline-block;">
+          📈 Mercado Cacao Hoy: <span id="tituloPrecioTonelada">$5,686.00 / Ton</span> (<span id="tituloPrecioQuintal">$257.91 / qq</span>)
+        </span>
+      </div>
+      <p>Todos los Registros Guardados en Cualquier Dispositivo — Empleados, Horarios y Cosechas</p>
+    </div>
+
+    <!-- PANEL DEL PRECIO DE MERCADO DEL CACAO EN VIVO -->
+    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+      <div id="marketPriceHeaderBox" style="background:rgba(255,255,255,0.14); border:2px solid #fde047; border-radius:12px; padding:10px 16px; color:#fff;">
+        <div style="font-size:15px; color:#fde68a; font-weight:800; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+          <span id="estadoPrecioMercadoBadge">🟢 Precio Internacional Cacao (ICE Nueva York CC=F)</span>
+          <button type="button" onclick="actualizarPrecioMercadoCacao(true)" style="background:#f59e0b; color:#3b1c0e; border:none; border-radius:6px; padding:3px 10px; font-size:14px; font-weight:900; cursor:pointer;">
+            🔄 Actualizar Ahora
+          </button>
+        </div>
+        <div style="font-size:21px; font-weight:900; margin-top:4px; color:#fff;">
+          🌎 <span id="valorPrecioToneladaHeader">$5,686.00 USD / Tonelada</span>
+          <span style="margin:0 8px; color:#fde047;">|</span>
+          ⚖️ <span id="valorPrecioQuintalHeader" style="color:#86efac;">$257.91 USD / Quintal (100 lb)</span>
+        </div>
+        <div style="font-size:14px; color:#fef08a; margin-top:2px;" id="subtextoPrecioMercadoHeader">
+          Equivalente: $2.58 / lb • Actualizado al día
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <button type="button" class="btn" style="background:#0284c7; color:#fff; font-size:15px; font-weight:900; border:2px solid #38bdf8; padding:8px 14px; border-radius:10px; cursor:pointer; display:flex; align-items:center; gap:8px;" onclick="abrirModalSincronizacionDispositivos()">
+          <span>📲</span> <span>Guardado en Dispositivos / Celular</span>
+        </button>
+        <div id="saveStatusBadge" class="save-badge" onclick="abrirModalSincronizacionDispositivos()" style="cursor:pointer;" title="Clic para ver estado multi-dispositivo">
+          <span>✅ Guardado en este Dispositivo</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2 BOTONES DE NAVEGACIÓN -->
+  <nav class="main-nav">
+    <!-- #1 ROJO CLARO: EMPLEADOS, HORARIO SEMANAL Y TARIFAS -->
+    <button class="nav-btn tab-light-red active" onclick="cambiarPestana('horario')" id="tabBtn-horario">
+      <span class="nav-icon">📋</span>
+      <span>1. Empleados y Horario</span>
+    </button>
+
+    <!-- #2 AMARILLO CLARO: ESTADÍSTICAS DE COSECHA -->
+    <button class="nav-btn tab-light-yellow" onclick="cambiarPestana('cosecha')" id="tabBtn-cosecha">
+      <span class="nav-icon">🌱</span>
+      <span>2. Cosechas</span>
+    </button>
+  </nav>
+
+  <main class="container">
+
+    <!-- =========================================================
+         PESTAÑA #1 (ROJO CLARO): EMPLEADOS, HORARIO SEMANAL, TARIFAS E HISTORIAL
+         ========================================================= -->
+    <section id="panel-horario" class="tab-panel active">
+
+      <!-- BARRA PARA ELEGIR LA SEMANA -->
+      <div class="control-bar no-print">
+        <div class="control-group">
+          <label for="weekDatePicker">📅 Fecha Semana (Numérica):</label>
+          <button class="btn btn-outline" onclick="cambiarSemana(-1)">◀ Anterior</button>
+          <input type="date" id="weekDatePicker" onchange="alCambiarFechaSemana(this.value)" />
+          <button class="btn btn-outline" onclick="cambiarSemana(1)">Siguiente ▶</button>
+          <button class="btn btn-primary" style="background:#dc2626; border-color:#991b1b;" onclick="restablecerHojaPorDefecto()">
+            🔄 Restablecer a Hoja Actual (Semana Actual)
+          </button>
+        </div>
+        <div class="control-group">
+          <button class="btn btn-amber" onclick="window.print()">🖨️ Imprimir Esta Hoja</button>
+        </div>
+      </div>
+
+      <!-- AVISO CUANDO SE ABRE UNA HOJA DEL HISTORIAL (CON BOTÓN GRANDE DE RESTABLECER) -->
+      <div id="avisoHojaHistorialAbierta" class="no-print" style="display:none; background:#fef3c7; border:4px solid #d97706; padding:18px 24px; border-radius:14px; margin-bottom:18px; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+        <div>
+          <div style="font-size:23px; font-weight:900; color:#92400e;" id="textoAvisoHojaHistorial">
+            📂 Estás viendo una planilla guardada del historial
+          </div>
+          <div style="font-size:19px; color:#78350f; font-weight:700;">
+            Cuando termines de revisarla o editarla, presiona el botón de al lado para volver a la hoja de la semana actual.
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary" style="background:#dc2626; border-color:#991b1b; font-size:22px; padding:16px 28px;" onclick="restablecerHojaPorDefecto()">
+          🔄 Volver a la Hoja de la Semana Actual
+        </button>
+      </div>
+
+      <!-- CARTEL DE LA SEMANA SELECCIONADA (SOLO NÚMEROS) -->
+      <div style="background:#3b1c0e; color:#fff; padding:14px 22px; border-radius:12px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div style="font-size:26px; font-weight:900; letter-spacing:1px;" id="textoRangoSemana">00/00/0000 - 00/00/0000</div>
+        <div style="font-size:19px; color:#fde68a;">Marca los días trabajados y presiona el botón verde <b>ENVIAR Y GUARDAR PLANILLA</b></div>
+      </div>
+
+      <!-- HOJA DE ASISTENCIA IDÉNTICA AL FORMATO DE ALDAZ CHOCOLATE FARM -->
+      <div class="schedule-paper">
+        <h2 class="paper-title">ALDAZ CHOCOLATE FARM</h2>
+
+        <!-- FILA DE SELECCIÓN DE TRABAJADOR -->
+        <div class="worker-header-row">
+          <div class="worker-select-box">
+            <label for="selectTrabajadorHorario">Nombre de trabajador:</label>
+            <select id="selectTrabajadorHorario" onchange="cambiarTrabajadorHorario()"></select>
+            <button class="btn btn-primary no-print" onclick="irASeccionTarifasEmpleados()">👷 Ver / Agregar Empleados y Tarifas</button>
+            <button class="btn btn-outline no-print" onclick="restablecerHojaPorDefecto()">🔄 Hoja por Defecto (Semana Actual)</button>
+          </div>
+          <div class="worker-rate-pill" id="infoTarifaTrabajador">
+            Tarifa: Día Completo $20.00 | Medio Día $10.00
+          </div>
+        </div>
+
+        <!-- CUADRÍCULA DE SECTORES (FORMATO LIMPIO POR LOTE) -->
+        <div class="lots-grid" id="lotsGridContainer"></div>
+
+        <!-- PIE DE LA HOJA: HORAS, PAGO AUTOMÁTICO, COMENTARIOS Y BOTÓN DE ENVIAR -->
+        <div class="paper-footer">
+          <div class="summary-Highlight-Grid">
+            <div class="summary-box">
+              <span class="label">Días Completos (en la semana):</span>
+              <span class="val" id="resumenDiasCompletos">0</span>
+            </div>
+            <div class="summary-box">
+              <span class="label">Medios Días (en la semana):</span>
+              <span class="val" id="resumenMediosDias">0</span>
+            </div>
+            <div class="summary-box">
+              <span class="label">Total de horas trabajadas esta semana:</span>
+              <span class="val" id="resumenHorasSemana">0 horas</span>
+            </div>
+            <div class="summary-box pay-highlight">
+              <span class="label">TOTAL A PAGAR ESTA SEMANA:</span>
+              <span class="val" id="resumenPagoSemana">$0.00</span>
+            </div>
+          </div>
+
+          <div class="paper-lines">
+            <div class="line-field">
+              <label for="inputComentariosHorario">Comentarios:</label>
+              <input type="text" id="inputComentariosHorario" placeholder="Ej: Cosecha en El Guineo, limpieza en La Fortuna..." oninput="guardarNotasHorario()" />
+            </div>
+          </div>
+
+          <!-- BOTÓN DE ENVIAR AL HISTORIAL -->
+          <div class="no-print" style="background:#f0fdf4; border:3px solid #166534; border-radius:14px; padding:20px 24px; margin-top:8px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:18px;">
+            <div>
+              <div style="font-size:22px; font-weight:900; color:#14532d;">📥 Enviar y Guardar Planilla Semanal en el Historial</div>
+              <div id="estadoEnvioActualTexto" style="font-size:19px; color:#374151; margin-top:4px;">
+                Presiona el botón verde para guardar esta planilla del trabajador en el historial.
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary" style="font-size:24px; padding:18px 36px; box-shadow:0 6px 14px rgba(22,101,52,0.35);" onclick="enviarPlanillaAlHistorial()">
+              ✅ ENVIAR Y GUARDAR PLANILLA
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN DE LISTA DE TRABAJADORES Y TARIFAS DE PAGO -->
+      <div class="card no-print" id="seccionListaTrabajadores">
+        <h2>👷 Lista de Trabajadores y Tarifas de Pago</h2>
+        <p style="margin-bottom:18px; color:#4b4b4b;">
+          Agrega aquí a tus empleados y cuánto gana cada uno por <b>Día Completo</b> y por <b>Medio Día</b>. Todo lo que ganen en sus horarios semanales se transfiere automáticamente a la pestaña <b>2. Reporte de Gastos</b>.
+        </p>
+
+        <div class="form-grid" style="margin-bottom:24px; background:#fee2e2; padding:20px; border-radius:12px; border:2px solid #dc2626;">
+          <div class="form-field">
+            <label for="nuevoTrabNombre">Nombre del Trabajador:</label>
+            <input type="text" id="nuevoTrabNombre" placeholder="Ej: Juan Pérez" />
+          </div>
+          <div class="form-field">
+            <label for="nuevoTrabDiaCompleto">Pago por Día Completo ($ USD):</label>
+            <input type="number" id="nuevoTrabDiaCompleto" min="0" step="0.5" value="20.00" />
+          </div>
+          <div class="form-field">
+            <label for="nuevoTrabMedioDia">Pago por Medio Día ($ USD):</label>
+            <input type="number" id="nuevoTrabMedioDia" min="0" step="0.5" value="10.00" />
+          </div>
+          <div class="form-field">
+            <label for="nuevoTrabTelefono">Teléfono / Nota (Opcional):</label>
+            <input type="text" id="nuevoTrabTelefono" placeholder="Ej: 0991234567" />
+          </div>
+          <div>
+            <button class="btn btn-primary" style="width:100%;" onclick="crearTrabajadorDesdeFormulario()">
+              + Agregar Trabajador
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nombre del Trabajador</th>
+                <th>Pago Día Completo ($)</th>
+                <th>Pago Medio Día ($)</th>
+                <th>Teléfono / Nota</th>
+                <th>Total Histórico Pagado ($)</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaTrabajadoresBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECCIÓN INFERIOR: HORARIOS DE LA SEMANA ACTUAL + HISTORIAL EXPANDIBLE DE OTRAS SEMANAS -->
+      <div class="card no-print" id="seccionHistorialPlanillas">
+        <h2>📜 Planillas de Empleados (Semana Actual Visible + Historial Expandible)</h2>
+        <p style="margin-bottom:18px; color:#4b4b4b;">
+          Las <b>planillas de la semana actual</b> de todos los empleados se muestran siempre abajo. Todas las hojas de otras semanas están <b>ocultas</b> para mantener la pantalla limpia; presiona <b>"➕ Expandir Hojas de Otras Semanas"</b> cuando quieras verlas o buscarlas:
+        </p>
+
+        <!-- 1. TABLA SIEMPRE VISIBLE: PLANILLAS DE LA SEMANA ACTUAL PARA LOS EMPLEADOS -->
+        <div style="background:#f0fdf4; border:3px solid #16a34a; border-radius:12px; padding:18px; margin-bottom:22px;">
+          <h3 style="color:#14532d; font-size:24px; margin-bottom:12px;">
+            🟢 Horarios de la Semana Actual (<span id="tituloSemanaActualTabla">00/00/0000 - 00/00/0000</span>)
+          </h3>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead id="encabezadoTablaPlanillasSemanaActual">
+                <tr>
+                  <th>Semana Actual</th>
+                  <th>Trabajador</th>
+                  <th>El Guineo</th>
+                  <th>La Fortuna</th>
+                  <th>El Guabo 1</th>
+                  <th>Guabo 2</th>
+                  <th>Total Horas</th>
+                  <th>Total Pagado ($)</th>
+                  <th>Estado / Comentarios</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaPlanillasSemanaActualBody"></tbody>
+              <tfoot>
+                <tr style="background:#dcfce7; font-weight:900; font-size:22px;">
+                  <td colspan="6" id="pieCeldaTotalSemanaActual">TOTAL SEMANA ACTUAL DE TODOS LOS EMPLEADOS:</td>
+                  <td id="totalHorasSemanaActualTabla">0 hrs</td>
+                  <td id="totalPagoSemanaActualTabla" style="color:#14532d; font-size:25px;">$0.00</td>
+                  <td colspan="2"></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+
+        <!-- 2. BOTÓN GRANDE PARA EXPANDIR / OCULTAR TODAS LAS DEMÁS HOJAS DEL HISTORIAL -->
+        <div style="background:#fef3c7; border:3px solid #d97706; border-radius:12px; padding:18px 22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;">
+          <div>
+            <div style="font-size:22px; font-weight:900; color:#92400e;" id="tituloResumenHojasOcultas">
+              📁 Hojas Guardadas de Otras Semanas (Ocultas)
+            </div>
+            <div style="font-size:18px; color:#78350f; font-weight:700;">
+              Haz clic en el botón para expandir o esconder todas las hojas de semanas anteriores.
+            </div>
+          </div>
+          <button type="button" id="btnToggleExpandirHistorial" class="btn btn-amber" style="font-size:22px; padding:16px 28px;" onclick="alternarExpandirHojasAnteriores()">
+            ➕ Expandir Hojas de Otras Semanas
+          </button>
+        </div>
+
+        <!-- CONTENEDOR OCULTO POR DEFECTO CON TODAS LAS DEMÁS HOJAS GUARDADAS -->
+        <div id="contenedorHojasAnterioresExpandible" style="display:none; margin-top:20px; border:3px solid #6b3a20; border-radius:12px; padding:20px; background:#fffdf9;">
+          <div class="control-bar" style="background:#f5ebe1; border-color:#6b3a20; margin-bottom:20px;">
+            <div class="control-group">
+              <label for="filtroHistTrabajador">👷 Buscar por Trabajador:</label>
+              <select id="filtroHistTrabajador" onchange="renderizarHistorialPlanillas()"></select>
+            </div>
+
+            <div class="control-group">
+              <label for="filtroHistAnio">📆 Año:</label>
+              <select id="filtroHistAnio" onchange="renderizarHistorialPlanillas()"></select>
+            </div>
+
+            <div class="control-group">
+              <label for="filtroHistFecha">📅 Buscar Fecha:</label>
+              <input type="date" id="filtroHistFecha" onchange="renderizarHistorialPlanillas()" />
+              <button type="button" class="btn btn-outline" onclick="limpiarFiltrosHistorialPlanillas()">
+                🔄 Ver Todas las Hojas Anteriores
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead id="encabezadoTablaHistorialPlanillas">
+                <tr>
+                  <th>Fechas (Lunes - Sábado)</th>
+                  <th>Trabajador</th>
+                  <th>El Guineo</th>
+                  <th>La Fortuna</th>
+                  <th>El Guabo 1</th>
+                  <th>Guabo 2</th>
+                  <th>Total Horas</th>
+                  <th>Total Pagado ($)</th>
+                  <th>Estado / Comentarios</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaHistorialPlanillasBody"></tbody>
+              <tfoot>
+                <tr style="background:#dcfce7; font-weight:900; font-size:22px;">
+                  <td colspan="6" id="textoPieHistorialPlanillas">TOTAL ACUMULADO EN HOJAS ANTERIORES:</td>
+                  <td id="totalHorasHistorialPlanillas">0 hrs</td>
+                  <td id="totalPagoHistorialPlanillas" style="color:#14532d; font-size:26px;">$0.00</td>
+                  <td colspan="2"></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =========================================================
+         PESTAÑA #2 (AMARILLO CLARO): ESTADÍSTICAS DE COSECHA
+         ========================================================= -->
+    <section id="panel-cosecha" class="tab-panel">
+
+      <!-- FORMULARIO PARA REGISTRAR COSECHA MANUALMENTE POR SECTOR (PESO EN LA FINCA Y PESO DESPUÉS DE SECAR) -->
+      <div class="card" style="border-color:#ca8a04; background:#fffef5;">
+        <h2 style="color:#854d0e; border-bottom-color:#fde047;">🌱 Registrar Cosecha por Sector (Peso en la Finca y Peso Después de Secar)</h2>
+        <p style="margin-bottom:18px; color:#4b4b4b;">
+          Elige qué sector de la finca cosechó e ingresa manualmente el <b>Peso en la Finca</b> (recién cosechado) y el <b>Peso Después de Secar (Cacao Seco)</b>. El sistema calcula todo automáticamente (1 Quintal = 100 Libras).
+        </p>
+
+        <div class="form-grid" style="margin-bottom:20px;">
+          <div class="form-field">
+            <label for="cosechaFecha">📅 Fecha de Cosecha (Numérica):</label>
+            <input type="date" id="cosechaFecha" />
+          </div>
+
+          <div class="form-field">
+            <label for="cosechaSector">🌱 Sector / Lote que Cosechó:</label>
+            <select id="cosechaSector">
+              <option value="El Guineo">El Guineo</option>
+              <option value="La Fortuna">La Fortuna</option>
+              <option value="El Guabo 1">El Guabo 1</option>
+              <option value="Guabo 2">Guabo 2</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="cosechaNotas">📝 Nota / Observación (Opcional):</label>
+            <input type="text" id="cosechaNotas" placeholder="Ej: Cosecha de la semana, secado al sol" />
+          </div>
+        </div>
+
+        <!-- DOS CUADROS CLAROS: 1) PESO EN LA FINCA Y 2) PESO DESPUÉS DE SECAR -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); gap:22px; margin-bottom:18px;">
+          <!-- CUADRO 1: PESO EN LA FINCA -->
+          <div style="background:#fef9c3; border:3px solid #ca8a04; border-radius:12px; padding:20px;">
+            <h3 style="font-size:23px; color:#713f12; margin-bottom:14px;">🌿 1. Peso en la Finca (Antes de Secar)</h3>
+            <div class="form-grid" style="grid-template-columns:1fr 1fr;">
+              <div class="form-field">
+                <label for="cosechaFincaQQ">⚖️ Quintales en Finca (qq):</label>
+                <input type="number" id="cosechaFincaQQ" min="0" step="0.01" placeholder="Ej: 25" oninput="calcularVistaPreviaCosecha()" />
+                <span class="helper">1 Quintal = 100 Libras</span>
+              </div>
+              <div class="form-field">
+                <label for="cosechaFincaLB">⚖️ Libras Sueltas en Finca (lb):</label>
+                <input type="number" id="cosechaFincaLB" min="0" step="0.1" placeholder="Ej: 50" oninput="calcularVistaPreviaCosecha()" />
+                <span class="helper">Se suman a los quintales</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CUADRO 2: PESO DESPUÉS DE SECAR (CACAO SECO - OPCIONAL SI AÚN NO SE SECA) -->
+          <div style="background:#dcfce7; border:3px solid #16a34a; border-radius:12px; padding:20px;">
+            <h3 style="font-size:23px; color:#14532d; margin-bottom:6px;">☀️ 2. Peso Después de Secar (Opcional Hoy)</h3>
+            <p style="font-size:17px; color:#166534; margin-bottom:12px; font-weight:700;">
+              💡 Si el cacao aún no está seco hoy, puedes dejar esto vacío y anotar el peso seco días después en la tabla de abajo.
+            </p>
+            <div class="form-grid" style="grid-template-columns:1fr 1fr;">
+              <div class="form-field">
+                <label for="cosechaSecoQQ">⚖️ Quintales Secos (qq):</label>
+                <input type="number" id="cosechaSecoQQ" min="0" step="0.01" placeholder="Dejar vacío si aún no seca" oninput="calcularVistaPreviaCosecha()" />
+                <span class="helper">1 Quintal = 100 Libras</span>
+              </div>
+              <div class="form-field">
+                <label for="cosechaSecoLB">⚖️ Libras Sueltas Secas (lb):</label>
+                <input type="number" id="cosechaSecoLB" min="0" step="0.1" placeholder="Ej: 20" oninput="calcularVistaPreviaCosecha()" />
+                <span class="helper">Cacao seco listo para vender</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VISTA PREVIA AUTOMÁTICA DE LA COSECHA -->
+        <div class="auto-calc-preview" style="background:#fef9c3; border-color:#ca8a04;">
+          <div>
+            <div style="font-size:20px; font-weight:800; color:#713f12;">
+              🌿 Peso Total en la Finca: <span id="previewCosechaFinca">0.00 qq (0 lb)</span>
+            </div>
+            <div style="font-size:20px; font-weight:800; color:#14532d; margin-top:4px;">
+              ☀️ Peso Total Después de Secar (Cacao Seco): <span id="previewCosechaSeco">⏳ Pendiente de secar (Se puede editar abajo)</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:19px; font-weight:800; color:#4b5563;">
+              Rendimiento Seco / Reducción por Secado:
+            </div>
+            <div style="font-size:24px; font-weight:900; color:#854d0e;" id="previewCosechaRendimiento">
+              ⏳ Pendiente de secar
+            </div>
+          </div>
+          <button class="btn btn-primary" style="font-size:22px; padding:16px 30px;" onclick="guardarRegistroCosecha()">
+            ✅ Guardar Cosecha del Sector
+          </button>
+        </div>
+      </div>
+
+      <!-- HISTORIAL INDIVIDUAL DE COSECHAS ENVIADAS POR SECTOR (CON SECCIÓN DE EDICIÓN DE PESO SECO) -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; margin-bottom:12px;">
+          <h2 style="margin-bottom:0; border:none;">📜 Historial Detallado de Cosechas Registradas por Sector</h2>
+          <div class="control-group">
+            <label for="filtroSectorHistorialCosecha">Filtrar Sector:</label>
+            <select id="filtroSectorHistorialCosecha" onchange="renderizarEstadisticasCosecha()">
+              <option value="TODOS">Todos los Sectores</option>
+              <option value="El Guineo">El Guineo</option>
+              <option value="La Fortuna">La Fortuna</option>
+              <option value="El Guabo 1">El Guabo 1</option>
+              <option value="Guabo 2">Guabo 2</option>
+            </select>
+          </div>
+        </div>
+        <p style="margin-bottom:16px; color:#14532d; background:#dcfce7; padding:12px 16px; border-radius:10px; border:2px solid #16a34a; font-weight:700;">
+          ✏️ <b>¿El cacao ya se secó?</b> En la columna <b>"✏️ Editar / Anotar Peso Seco"</b> puedes escribir o corregir los Quintales (qq) y Libras (lb) después de secar y presionar <b>"💾 Guardar Peso Seco"</b> en cualquier momento.
+        </p>
+
+        <div class="table-responsive">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Sector / Lote</th>
+                <th>🌿 Peso en la Finca</th>
+                <th>☀️ Peso Después de Secar</th>
+                <th>✏️ Editar / Anotar Peso Seco (Cuando Esté Seco)</th>
+                <th>Diferencia / Rendimiento Seco</th>
+                <th>Notas</th>
+                <th>Borrar</th>
+              </tr>
+            </thead>
+            <tbody id="tablaHistorialCosechasBody"></tbody>
+            <tfoot>
+              <tr style="background:#fef9c3; font-weight:900; font-size:22px;">
+                <td colspan="2">TOTALES DE COSECHAS EN LA LISTA:</td>
+                <td id="pieTotalCosechaFinca" style="color:#854d0e;">0.00 qq (0 lb)</td>
+                <td id="pieTotalCosechaSeco" style="color:#14532d; font-size:24px;">0.00 qq (0 lb)</td>
+                <td>—</td>
+                <td id="pieTotalCosechaRendimiento">—</td>
+                <td colspan="2"></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- MODAL DE SINCRONIZACIÓN Y GUARDADO EN CUALQUIER DISPOSITIVO -->
+  <div id="modalSincronizacionDispositivos" class="modal-overlay" style="display:none;">
+    <div class="modal-box" style="max-width:840px; border-color:#0284c7; max-height:92vh; overflow-y:auto; text-align:left; padding:28px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid #0284c7; padding-bottom:14px; margin-bottom:20px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="font-size:34px;">📲</span>
+          <div>
+            <h2 style="margin:0; font-size:26px; color:#0369a1;">Guardado en Cualquier Dispositivo</h2>
+            <p style="margin:4px 0 0; color:#0c4a6e; font-size:16px; font-weight:700;">
+              Todos tus registros se guardan en la memoria de este equipo y se sincronizan con cualquier teléfono, tablet o computadora.
+            </p>
+          </div>
+        </div>
+        <button type="button" class="btn-modal-cancel" style="padding:6px 14px; font-size:22px; font-weight:900;" onclick="cerrarModalSincronizacionDispositivos()">✖</button>
+      </div>
+
+      <!-- ESTADO DE LA MEMORIA LOCAL DEL DISPOSITIVO ACTUAL -->
+      <div style="background:#f0fdf4; border:2px solid #16a34a; border-radius:12px; padding:18px; margin-bottom:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+          <span style="font-size:20px; font-weight:900; color:#14532d;">
+            💾 Estado en este Dispositivo Actual:
+          </span>
+          <span id="badgeEstadoDispositivoActual" style="background:#dcfce7; color:#15803d; border:1px solid #86efac; font-weight:900; padding:4px 12px; border-radius:8px; font-size:16px;">
+            ✅ 100% Guardado y Protegido
+          </span>
+        </div>
+        <p style="margin:0 0 12px; color:#166534; font-size:16px;">
+          Cada vez que abres la página en este teléfono o computadora, se guarda una copia completa en el almacenamiento local de este navegador. Si sales al campo o te quedas sin conexión, tus registros siguen disponibles en este equipo.
+        </p>
+        <div id="resumenRegistrosDispositivo" style="display:flex; gap:12px; flex-wrap:wrap; font-size:15px; font-weight:800; color:#14532d;">
+          <!-- Llenado dinámicamente -->
+        </div>
+      </div>
+
+      <!-- CONEXIÓN DESDE TELÉFONOS CELULARES U OTROS DISPOSITIVOS -->
+      <div style="background:#f0f9ff; border:2px solid #0284c7; border-radius:12px; padding:18px; margin-bottom:20px;">
+        <h3 style="margin-top:0; font-size:21px; color:#0369a1; display:flex; align-items:center; gap:8px;">
+          <span>📱</span> <span>Cómo Acceder y Guardar desde tu Celular o Tablet:</span>
+        </h3>
+        <p style="margin:0 0 12px; color:#0c4a6e; font-size:16px;">
+          Conecta tu teléfono a la misma red Wi-Fi de la finca y abre esta dirección en el navegador de tu celular:
+        </p>
+
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
+          <input type="text" id="inputUrlCelularSincronizacion" readonly value="http://10.0.0.127:5357/"
+            style="flex:1; min-width:260px; font-size:20px; font-weight:900; color:#0369a1; background:#ffffff; border:2px solid #38bdf8; padding:10px 14px; border-radius:8px; text-align:center;" />
+          <button type="button" class="btn btn-primary" onclick="copiarUrlCelular()" style="background:#0284c7; border-color:#0369a1; font-size:18px; padding:10px 20px;">
+            📋 Copiar Enlace
+          </button>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap; background:#fff; border:1px dashed #7dd3fc; border-radius:10px; padding:14px;">
+          <div style="text-align:center;">
+            <img id="imgQrConexionCelular" src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=http://10.0.0.127:5357/" alt="Código QR para celular" style="width:130px; height:130px; border-radius:8px; border:1px solid #cbd5e1;" />
+            <div style="font-size:13px; color:#64748b; font-weight:700; margin-top:4px;">Apunta tu cámara</div>
+          </div>
+          <div style="flex:1; min-width:240px; font-size:16px; color:#0f172a; line-height:1.5;">
+            <b>⚡ Sincronización en Tiempo Real:</b>
+            <ul style="margin:6px 0 0 20px; padding:0; color:#334155;">
+              <li>Cualquier registro que ingreses en el teléfono aparece al instante en la computadora.</li>
+              <li>Cualquier registro ingresado en la computadora se descarga y guarda de inmediato en el teléfono.</li>
+              <li>Todos los dispositivos mantienen una copia idéntica y actualizada.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESPALDOS PORTÁTILES (DESCARGAR / RESTAURAR ARCHIVO JSON) -->
+      <div style="background:#fef3c7; border:2px solid #d97706; border-radius:12px; padding:18px;">
+        <h3 style="margin-top:0; font-size:20px; color:#92400e; display:flex; align-items:center; gap:8px;">
+          <span>📦</span> <span>Copia de Respaldo Portátil (Descargar / Restaurar):</span>
+        </h3>
+        <p style="margin:0 0 14px; color:#78350f; font-size:16px;">
+          Puedes descargar en 1 segundo un archivo con toda la información de la finca a este dispositivo para guardarlo como archivo seguro o llevarlo a otro equipo:
+        </p>
+
+        <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+          <button type="button" class="btn btn-amber" onclick="descargarRespaldoJSON()" style="font-size:17px; padding:10px 18px; font-weight:800;">
+            📥 Descargar Copia (.json) a este Dispositivo
+          </button>
+          <label class="btn btn-outline" style="font-size:17px; padding:10px 18px; font-weight:800; cursor:pointer; margin:0; display:inline-flex; align-items:center; gap:6px;">
+            <span>📤 Cargar / Restaurar Respaldo (.json)</span>
+            <input type="file" id="inputCargarRespaldoArchivo" accept=".json" onchange="cargarRespaldoDesdeArchivo(event)" style="display:none;" />
+          </label>
+          <button type="button" class="btn btn-primary" onclick="forzarSincronizacionManual()" style="background:#15803d; border-color:#166534; font-size:17px; padding:10px 18px; font-weight:800;">
+            🔄 Sincronizar Ahora
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-actions" style="margin-top:20px; justify-content:flex-end;">
+        <button type="button" class="btn-modal-cancel" onclick="cerrarModalSincronizacionDispositivos()" style="font-size:18px;">
+          Listo / Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CONFIRMACIÓN ANTES DE ELIMINAR CUALQUIER REGISTRO -->
+  <div id="modalConfirmacionEliminar" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <h3>⚠️ ¿Eliminar este Registro?</h3>
+      <p id="textoModalConfirmacionEliminar">¿Estás seguro de que deseas eliminar este registro permanentemente?</p>
+      <div class="modal-actions">
+        <button type="button" class="btn-modal-cancel" onclick="cerrarModalEliminar()">
+          Cancelar
+        </button>
+        <button type="button" class="btn-modal-confirm-delete" id="btnConfirmarAccionEliminar">
+          🗑️ Sí, Eliminar Registro
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
