@@ -630,8 +630,7 @@ function formatoDinero(valor) {
 
 function formatoPeso(totalQuintales) {
   const qq = Number(totalQuintales) || 0;
-  const totalLibras = Math.round(qq * 100);
-  return `${qq.toFixed(2)} qq (${totalLibras.toLocaleString('en-US')} lb)`;
+  return `${qq.toFixed(2)} qq`;
 }
 
 // ============================================================================
@@ -1583,45 +1582,38 @@ function limpiarFiltrosTablaGastos() {
 
 // ============================================================================
 // PESTAÑA #3 (AMARILLO CLARO): ESTADÍSTICAS DE COSECHA
-// (REGISTRO MANUAL POR SECTOR: PESO EN LA FINCA Y PESO DESPUÉS DE SECAR)
+// (REGISTRO POR SECTOR: LATAS EN BABA Y QUINTALES SECOS)
 // ============================================================================
 
 function calcularVistaPreviaCosecha() {
-  const fincaQQEl = document.getElementById('cosechaFincaQQ');
-  const fincaLBEl = document.getElementById('cosechaFincaLB');
+  const latasEl = document.getElementById('cosechaLatas');
   const secoQQEl = document.getElementById('cosechaSecoQQ');
-  const secoLBEl = document.getElementById('cosechaSecoLB');
 
-  const fincaQQ = fincaQQEl ? (parseFloat(fincaQQEl.value) || 0) : 0;
-  const fincaLB = fincaLBEl ? (parseFloat(fincaLBEl.value) || 0) : 0;
+  const latas = latasEl ? (parseFloat(latasEl.value) || 0) : 0;
   const secoQQ = secoQQEl ? (parseFloat(secoQQEl.value) || 0) : 0;
-  const secoLB = secoLBEl ? (parseFloat(secoLBEl.value) || 0) : 0;
-
-  const totalFincaQQ = fincaQQ + (fincaLB / 100);
-  const totalSecoQQ = secoQQ + (secoLB / 100);
 
   const prevFinca = document.getElementById('previewCosechaFinca');
   const prevSeco = document.getElementById('previewCosechaSeco');
   const prevRend = document.getElementById('previewCosechaRendimiento');
 
-  if (prevFinca) prevFinca.textContent = formatoPeso(totalFincaQQ);
+  if (prevFinca) prevFinca.textContent = `${latas} ${latas === 1 ? 'lata' : 'latas'}`;
   if (prevSeco) {
-    prevSeco.textContent = totalSecoQQ > 0
-      ? formatoPeso(totalSecoQQ)
+    prevSeco.textContent = secoQQ > 0
+      ? `${secoQQ.toFixed(2)} qq`
       : '⏳ Pendiente de secar (Se puede editar abajo)';
   }
 
   if (prevRend) {
-    if (totalFincaQQ > 0 && totalSecoQQ > 0) {
-      const pctSeco = ((totalSecoQQ / totalFincaQQ) * 100).toFixed(1);
-      const reduccionQQ = Math.max(0, totalFincaQQ - totalSecoQQ);
-      prevRend.textContent = `${pctSeco}% seco (Merma: -${formatoPeso(reduccionQQ)})`;
+    if (latas > 0 && secoQQ > 0) {
+      const latasPorQQ = (latas / secoQQ).toFixed(1);
+      const qqPorLata = (secoQQ / latas).toFixed(2);
+      prevRend.textContent = `${latasPorQQ} latas / qq seco (${qqPorLata} qq por lata)`;
     } else {
       prevRend.textContent = '⏳ Pendiente de secar';
     }
   }
 
-  return { fincaQQ, fincaLB, totalFincaQQ, secoQQ, secoLB, totalSecoQQ };
+  return { latas, secoQQ, totalSecoQQ: secoQQ };
 }
 
 function guardarRegistroCosecha() {
@@ -1629,10 +1621,10 @@ function guardarRegistroCosecha() {
   const sector = (document.getElementById('cosechaSector') && document.getElementById('cosechaSector').value) || 'El Guineo';
   const notas = (document.getElementById('cosechaNotas') && document.getElementById('cosechaNotas').value.trim()) || '';
 
-  const { fincaQQ, fincaLB, totalFincaQQ, secoQQ, secoLB, totalSecoQQ } = calcularVistaPreviaCosecha();
+  const { latas, secoQQ, totalSecoQQ } = calcularVistaPreviaCosecha();
 
-  if (totalFincaQQ <= 0) {
-    alert('Por favor ingresa el Peso en la Finca (antes de secar) en Quintales o Libras.');
+  if (latas <= 0) {
+    alert('Por favor ingresa la cantidad de latas cosechadas en la finca.');
     return;
   }
 
@@ -1644,19 +1636,15 @@ function guardarRegistroCosecha() {
     id: 'cosecha_' + Date.now(),
     fecha,
     sector,
-    fincaQQ,
-    fincaLB,
-    totalFincaQQ,
+    latas,
+    totalFincaQQ: latas,
     secoQQ,
-    secoLB,
     totalSecoQQ,
     notas
   });
 
-  if (document.getElementById('cosechaFincaQQ')) document.getElementById('cosechaFincaQQ').value = '';
-  if (document.getElementById('cosechaFincaLB')) document.getElementById('cosechaFincaLB').value = '';
+  if (document.getElementById('cosechaLatas')) document.getElementById('cosechaLatas').value = '';
   if (document.getElementById('cosechaSecoQQ')) document.getElementById('cosechaSecoQQ').value = '';
-  if (document.getElementById('cosechaSecoLB')) document.getElementById('cosechaSecoLB').value = '';
   if (document.getElementById('cosechaNotas')) document.getElementById('cosechaNotas').value = '';
   calcularVistaPreviaCosecha();
 
@@ -1670,15 +1658,12 @@ function actualizarPesoSecoCosecha(cosechaId) {
   if (!item) return;
 
   const inputQQ = document.getElementById(`editSecoQQ_${cosechaId}`);
-  const inputLB = document.getElementById(`editSecoLB_${cosechaId}`);
-
   const secoQQ = inputQQ ? (parseFloat(inputQQ.value) || 0) : 0;
-  const secoLB = inputLB ? (parseFloat(inputLB.value) || 0) : 0;
-  const totalSecoQQ = secoQQ + (secoLB / 100);
 
   item.secoQQ = secoQQ;
-  item.secoLB = secoLB;
-  item.totalSecoQQ = totalSecoQQ;
+  item.totalSecoQQ = secoQQ;
+  delete item.secoLB;
+  delete item.fincaLB;
 
   guardarDatos();
   renderizarTodo();
@@ -1686,7 +1671,8 @@ function actualizarPesoSecoCosecha(cosechaId) {
 
 function eliminarRegistroCosecha(cosechaId) {
   const c = (estadoFinca.cosechas || []).find(item => item.id === cosechaId);
-  const desc = c ? `cosecha del sector "${c.sector}" del ${formatearFechaCorta(c.fecha)} (${formatoPeso(c.totalFincaQQ)})` : 'este registro de cosecha';
+  const latas = c ? (c.latas !== undefined ? c.latas : (c.totalFincaQQ || 0)) : 0;
+  const desc = c ? `cosecha del sector "${c.sector}" del ${formatearFechaCorta(c.fecha)} (${latas} latas)` : 'este registro de cosecha';
   mostrarModalConfirmacionEliminar(
     `¿Estás seguro de que deseas borrar el registro de ${desc}? Esta acción no se puede deshacer.`,
     () => {
@@ -1715,39 +1701,38 @@ function renderizarEstadisticasCosecha() {
       })
       .sort((a, b) => (b.fecha || '').localeCompare(a.fecha || ''));
 
-    let sumaHistFincaQQ = 0;
-    let sumaHistFincaConSecoQQ = 0;
+    let sumaHistLatas = 0;
+    let sumaHistLatasConSeco = 0;
     let sumaHistSecoQQ = 0;
 
     if (cosechasFiltradas.length === 0) {
       tbodyHistCos.innerHTML = `
         <tr>
           <td colspan="8" style="text-align:center; padding:24px; color:#666; font-size:18px;">
-            Aún no hay cosechas registradas. Usa el formulario de arriba para ingresar cuánto cosechó cada sector.
+            Aún no hay cosechas registradas. Usa el formulario de arriba para ingresar las latas cosechadas por cada sector.
           </td>
         </tr>
       `;
     } else {
       cosechasFiltradas.forEach(c => {
-        const fQQ = Number(c.totalFincaQQ || 0);
-        const sQQ = Number(c.totalSecoQQ || 0);
-        sumaHistFincaQQ += fQQ;
+        const latas = Number(c.latas !== undefined ? c.latas : (c.totalFincaQQ || c.fincaQQ || 0));
+        const sQQ = Number(c.totalSecoQQ !== undefined ? c.totalSecoQQ : (c.secoQQ || 0));
+        sumaHistLatas += latas;
         sumaHistSecoQQ += sQQ;
-        if (sQQ > 0) sumaHistFincaConSecoQQ += fQQ;
+        if (sQQ > 0) sumaHistLatasConSeco += latas;
 
-        const valSecoQQ = c.secoQQ !== undefined && c.secoQQ > 0 ? c.secoQQ : '';
-        const valSecoLB = c.secoLB !== undefined && c.secoLB > 0 ? c.secoLB : '';
+        const valSecoQQ = sQQ > 0 ? sQQ : '';
 
         const celdaPesoSecoActual = sQQ > 0
-          ? `<div style="color:#14532d; font-weight:900; font-size:22px;">☀️ ${formatoPeso(sQQ)}</div>
+          ? `<div style="color:#14532d; font-weight:900; font-size:22px;">☀️ ${sQQ.toFixed(2)} qq</div>
              <span style="background:#dcfce7; color:#166534; font-size:15px; font-weight:800; padding:2px 8px; border-radius:6px;">✅ Ya secado</span>`
           : `<div style="background:#fef3c7; color:#92400e; border:2px solid #f59e0b; padding:8px 12px; border-radius:8px; font-weight:800; font-size:18px;">
                ⏳ Pendiente de secar<br/>
                <span style="font-size:15px; font-weight:600;">Anótalo al lado cuando se seque ➡️</span>
              </div>`;
 
-        const celdaRendimiento = sQQ > 0 && fQQ > 0
-          ? `<b>${((sQQ / fQQ) * 100).toFixed(1)}% seco</b><br/><span style="color:#666; font-size:17px;">Merma: -${Math.max(0, fQQ - sQQ).toFixed(2)} qq</span>`
+        const celdaRendimiento = sQQ > 0 && latas > 0
+          ? `<b>${(latas / sQQ).toFixed(1)} latas / qq</b><br/><span style="color:#666; font-size:16px;">(${(sQQ / latas).toFixed(2)} qq / lata)</span>`
           : '<span style="color:#92400e; font-weight:700;">⏳ En secado</span>';
 
         const tr = document.createElement('tr');
@@ -1757,23 +1742,18 @@ function renderizarEstadisticasCosecha() {
         tr.innerHTML = `
           <td><b>${formatearFechaCorta(c.fecha)}</b></td>
           <td><b>${c.sector}</b></td>
-          <td style="color:#854d0e; font-weight:800;">${formatoPeso(fQQ)}</td>
+          <td style="color:#854d0e; font-weight:800; font-size:20px;">🪣 ${latas} ${latas === 1 ? 'lata' : 'latas'}</td>
           <td>${celdaPesoSecoActual}</td>
           <td style="background:#f0fdf4; border-left:2px solid #86efac; border-right:2px solid #86efac;">
             <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
               <div>
-                <label style="font-size:15px; font-weight:800; color:#14532d; display:block;">Quintales (qq):</label>
-                <input type="number" id="editSecoQQ_${c.id}" min="0" step="0.01" value="${valSecoQQ}" placeholder="qq"
-                  style="width:105px; padding:8px; font-size:19px; font-weight:800; border:2px solid #16a34a; border-radius:8px;" />
-              </div>
-              <div>
-                <label style="font-size:15px; font-weight:800; color:#14532d; display:block;">Libras (lb):</label>
-                <input type="number" id="editSecoLB_${c.id}" min="0" step="0.1" value="${valSecoLB}" placeholder="lb"
-                  style="width:105px; padding:8px; font-size:19px; font-weight:800; border:2px solid #16a34a; border-radius:8px;" />
+                <label style="font-size:15px; font-weight:800; color:#14532d; display:block;">Quintales Secos (qq):</label>
+                <input type="number" id="editSecoQQ_${c.id}" min="0" step="0.01" value="${valSecoQQ}" placeholder="Ej: 5.50"
+                  style="width:120px; padding:8px; font-size:19px; font-weight:800; border:2px solid #16a34a; border-radius:8px;" />
               </div>
               <button class="btn btn-primary" style="padding:10px 16px; font-size:17px; margin-top:18px;"
                 onclick="actualizarPesoSecoCosecha('${c.id}')">
-                💾 Guardar Peso Seco
+                💾 Guardar
               </button>
             </div>
           </td>
@@ -1790,11 +1770,11 @@ function renderizarEstadisticasCosecha() {
     const pieFinca = document.getElementById('pieTotalCosechaFinca');
     const pieSeco = document.getElementById('pieTotalCosechaSeco');
     const pieRend = document.getElementById('pieTotalCosechaRendimiento');
-    if (pieFinca) pieFinca.textContent = formatoPeso(sumaHistFincaQQ);
-    if (pieSeco) pieSeco.textContent = formatoPeso(sumaHistSecoQQ);
+    if (pieFinca) pieFinca.textContent = `${sumaHistLatas} latas`;
+    if (pieSeco) pieSeco.textContent = `${sumaHistSecoQQ.toFixed(2)} qq`;
     if (pieRend) {
-      pieRend.textContent = sumaHistFincaConSecoQQ > 0
-        ? `${((sumaHistSecoQQ / sumaHistFincaConSecoQQ) * 100).toFixed(1)}% de rendimiento seco`
+      pieRend.textContent = sumaHistSecoQQ > 0 && sumaHistLatasConSeco > 0
+        ? `${(sumaHistLatasConSeco / sumaHistSecoQQ).toFixed(1)} latas / qq seco`
         : '—';
     }
   }
@@ -1814,15 +1794,15 @@ function obtenerDatosSuministroCacaoSeco() {
   vendidoPorSector['Toda la Finca'] = 0;
 
   let totalCosechadoSecoQQ = 0;
-  let totalFincaSinSecarQQ = 0;
+  let totalLatasSinSecar = 0;
   let registrosPendientesSecar = 0;
 
   (estadoFinca.cosechas || []).forEach(c => {
-    const sQQ = Number(c.totalSecoQQ || 0);
-    const fQQ = Number(c.totalFincaQQ || 0);
+    const sQQ = Number(c.totalSecoQQ !== undefined ? c.totalSecoQQ : (c.secoQQ || 0));
+    const latas = Number(c.latas !== undefined ? c.latas : (c.totalFincaQQ || 0));
     totalCosechadoSecoQQ += sQQ;
-    if (sQQ <= 0 && fQQ > 0) {
-      totalFincaSinSecarQQ += fQQ;
+    if (sQQ <= 0 && latas > 0) {
+      totalLatasSinSecar += latas;
       registrosPendientesSecar++;
     }
     if (cosechadoPorSector[c.sector] !== undefined) {
@@ -1844,7 +1824,7 @@ function obtenerDatosSuministroCacaoSeco() {
     totalCosechadoSecoQQ,
     totalVendidoSecoQQ,
     totalDisponibleSecoQQ,
-    totalFincaSinSecarQQ,
+    totalLatasSinSecar,
     registrosPendientesSecar,
     cosechadoPorSector,
     vendidoPorSector
@@ -1867,7 +1847,7 @@ function renderizarSuministroCacaoSecoEnVentas() {
 
   if (elSubPend) {
     if (info.registrosPendientesSecar > 0) {
-      elSubPend.innerHTML = `⏳ +${formatoPeso(info.totalFincaSinSecarQQ)} en finca pendientes de secar`;
+      elSubPend.innerHTML = `⏳ +${info.totalLatasSinSecar} latas en finca pendientes de secar`;
     } else {
       elSubPend.textContent = 'Todo el cacao cosechado ya tiene su peso seco';
     }
@@ -2674,17 +2654,17 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
   });
 
   (estadoFinca.cosechas || []).forEach(c => {
-    const fQQ = Number(c.totalFincaQQ || 0);
-    const sQQ = Number(c.totalSecoQQ || 0);
-    if (fQQ > 0 || sQQ > 0) {
-      totalCosechaFincaQQ += fQQ;
+    const latas = Number(c.latas !== undefined ? c.latas : (c.totalFincaQQ || 0));
+    const sQQ = Number(c.totalSecoQQ !== undefined ? c.totalSecoQQ : (c.secoQQ || 0));
+    if (latas > 0 || sQQ > 0) {
+      totalCosechaFincaQQ += latas;
       totalCosechaSecoQQ += sQQ;
       const lun = obtenerLunesDeFecha(c.fecha);
       semanasCosechas.add(lun);
       todasLasSemanas.add(lun);
 
       const sec = cosechaSecoPorSector[c.sector] !== undefined ? c.sector : SECTORES[0];
-      cosechaFincaPorSector[sec] += fQQ;
+      cosechaFincaPorSector[sec] += latas;
       cosechaSecoPorSector[sec] += sQQ;
 
       const mesNum = (c.fecha || '').substring(5, 7);
@@ -2904,10 +2884,10 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
   const ulPatronesCosecha = document.getElementById('patronesCosechaLista');
   if (ulPatronesCosecha) {
     ulPatronesCosecha.innerHTML = `
-      <li class="pattern-item">🏆 <b>Sector Más Productivo:</b><br/>${totalCosechaSecoQQ > 0 ? `${mejorSectorCosecha} (Finca: ${cosechaFincaPorSector[mejorSectorCosecha].toFixed(2)} qq | Seco: ${cosechaSecoPorSector[mejorSectorCosecha].toFixed(2)} qq)` : 'Registra una cosecha arriba para ver el lote líder'}</li>
-      <li class="pattern-item">☀️ <b>Rendimiento Promedio de Secado:</b><br/>${totalCosechaFincaQQ > 0 ? `El cacao seco conserva el <b>${pctRendimientoHist}</b> del peso cosechado en finca` : 'Ingresa peso en finca y peso seco para calcular merma'}</li>
+      <li class="pattern-item">🏆 <b>Sector Más Productivo:</b><br/>${totalCosechaSecoQQ > 0 ? `${mejorSectorCosecha} (Finca: ${cosechaFincaPorSector[mejorSectorCosecha]} latas | Seco: ${cosechaSecoPorSector[mejorSectorCosecha].toFixed(2)} qq)` : 'Registra una cosecha arriba para ver el lote líder'}</li>
+      <li class="pattern-item">☀️ <b>Rendimiento Promedio de Secado:</b><br/>${(totalCosechaSecoQQ > 0 && totalCosechaFincaQQ > 0) ? `Promedio: <b>${(totalCosechaFincaQQ / totalCosechaSecoQQ).toFixed(1)} latas</b> rinden 1 qq seco (${(totalCosechaSecoQQ / totalCosechaFincaQQ).toFixed(2)} qq por lata)` : 'Ingresa latas y quintales secos para ver rendimiento'}</li>
       <li class="pattern-item">🗓️ <b>Mejor Mes de Cosecha:</b><br/>${mesMejorCosechaNum ? `${nombreMesMejor} (${cosechaSecoPorMes[mesMejorCosechaNum].toFixed(2)} qq secos)` : 'Registra cosechas para detectar temporada alta'}</li>
-      <li class="pattern-item">? <b>Productividad por Día Trabajado:</b><br/><b>${lbSecasPorDiaHist} libras de cacao seco</b> producidas por cada día de trabajo</li>
+      <li class="pattern-item">💼 <b>Productividad por Día Trabajado:</b><br/><b>${(totalDiasEq > 0 ? (totalCosechaSecoQQ / totalDiasEq).toFixed(2) : '0')} qq de cacao seco</b> producidos por cada día de trabajo</li>
     `;
   }
 
@@ -3474,13 +3454,11 @@ function renderizarAnomaliasEnCadaPestana() {
 
         if (fAnt > 0 && fAct < fAnt * 0.70) {
           const pctCaida = Math.round(((fAnt - fAct) / fAnt) * 100);
-          const tonAnt = (fAnt / 20).toFixed(2);
-          const tonAct = (fAct / 20).toFixed(2);
           alertasCos.push({
             id: `cos_caida_${semAct}`,
             tipo: 'warning',
             titulo: `📉 Caída Brusca de Cosecha Entre Semanas (-${pctCaida}%)`,
-            detalle: `En la semana <b>${formatearRangoSemanaNumerico(semAnt)}</b> se cosecharon <b>${formatoPeso(fAnt)} (~${tonAnt} Toneladas)</b> en finca, pero en la semana siguiente <b>${formatearRangoSemanaNumerico(semAct)}</b> cayó a solo <b>${formatoPeso(fAct)} (~${tonAct} Toneladas)</b>. (Promedio habitual: ${promFincaSem.toFixed(2)} qq/semana). Revisa si faltó anotar algún sector o si hubo plaga/clima adverso.`
+            detalle: `En la semana <b>${formatearRangoSemanaNumerico(semAnt)}</b> se cosecharon <b>${fAnt} latas</b> en finca, pero en la semana siguiente <b>${formatearRangoSemanaNumerico(semAct)}</b> cayó a solo <b>${fAct} latas</b>. (Promedio habitual: ${promFincaSem.toFixed(1)} latas/semana). Revisa si faltó anotar algún sector o si hubo plaga/clima adverso.`
           });
         } else if (fAnt > 0 && fAct > fAnt * 1.50) {
           const pctSubida = Math.round(((fAct - fAnt) / fAnt) * 100);
@@ -3559,14 +3537,14 @@ function renderizarAnomaliasEnCadaPestana() {
     }
 
     // D) Cosechas pendientes de secado
-    const pendientesSecado = listaCosechas.filter(c => Number(c.totalSecoQQ || 0) <= 0);
+    const pendientesSecado = listaCosechas.filter(c => Number(c.totalSecoQQ !== undefined ? c.totalSecoQQ : (c.secoQQ || 0)) <= 0);
     if (pendientesSecado.length > 0) {
-      const qqPendientesFinca = pendientesSecado.reduce((a, c) => a + Number(c.totalFincaQQ || 0), 0);
+      const latasPendientes = pendientesSecado.reduce((a, c) => a + Number(c.latas !== undefined ? c.latas : (c.totalFincaQQ || 0)), 0);
       alertasCos.push({
         id: 'cos_pend_secado',
         tipo: 'info',
-        titulo: `⏳ ${pendientesSecado.length} Cosecha(s) Pendiente(s) de Anotar Peso Seco`,
-        detalle: `Hay <b>${formatoPeso(qqPendientesFinca)}</b> cosechados en finca que aún tienen el Peso Seco en <b>0.00 qq</b>. Cuando terminen de secarse en el tendal, edítalos en la tabla de abajo.`
+        titulo: `⏳ ${pendientesSecado.length} Cosecha(s) Pendiente(s) de Anotar Cacao Seco`,
+        detalle: `Hay <b>${latasPendientes} latas</b> cosechadas en finca que aún tienen el Cacao Seco en <b>0.00 qq</b>. Cuando terminen de secarse en el tendal, anota los quintales secos en la tabla de abajo.`
       });
     }
 

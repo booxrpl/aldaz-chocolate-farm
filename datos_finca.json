@@ -1,4 +1,4 @@
-﻿{
+{
   "trabajadores": [
     {
       "id": "trab_1792373853758",
@@ -517,61 +517,51 @@
       "id": "cosecha_1792973465441",
       "fecha": "2026-10-25",
       "sector": "El Guineo",
-      "fincaQQ": 111,
-      "fincaLB": 0,
-      "totalFincaQQ": 111,
-      "secoQQ": 111,
-      "secoLB": 0,
-      "totalSecoQQ": 111,
-      "notas": ""
+      "totalFincaQQ": 30,
+      "secoQQ": 10,
+      "totalSecoQQ": 10,
+      "notas": "",
+      "latas": 30
     },
     {
       "id": "cosecha_1792973442980",
       "fecha": "2026-10-25",
       "sector": "El Guineo",
-      "fincaQQ": 111,
-      "fincaLB": 0,
-      "totalFincaQQ": 111,
+      "totalFincaQQ": 25,
       "secoQQ": 0,
-      "secoLB": 0,
       "totalSecoQQ": 0,
-      "notas": ""
+      "notas": "",
+      "latas": 25
     },
     {
       "id": "cosecha_1792973372871",
       "fecha": "2026-10-25",
       "sector": "La Fortuna",
-      "fincaQQ": 111,
-      "fincaLB": 0,
-      "totalFincaQQ": 111,
+      "totalFincaQQ": 20,
       "secoQQ": 0,
-      "secoLB": 0,
       "totalSecoQQ": 0,
-      "notas": ""
+      "notas": "",
+      "latas": 20
     },
     {
       "id": "cosecha_1792381310354",
       "fecha": "2026-10-18",
       "sector": "La Fortuna",
-      "fincaQQ": 3,
-      "fincaLB": 0,
-      "totalFincaQQ": 3,
+      "totalFincaQQ": 9,
       "secoQQ": 2.8,
-      "secoLB": 0,
       "totalSecoQQ": 2.8,
-      "notas": ""
+      "notas": "",
+      "latas": 9
     },
     {
       "id": "cosecha_1792381290921",
       "fecha": "2026-10-18",
       "sector": "El Guineo",
-      "fincaQQ": 3,
-      "fincaLB": 0,
-      "totalFincaQQ": 3,
+      "totalFincaQQ": 8.5,
       "secoQQ": 2.8,
-      "secoLB": 0,
       "totalSecoQQ": 2.8,
-      "notas": ""
+      "notas": "",
+      "latas": 8.5
     }
   ],
   "anomaliasReconocidas": [

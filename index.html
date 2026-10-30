@@ -335,11 +335,11 @@
          ========================================================= -->
     <section id="panel-cosecha" class="tab-panel">
 
-      <!-- FORMULARIO PARA REGISTRAR COSECHA MANUALMENTE POR SECTOR (PESO EN LA FINCA Y PESO DESPUÉS DE SECAR) -->
+      <!-- FORMULARIO PARA REGISTRAR COSECHA POR SECTOR (LATAS EN BABA Y QUINTALES SECOS) -->
       <div class="card" style="border-color:#ca8a04; background:#fffef5;">
-        <h2 style="color:#854d0e; border-bottom-color:#fde047;">🌱 Registrar Cosecha por Sector (Peso en la Finca y Peso Después de Secar)</h2>
+        <h2 style="color:#854d0e; border-bottom-color:#fde047;">🌱 Registrar Cosecha por Sector (Latas en Baba y Quintales Secos)</h2>
         <p style="margin-bottom:18px; color:#4b4b4b;">
-          Elige qué sector de la finca cosechó e ingresa manualmente el <b>Peso en la Finca</b> (recién cosechado) y el <b>Peso Después de Secar (Cacao Seco)</b>. El sistema calcula todo automáticamente (1 Quintal = 100 Libras).
+          Elige qué sector de la finca cosechó e ingresa la cantidad de <b>Latas Cosechadas en la Finca</b> (cacao en baba) y los <b>Quintales Secos (qq)</b> después de secar.
         </p>
 
         <div class="form-grid" style="margin-bottom:20px;">
@@ -364,42 +364,28 @@
           </div>
         </div>
 
-        <!-- DOS CUADROS CLAROS: 1) PESO EN LA FINCA Y 2) PESO DESPUÉS DE SECAR -->
+        <!-- DOS CUADROS CLAROS: 1) LATAS EN LA FINCA Y 2) QUINTALES SECOS -->
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); gap:22px; margin-bottom:18px;">
-          <!-- CUADRO 1: PESO EN LA FINCA -->
+          <!-- CUADRO 1: LATAS EN LA FINCA (CACAO EN BABA) -->
           <div style="background:#fef9c3; border:3px solid #ca8a04; border-radius:12px; padding:20px;">
-            <h3 style="font-size:23px; color:#713f12; margin-bottom:14px;">🌿 1. Peso en la Finca (Antes de Secar)</h3>
-            <div class="form-grid" style="grid-template-columns:1fr 1fr;">
-              <div class="form-field">
-                <label for="cosechaFincaQQ">⚖️ Quintales en Finca (qq):</label>
-                <input type="number" id="cosechaFincaQQ" min="0" step="0.01" placeholder="Ej: 25" oninput="calcularVistaPreviaCosecha()" />
-                <span class="helper">1 Quintal = 100 Libras</span>
-              </div>
-              <div class="form-field">
-                <label for="cosechaFincaLB">⚖️ Libras Sueltas en Finca (lb):</label>
-                <input type="number" id="cosechaFincaLB" min="0" step="0.1" placeholder="Ej: 50" oninput="calcularVistaPreviaCosecha()" />
-                <span class="helper">Se suman a los quintales</span>
-              </div>
+            <h3 style="font-size:23px; color:#713f12; margin-bottom:14px;">🪣 1. Latas Cosechadas en la Finca (Cacao en Baba)</h3>
+            <div class="form-field">
+              <label for="cosechaLatas">🪣 Cantidad de Latas Cosechadas:</label>
+              <input type="number" id="cosechaLatas" min="0" step="0.5" placeholder="Ej: 15" oninput="calcularVistaPreviaCosecha()" />
+              <span class="helper">Latas de cacao recién cosechadas en baba en el lote</span>
             </div>
           </div>
 
-          <!-- CUADRO 2: PESO DESPUÉS DE SECAR (CACAO SECO - OPCIONAL SI AÚN NO SE SECA) -->
+          <!-- CUADRO 2: QUINTALES DESPUÉS DE SECAR (CACAO SECO - OPCIONAL SI AÚN NO SE SECA) -->
           <div style="background:#dcfce7; border:3px solid #16a34a; border-radius:12px; padding:20px;">
-            <h3 style="font-size:23px; color:#14532d; margin-bottom:6px;">☀️ 2. Peso Después de Secar (Opcional Hoy)</h3>
+            <h3 style="font-size:23px; color:#14532d; margin-bottom:6px;">☀️ 2. Cacao Seco (Quintales - Opcional Hoy)</h3>
             <p style="font-size:17px; color:#166534; margin-bottom:12px; font-weight:700;">
-              💡 Si el cacao aún no está seco hoy, puedes dejar esto vacío y anotar el peso seco días después en la tabla de abajo.
+              💡 Si el cacao aún no está seco hoy, puedes dejar esto vacío y anotar los quintales secos días después en la tabla de abajo.
             </p>
-            <div class="form-grid" style="grid-template-columns:1fr 1fr;">
-              <div class="form-field">
-                <label for="cosechaSecoQQ">⚖️ Quintales Secos (qq):</label>
-                <input type="number" id="cosechaSecoQQ" min="0" step="0.01" placeholder="Dejar vacío si aún no seca" oninput="calcularVistaPreviaCosecha()" />
-                <span class="helper">1 Quintal = 100 Libras</span>
-              </div>
-              <div class="form-field">
-                <label for="cosechaSecoLB">⚖️ Libras Sueltas Secas (lb):</label>
-                <input type="number" id="cosechaSecoLB" min="0" step="0.1" placeholder="Ej: 20" oninput="calcularVistaPreviaCosecha()" />
-                <span class="helper">Cacao seco listo para vender</span>
-              </div>
+            <div class="form-field">
+              <label for="cosechaSecoQQ">⚖️ Quintales Secos (qq):</label>
+              <input type="number" id="cosechaSecoQQ" min="0" step="0.01" placeholder="Ej: 5 (dejar vacío si aún seca)" oninput="calcularVistaPreviaCosecha()" />
+              <span class="helper">Quintales de cacao seco listos para vender</span>
             </div>
           </div>
         </div>
@@ -408,15 +394,15 @@
         <div class="auto-calc-preview" style="background:#fef9c3; border-color:#ca8a04;">
           <div>
             <div style="font-size:20px; font-weight:800; color:#713f12;">
-              🌿 Peso Total en la Finca: <span id="previewCosechaFinca">0.00 qq (0 lb)</span>
+              🪣 Cosecha en la Finca: <span id="previewCosechaFinca">0 latas</span>
             </div>
             <div style="font-size:20px; font-weight:800; color:#14532d; margin-top:4px;">
-              ☀️ Peso Total Después de Secar (Cacao Seco): <span id="previewCosechaSeco">⏳ Pendiente de secar (Se puede editar abajo)</span>
+              ☀️ Cacao Seco: <span id="previewCosechaSeco">⏳ Pendiente de secar (Se puede editar abajo)</span>
             </div>
           </div>
           <div>
             <div style="font-size:19px; font-weight:800; color:#4b5563;">
-              Rendimiento Seco / Reducción por Secado:
+              Rendimiento de Secado:
             </div>
             <div style="font-size:24px; font-weight:900; color:#854d0e;" id="previewCosechaRendimiento">
               ⏳ Pendiente de secar
@@ -444,7 +430,7 @@
           </div>
         </div>
         <p style="margin-bottom:16px; color:#14532d; background:#dcfce7; padding:12px 16px; border-radius:10px; border:2px solid #16a34a; font-weight:700;">
-          ✏️ <b>¿El cacao ya se secó?</b> En la columna <b>"✏️ Editar / Anotar Peso Seco"</b> puedes escribir o corregir los Quintales (qq) y Libras (lb) después de secar y presionar <b>"💾 Guardar Peso Seco"</b> en cualquier momento.
+          ✏️ <b>¿El cacao ya se secó?</b> En la columna <b>"✏️ Editar / Anotar Quintales Secos (qq)"</b> puedes escribir o corregir los Quintales (qq) después de secar y presionar <b>"💾 Guardar"</b> en cualquier momento.
         </p>
 
         <div class="table-responsive">
@@ -453,10 +439,10 @@
               <tr>
                 <th>Fecha</th>
                 <th>Sector / Lote</th>
-                <th>🌿 Peso en la Finca</th>
-                <th>☀️ Peso Después de Secar</th>
-                <th>✏️ Editar / Anotar Peso Seco (Cuando Esté Seco)</th>
-                <th>Diferencia / Rendimiento Seco</th>
+                <th>🪣 Latas en Finca</th>
+                <th>☀️ Cacao Seco</th>
+                <th>✏️ Editar / Anotar Quintales Secos (qq)</th>
+                <th>Rendimiento</th>
                 <th>Notas</th>
                 <th>Borrar</th>
               </tr>
@@ -465,8 +451,8 @@
             <tfoot>
               <tr style="background:#fef9c3; font-weight:900; font-size:22px;">
                 <td colspan="2">TOTALES DE COSECHAS EN LA LISTA:</td>
-                <td id="pieTotalCosechaFinca" style="color:#854d0e;">0.00 qq (0 lb)</td>
-                <td id="pieTotalCosechaSeco" style="color:#14532d; font-size:24px;">0.00 qq (0 lb)</td>
+                <td id="pieTotalCosechaFinca" style="color:#854d0e;">0 latas</td>
+                <td id="pieTotalCosechaSeco" style="color:#14532d; font-size:24px;">0.00 qq</td>
                 <td>—</td>
                 <td id="pieTotalCosechaRendimiento">—</td>
                 <td colspan="2"></td>
