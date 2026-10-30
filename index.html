@@ -8,39 +8,39 @@
 </head>
 <body>
 
-  <!-- ENCABEZADO PRINCIPAL CON PRECIO DEL CACAO EN EL MERCADO ACTUALIZADO EN VIVO -->
+  <!-- ENCABEZADO PRINCIPAL (COLORES: BLANCO, GRIS Y VERDE CLARO) -->
   <header class="app-header">
     <div class="brand-box">
       <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
-        <h1>🍫 ALDAZ CHOCOLATE FARM</h1>
-        <span id="headerTituloPrecioBadge" style="background:#fef08a; color:#3b1c0e; font-size:21px; font-weight:900; padding:6px 16px; border-radius:10px; border:2px solid #f59e0b; display:inline-block;">
-          📈 Mercado Cacao Hoy: <span id="tituloPrecioTonelada">$5,686.00 / Ton</span> (<span id="tituloPrecioQuintal">$257.91 / qq</span>)
+        <h1 style="color:#1f2937;">🍫 ALDAZ CHOCOLATE FARM</h1>
+        <span id="headerTituloPrecioBadge" style="background:#dcfce7; color:#14532d; font-size:21px; font-weight:900; padding:6px 16px; border-radius:10px; border:2px solid #86efac; display:inline-block;">
+          📈 Mercado Cacao Hoy: <span id="tituloPrecioTonelada" style="color:#1f2937;">$5,686.00 / Ton</span> (<span id="tituloPrecioQuintal" style="color:#15803d;">$257.91 / qq</span>)
         </span>
       </div>
-      <p>Todos los Registros Guardados en Cualquier Dispositivo — Empleados, Horarios y Cosechas</p>
+      <p style="color:#64748b;">Todos los Registros Guardados en Cualquier Dispositivo — Empleados, Horarios y Cosechas</p>
     </div>
 
     <!-- PANEL DEL PRECIO DE MERCADO DEL CACAO EN VIVO -->
     <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
-      <div id="marketPriceHeaderBox" style="background:rgba(255,255,255,0.14); border:2px solid #fde047; border-radius:12px; padding:10px 16px; color:#fff;">
-        <div style="font-size:15px; color:#fde68a; font-weight:800; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+      <div id="marketPriceHeaderBox" style="background:#f8fafc; border:2px solid #86efac; border-radius:12px; padding:10px 16px; color:#1f2937; box-shadow:0 2px 6px rgba(0,0,0,0.03);">
+        <div style="font-size:15px; color:#475569; font-weight:800; display:flex; align-items:center; justify-content:space-between; gap:10px;">
           <span id="estadoPrecioMercadoBadge">🟢 Precio Internacional Cacao (ICE Nueva York CC=F)</span>
-          <button type="button" onclick="actualizarPrecioMercadoCacao(true)" style="background:#f59e0b; color:#3b1c0e; border:none; border-radius:6px; padding:3px 10px; font-size:14px; font-weight:900; cursor:pointer;">
+          <button type="button" onclick="actualizarPrecioMercadoCacao(true)" style="background:#ffffff; color:#334155; border:1px solid #cbd5e1; border-radius:6px; padding:4px 12px; font-size:14px; font-weight:800; cursor:pointer;">
             🔄 Actualizar Ahora
           </button>
         </div>
-        <div style="font-size:21px; font-weight:900; margin-top:4px; color:#fff;">
-          🌎 <span id="valorPrecioToneladaHeader">$5,686.00 USD / Tonelada</span>
-          <span style="margin:0 8px; color:#fde047;">|</span>
-          ⚖️ <span id="valorPrecioQuintalHeader" style="color:#86efac;">$257.91 USD / Quintal (100 lb)</span>
+        <div style="font-size:21px; font-weight:900; margin-top:4px; color:#1f2937;">
+          🌎 <span id="valorPrecioToneladaHeader" style="color:#1f2937;">$5,686.00 USD / Tonelada</span>
+          <span style="margin:0 8px; color:#cbd5e1;">|</span>
+          ⚖️ <span id="valorPrecioQuintalHeader" style="color:#15803d;">$257.91 USD / Quintal</span>
         </div>
-        <div style="font-size:14px; color:#fef08a; margin-top:2px;" id="subtextoPrecioMercadoHeader">
+        <div style="font-size:14px; color:#64748b; margin-top:2px;" id="subtextoPrecioMercadoHeader">
           Equivalente: $2.58 / lb • Actualizado al día
         </div>
       </div>
 
       <div style="display:flex; flex-direction:column; gap:8px;">
-        <button type="button" class="btn" style="background:#0284c7; color:#fff; font-size:15px; font-weight:900; border:2px solid #38bdf8; padding:8px 14px; border-radius:10px; cursor:pointer; display:flex; align-items:center; gap:8px;" onclick="abrirModalSincronizacionDispositivos()">
+        <button type="button" class="btn" style="background:#dcfce7; color:#14532d; font-size:15px; font-weight:900; border:2px solid #86efac; padding:8px 14px; border-radius:10px; cursor:pointer; display:flex; align-items:center; gap:8px;" onclick="abrirModalSincronizacionDispositivos()">
           <span>📲</span> <span>Guardado en Dispositivos / Celular</span>
         </button>
         <div id="saveStatusBadge" class="save-badge" onclick="abrirModalSincronizacionDispositivos()" style="cursor:pointer;" title="Clic para ver estado multi-dispositivo">

@@ -147,7 +147,7 @@ function renderizarPrecioMercadoEnTitulo() {
   const elValTon = document.getElementById('valorPrecioToneladaHeader');
   const elValQQ = document.getElementById('valorPrecioQuintalHeader');
   if (elValTon) elValTon.textContent = `${tonStr} USD / Tonelada`;
-  if (elValQQ) elValQQ.textContent = `${qqStr} USD / Quintal (100 lb)`;
+  if (elValQQ) elValQQ.textContent = `${qqStr} USD / Quintal`;
 
   const signoCambio = precioMercadoCacaoActual.cambioTonelada >= 0 ? '+' : '';
   const textoCambio = precioMercadoCacaoActual.cambioTonelada !== 0
@@ -158,7 +158,7 @@ function renderizarPrecioMercadoEnTitulo() {
   if (elEstado) {
     elEstado.textContent = precioMercadoCacaoActual.enVivo
       ? `🟢 Precio Internacional Cacao en Vivo (ICE CC=F)`
-      : `🟡 Precio Internacional Cacao de Referencia (ICE CC=F)`;
+      : `🟢 Precio Internacional Cacao de Referencia (ICE CC=F)`;
   }
 
   const elSub = document.getElementById('subtextoPrecioMercadoHeader');
