@@ -2,8 +2,8 @@
 // ALDAZ CHOCOLATE FARM - SISTEMA DE CONTROL EN COMPUTADORA
 // #1 EMPLEADOS Y HORARIO (ROJO CLARO) + PREDICCIONES Y PATRONES DE MANO DE OBRA
 // #2 REPORTE DE GASTOS (ROJO CLARO) + PREDICCIONES Y PATRONES DE GASTOS
-// #3 ESTAD�STICAS DE COSECHA (AMARILLO CLARO) + PREDICCIONES Y PATRONES DE COSECHA
-// #4 REPORTE DE VENTAS (VERDE CLARO: VENTAS + D�A/SEMANA/MES/A�O/5 A�OS) + PREDICCIONES Y PATRONES
+// #3 ESTADÍSTICAS DE COSECHA (AMARILLO CLARO) + PREDICCIONES Y PATRONES DE COSECHA
+// #4 REPORTE DE VENTAS (VERDE CLARO: VENTAS + DÍA/SEMANA/MES/AÑO/5 AÑOS) + PREDICCIONES Y PATRONES
 // ============================================================================
 
 const STORAGE_KEY = 'aldaz_chocolate_farm_data_v1';
@@ -18,10 +18,10 @@ let SECTORES = [
 const DIAS_SEMANA = [
   { id: 'lunes', nombre: 'Lunes', offset: 0 },
   { id: 'martes', nombre: 'Martes', offset: 1 },
-  { id: 'miercoles', nombre: 'Mi�rcoles', offset: 2 },
+  { id: 'miercoles', nombre: 'Miércoles', offset: 2 },
   { id: 'jueves', nombre: 'Jueves', offset: 3 },
   { id: 'viernes', nombre: 'Viernes', offset: 4 },
-  { id: 'sabado', nombre: 'S�bado', offset: 5 }
+  { id: 'sabado', nombre: 'Sábado', offset: 5 }
 ];
 
 const NOMBRES_MESES = [
@@ -30,7 +30,7 @@ const NOMBRES_MESES = [
 ];
 
 const NOMBRES_DIAS_DOM_SAB = [
-  'Domingo', 'Lunes', 'Martes', 'Mi�rcoles', 'Jueves', 'Viernes', 'S�bado'
+  'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'
 ];
 
 const HORAS_DIA_COMPLETO = 8;
@@ -71,7 +71,7 @@ let precioMercadoCacaoActual = {
 };
 
 // ============================================================================
-// INICIALIZACI�N Y GUARDADO AUTOM�TICO EN LA COMPUTADORA
+// INICIALIZACIÓN Y GUARDADO AUTOMÁTICO EN LA COMPUTADORA
 // ============================================================================
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -92,7 +92,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   cambiarModoReporte('DIARIO');
   renderizarTodo();
 
-  // Iniciar sincronizaci�n continua entre dispositivos (computadora, celulares, tablets)
+  // Iniciar sincronización continua entre dispositivos (computadora, celulares, tablets)
   consultarInfoRed();
   iniciarSincronizacionEntreDispositivos();
 
@@ -104,7 +104,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 async function actualizarPrecioMercadoCacao(mostrarAvisoManual) {
   const estadoBadge = document.getElementById('estadoPrecioMercadoBadge');
   if (mostrarAvisoManual && estadoBadge) {
-    estadoBadge.textContent = '? Consultando mercado internacional en vivo...';
+    estadoBadge.textContent = '🔄 Consultando mercado internacional en vivo...';
   }
 
   try {
@@ -125,7 +125,7 @@ async function actualizarPrecioMercadoCacao(mostrarAvisoManual) {
       }
     }
   } catch (e) {
-    // Mantiene el �ltimo precio conocido si no hay conexi�n moment�nea
+    // Mantiene el último precio conocido si no hay conexión momentánea
   }
 
   renderizarPrecioMercadoEnTitulo();
@@ -136,8 +136,8 @@ function renderizarPrecioMercadoEnTitulo() {
   const qqStr = formatoDinero(precioMercadoCacaoActual.precioQuintal);
   const lbStr = formatoDinero(precioMercadoCacaoActual.precioLibra);
 
-  // Actualizar t�tulo de la pesta�a del navegador y el encabezado principal
-  document.title = `ALDAZ CHOCOLATE FARM � Precio Mercado Cacao: ${tonStr}/Ton (${qqStr}/qq)`;
+  // Actualizar título de la pestaña del navegador y el encabezado principal
+  document.title = `ALDAZ CHOCOLATE FARM — Precio Mercado Cacao: ${tonStr}/Ton (${qqStr}/qq)`;
 
   const elTitTon = document.getElementById('tituloPrecioTonelada');
   const elTitQQ = document.getElementById('tituloPrecioQuintal');
@@ -157,19 +157,19 @@ function renderizarPrecioMercadoEnTitulo() {
   const elEstado = document.getElementById('estadoPrecioMercadoBadge');
   if (elEstado) {
     elEstado.textContent = precioMercadoCacaoActual.enVivo
-      ? `?? Precio Internacional Cacao en Vivo (ICE CC=F)`
-      : `?? Precio Internacional Cacao de Referencia (ICE CC=F)`;
+      ? `🟢 Precio Internacional Cacao en Vivo (ICE CC=F)`
+      : `🟡 Precio Internacional Cacao de Referencia (ICE CC=F)`;
   }
 
   const elSub = document.getElementById('subtextoPrecioMercadoHeader');
   if (elSub) {
-    const horaTxt = precioMercadoCacaoActual.actualizado ? `Actualizado: ${precioMercadoCacaoActual.actualizado}` : 'Actualizado al d�a';
-    elSub.textContent = `Equivalente: ${lbStr} / lb${textoCambio} � ${horaTxt}`;
+    const horaTxt = precioMercadoCacaoActual.actualizado ? `Actualizado: ${precioMercadoCacaoActual.actualizado}` : 'Actualizado al día';
+    elSub.textContent = `Equivalente: ${lbStr} / lb${textoCambio} • ${horaTxt}`;
   }
 
   const elHelperVenta = document.getElementById('helperPrecioMercadoVenta');
   if (elHelperVenta) {
-    elHelperVenta.textContent = `Precio de mercado hoy: ${qqStr} USD / qq (${tonStr} / Tonelada � ${lbStr} / lb)`;
+    elHelperVenta.textContent = `Precio de mercado hoy: ${qqStr} USD / qq (${tonStr} / Tonelada • ${lbStr} / lb)`;
   }
 }
 
@@ -185,22 +185,22 @@ function actualizarEstadoGuardadoBadge(estado, horaPersonalizada = '') {
   const hora = horaPersonalizada || new Date().toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' });
 
   if (estado === 'guardando') {
-    if (badge) badge.innerHTML = '<span>? Guardando en este Dispositivo y en la Finca...</span>';
+    if (badge) badge.innerHTML = '<span>💾 Guardando en este Dispositivo y en la Finca...</span>';
   } else if (estado === 'sincronizado') {
-    if (badge) badge.innerHTML = `<span>? Guardado en este Dispositivo y Finca (${hora})</span>`;
+    if (badge) badge.innerHTML = `<span>✓ Guardado en este Dispositivo y Finca (${hora})</span>`;
     if (badgeModal) {
       badgeModal.style.background = '#dcfce7';
       badgeModal.style.color = '#15803d';
       badgeModal.style.borderColor = '#86efac';
-      badgeModal.textContent = `? Sincronizado en este Dispositivo (${hora})`;
+      badgeModal.textContent = `✓ Sincronizado en este Dispositivo (${hora})`;
     }
   } else if (estado === 'offline') {
-    if (badge) badge.innerHTML = `<span>?? Guardado Localmente en este Dispositivo (${hora})</span>`;
+    if (badge) badge.innerHTML = `<span>💾 Guardado Localmente en este Dispositivo (${hora})</span>`;
     if (badgeModal) {
       badgeModal.style.background = '#fef3c7';
       badgeModal.style.color = '#92400e';
       badgeModal.style.borderColor = '#f59e0b';
-      badgeModal.textContent = `?? Guardado Local (Sin conexi�n moment�nea con el servidor central)`;
+      badgeModal.textContent = `💾 Guardado Local (Sin conexión momentánea con el servidor central)`;
     }
   }
 }
@@ -220,7 +220,7 @@ async function cargarDatosIniciales() {
     }
   }
 
-  // 2. SINCRONIZACI�N CON EL SERVIDOR CENTRAL DE LA FINCA
+  // 2. SINCRONIZACIÓN CON EL SERVIDOR CENTRAL DE LA FINCA
   try {
     const resp = await fetch('/api/datos?t=' + Date.now(), { cache: 'no-store' });
     if (resp.ok) {
@@ -235,11 +235,11 @@ async function cargarDatosIniciales() {
       }
     }
   } catch (e) {
-    // Si no hay conexi�n moment�nea con el servidor central, se mantiene con la copia local de este dispositivo
+    // Si no hay conexión momentánea con el servidor central, se mantiene con la copia local de este dispositivo
     actualizarEstadoGuardadoBadge('offline');
   }
 
-  // Validar estructuras m�nimas
+  // Validar estructuras mínimas
   if (!Array.isArray(estadoFinca.cosechas)) estadoFinca.cosechas = [];
   if (!Array.isArray(estadoFinca.ventas)) estadoFinca.ventas = [];
   if (!Array.isArray(estadoFinca.gastos)) estadoFinca.gastos = [];
@@ -260,7 +260,7 @@ async function guardarDatos() {
   estadoFinca.ultimaModificacion = ahora;
   estadoFinca.version = (estadoFinca.version || 0) + 1;
 
-  // Guardar SIEMPRE inmediatamente en la memoria de este dispositivo (tel�fono, tablet o PC)
+  // Guardar SIEMPRE inmediatamente en la memoria de este dispositivo (teléfono, tablet o PC)
   const jsonStr = JSON.stringify(estadoFinca, null, 2);
   localStorage.setItem(STORAGE_KEY, jsonStr);
   actualizarEstadoGuardadoBadge('guardando');
@@ -281,7 +281,7 @@ async function guardarDatos() {
     cambiosPendientesDeSincronizar = true;
   }
 
-  // Si fall� el env�o (ej. sin Wi-Fi en el campo), el registro ya est� 100% seguro en este dispositivo
+  // Si falló el envío (ej. sin Wi-Fi en el campo), el registro ya está 100% seguro en este dispositivo
   actualizarEstadoGuardadoBadge('offline');
 }
 
@@ -328,7 +328,7 @@ function renderizarTodoSilencioso() {
   if (!usuarioEscribiendo) {
     renderizarTodo();
   } else {
-    // Si el usuario est� escribiendo un dato en un formulario, actualizamos tablas y res�menes sin quitarle el foco
+    // Si el usuario está escribiendo un dato en un formulario, actualizamos tablas y resúmenes sin quitarle el foco
     renderizarPrecioMercadoEnTitulo();
     renderizarTablaTrabajadores();
     renderizarEstadisticasCosecha();
@@ -341,15 +341,15 @@ function iniciarSincronizacionEntreDispositivos() {
     sincronizarDatosConServidor(false);
   }, 4000);
 
-  // 2. Sincronizar cuando el usuario vuelve a ver la pesta�a o la pantalla del celular se desbloquea
+  // 2. Sincronizar cuando el usuario vuelve a ver la pestaña o la pantalla del celular se desbloquea
   window.addEventListener('focus', () => sincronizarDatosConServidor(true));
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) sincronizarDatosConServidor(true);
   });
 
-  // 3. Sincronizar cuando el dispositivo recupera la conexi�n a internet/Wi-Fi
+  // 3. Sincronizar cuando el dispositivo recupera la conexión a internet/Wi-Fi
   window.addEventListener('online', () => {
-    mostrarNotificacionFlotante('?? Conexi�n restablecida: Sincronizando registros...');
+    mostrarNotificacionFlotante('🌐 Conexión restablecida: Sincronizando registros...');
     sincronizarDatosConServidor(true);
   });
 }
@@ -394,9 +394,9 @@ function abrirModalSincronizacionDispositivos() {
     const numSec = (estadoFinca.sectores || []).length;
 
     contResumen.innerHTML = `
-      <span style="background:#fff; border:1px solid #86efac; padding:6px 10px; border-radius:6px;">?? ${numTrab} Trabajadores</span>
-      <span style="background:#fff; border:1px solid #86efac; padding:6px 10px; border-radius:6px;">?? ${numSec} Sectores</span>
-      <span style="background:#fff; border:1px solid #86efac; padding:6px 10px; border-radius:6px;">?? ${numCos} Cosechas</span>
+      <span style="background:#fff; border:1px solid #86efac; padding:6px 10px; border-radius:6px;">👷 ${numTrab} Trabajadores</span>
+      <span style="background:#fff; border:1px solid #86efac; padding:6px 10px; border-radius:6px;">🌱 ${numSec} Sectores</span>
+      <span style="background:#fff; border:1px solid #86efac; padding:6px 10px; border-radius:6px;">🌾 ${numCos} Cosechas</span>
     `;
   }
 }
@@ -414,9 +414,9 @@ function copiarUrlCelular() {
   input.setSelectionRange(0, 99999);
   try {
     navigator.clipboard.writeText(input.value);
-    mostrarNotificacionFlotante('?? �Enlace copiado! �brelo en Safari o Chrome en tu tel�fono celular.');
+    mostrarNotificacionFlotante('📋 ¡Enlace copiado! Ábrelo en Safari o Chrome en tu teléfono celular.');
   } catch (e) {
-    mostrarNotificacionFlotante('Direcci�n seleccionada. C�piala y �brela en tu celular: ' + input.value);
+    mostrarNotificacionFlotante('Dirección seleccionada. Cópiala y ábrela en tu celular: ' + input.value);
   }
 }
 
@@ -432,7 +432,7 @@ function descargarRespaldoJSON() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  mostrarNotificacionFlotante('?? Copia de respaldo descargada en la memoria de este dispositivo.');
+  mostrarNotificacionFlotante('📥 Copia de respaldo descargada en la memoria de este dispositivo.');
 }
 
 function cargarRespaldoDesdeArchivo(event) {
@@ -444,11 +444,11 @@ function cargarRespaldoDesdeArchivo(event) {
     try {
       const data = JSON.parse(e.target.result);
       if (data && data.trabajadores && Array.isArray(data.trabajadores)) {
-        if (confirm(`�Deseas restaurar este archivo de respaldo en este dispositivo y en el servidor central? Se actualizar�n ${data.trabajadores.length} trabajadores, ${(data.cosechas||[]).length} cosechas y ${(data.ventas||[]).length} ventas.`)) {
+        if (confirm(`¿Deseas restaurar este archivo de respaldo en este dispositivo y en el servidor central? Se actualizarán ${data.trabajadores.length} trabajadores, ${(data.cosechas||[]).length} cosechas y ${(data.ventas||[]).length} ventas.`)) {
           estadoFinca = data;
           await guardarDatos();
           renderizarTodo();
-          mostrarNotificacionFlotante('? Todos los registros fueron restaurados y sincronizados en todos los dispositivos.');
+          mostrarNotificacionFlotante('✓ Todos los registros fueron restaurados y sincronizados en todos los dispositivos.');
           cerrarModalSincronizacionDispositivos();
         }
       } else {
@@ -463,9 +463,9 @@ function cargarRespaldoDesdeArchivo(event) {
 }
 
 async function forzarSincronizacionManual() {
-  mostrarNotificacionFlotante('?? Sincronizando con todos los dispositivos...');
+  mostrarNotificacionFlotante('🔄 Sincronizando con todos los dispositivos...');
   await sincronizarDatosConServidor(true);
-  mostrarNotificacionFlotante('? �Sincronizaci�n completa! Todos los registros est�n actualizados.');
+  mostrarNotificacionFlotante('✅ ¡Sincronización completa! Todos los registros están actualizados.');
 }
 
 function mostrarNotificacionFlotante(mensaje) {
@@ -503,7 +503,7 @@ function mostrarNotificacionFlotante(mensaje) {
 }
 
 // ============================================================================
-// NAVEGACI�N ENTRE LAS 2 PESTA�AS PRINCIPALES
+// NAVEGACIÓN ENTRE LAS 2 PESTAÑAS PRINCIPALES
 // ============================================================================
 
 function cambiarPestana(nombrePestana) {
@@ -551,28 +551,28 @@ function obtenerSectoresConPorcentajes() {
 }
 
 function actualizarSelectoresDeSectores() {
-  // 1. Selector de Cosecha (Pesta�a 2)
+  // 1. Selector de Cosecha (Pestaña 2)
   const selCos = document.getElementById('cosechaSector');
   if (selCos) {
     const prev = selCos.value;
-    selCos.innerHTML = SECTORES.map(s => `<option value="${s}">?? ${s}</option>`).join('');
+    selCos.innerHTML = SECTORES.map(s => `<option value="${s}">🌱 ${s}</option>`).join('');
     if (prev && SECTORES.includes(prev)) selCos.value = prev;
   }
 
-  // 2. Filtro Historial Cosecha (Pesta�a 2)
+  // 2. Filtro Historial Cosecha (Pestaña 2)
   const selFiltroCos = document.getElementById('filtroSectorHistorialCosecha');
   if (selFiltroCos) {
     const prev = selFiltroCos.value || 'TODOS';
     selFiltroCos.innerHTML = `
       <option value="TODOS">Todos los Sectores</option>
-      ${SECTORES.map(s => `<option value="${s}">?? ${s}</option>`).join('')}
+      ${SECTORES.map(s => `<option value="${s}">🌱 ${s}</option>`).join('')}
     `;
     if (prev === 'TODOS' || SECTORES.includes(prev)) selFiltroCos.value = prev;
   }
 }
 
 // ============================================================================
-// UTILIDADES DE FECHAS NUM�RICAS Y FORMATO DE DINERO
+// UTILIDADES DE FECHAS NUMÉRICAS Y FORMATO DE DINERO
 // ============================================================================
 
 function obtenerFechaHoyISO() {
@@ -635,7 +635,7 @@ function formatoPeso(totalQuintales) {
 }
 
 // ============================================================================
-// PESTA�A #1: EMPLEADOS, HORARIO SEMANAL, TARIFAS E HISTORIAL
+// PESTAÑA #1: EMPLEADOS, HORARIO SEMANAL, TARIFAS E HISTORIAL
 // ============================================================================
 
 let viendoHojaDeHistorial = false;
@@ -782,7 +782,7 @@ function renderizarHojaHorario() {
   const trabajador = estadoFinca.trabajadores.find(t => t.id === trabajadorSeleccionadoId);
   if (trabajador) {
     document.getElementById('infoTarifaTrabajador').textContent =
-      `Tarifa de ${trabajador.nombre}: D�a Completo ${formatoDinero(trabajador.tarifaDiaCompleto)} | Medio D�a ${formatoDinero(trabajador.tarifaMedioDia)}`;
+      `Tarifa de ${trabajador.nombre}: Día Completo ${formatoDinero(trabajador.tarifaDiaCompleto)} | Medio Día ${formatoDinero(trabajador.tarifaMedioDia)}`;
   }
 
   const avisoEl = document.getElementById('avisoHojaHistorialAbierta');
@@ -792,7 +792,7 @@ function renderizarHojaHorario() {
     if (viendoHojaDeHistorial || semanaActualLunes !== lunesSemanaHoy) {
       avisoEl.style.display = 'flex';
       if (textoAvisoEl) {
-        textoAvisoEl.textContent = `?? Planilla Abierta: ${trabajador ? trabajador.nombre : ''} (${formatearRangoSemanaNumerico(semanaActualLunes)})`;
+        textoAvisoEl.textContent = `📂 Planilla Abierta: ${trabajador ? trabajador.nombre : ''} (${formatearRangoSemanaNumerico(semanaActualLunes)})`;
       }
     } else {
       avisoEl.style.display = 'none';
@@ -809,8 +809,8 @@ function renderizarHojaHorario() {
       <table class="lot-table">
         <thead>
           <tr>
-            <th class="lot-name-header">?? ${sector}</th>
-            <th class="lot-question-header">Medio dia/ dia<br/>completo?</th>
+            <th class="lot-name-header">🌱 ${sector}</th>
+            <th class="lot-question-header">¿Medio día / día completo?</th>
           </tr>
         </thead>
         <tbody>
@@ -820,8 +820,8 @@ function renderizarHojaHorario() {
       const estadoActual = turnosSector[dia.id] || 'NONE';
       const fechaDiaNumerica = formatearFechaCorta(sumarDiasAFechaISO(semanaActualLunes, dia.offset));
       const textoImpresion =
-        estadoActual === 'FULL' ? '? D�a Completo' :
-        estadoActual === 'HALF' ? '� Medio D�a' : '';
+        estadoActual === 'FULL' ? '✓ Día Completo' :
+        estadoActual === 'HALF' ? '½ Medio Día' : '';
 
       html += `
         <tr>
@@ -839,12 +839,12 @@ function renderizarHojaHorario() {
               <button type="button"
                 class="shift-btn ${estadoActual === 'HALF' ? 'active-half' : ''}"
                 onclick="marcarTurno('${sector}', '${dia.id}', 'HALF')">
-                � Medio d�a
+                ½ Medio día
               </button>
               <button type="button"
                 class="shift-btn ${estadoActual === 'FULL' ? 'active-full' : ''}"
                 onclick="marcarTurno('${sector}', '${dia.id}', 'FULL')">
-                ? D�a completo
+                ✓ Día completo
               </button>
             </div>
             <span class="print-only-value">${textoImpresion}</span>
@@ -867,9 +867,9 @@ function renderizarHojaHorario() {
   const fueEnviado = registro.enviado || registro.firmado;
   const fechaGuardada = registro.fechaEnvio || registro.fechaFirma || '';
   if (fueEnviado) {
-    estadoEnvioEl.innerHTML = `<span style="color:#15803d; font-weight:800;">? Planilla ENVIADA al historial y sumada en el Reporte de Gastos ${fechaGuardada ? '(' + fechaGuardada + ')' : ''}</span>`;
+    estadoEnvioEl.innerHTML = `<span style="color:#15803d; font-weight:800;">✓ Planilla ENVIADA al historial y sumada en el Reporte de Gastos ${fechaGuardada ? '(' + fechaGuardada + ')' : ''}</span>`;
   } else {
-    estadoEnvioEl.innerHTML = `Presiona el bot�n verde para guardar esta planilla y transferir el pago al Reporte de Gastos.`;
+    estadoEnvioEl.innerHTML = `Presiona el botón verde para guardar esta planilla y transferir el pago al Reporte de Gastos.`;
   }
 
   const calculo = calcularTotalesRegistroHorario(registro, trabajador);
@@ -976,9 +976,9 @@ function limpiarFiltrosHistorialPlanillas() {
 function crearFilaPlanillaHTML(reg, trab, calc) {
   const formatearCeldaSector = (sec) => {
     const info = calc.porSector[sec];
-    if (!info || (info.full === 0 && info.half === 0)) return '<span style="color:#999;">�</span>';
+    if (!info || (info.full === 0 && info.half === 0)) return '<span style="color:#999;">—</span>';
     const partes = [];
-    if (info.full > 0) partes.push(`${info.full} D�a(s)`);
+    if (info.full > 0) partes.push(`${info.full} Día(s)`);
     if (info.half > 0) partes.push(`${info.half} Medio(s)`);
     return `<b>${partes.join(' + ')}</b>`;
   };
@@ -986,8 +986,8 @@ function crearFilaPlanillaHTML(reg, trab, calc) {
   const fueEnviado = reg.enviado || reg.firmado;
   const fechaGuardada = reg.fechaEnvio || reg.fechaFirma || '';
   const badgeEstado = fueEnviado
-    ? `<span style="background:#dcfce7; color:#14532d; padding:4px 10px; border-radius:6px; font-weight:800; display:inline-block; margin-bottom:4px;">? Enviada ${fechaGuardada ? '(' + fechaGuardada + ')' : ''}</span>`
-    : '<span style="color:#92400e; font-weight:700;">En edici�n</span>';
+    ? `<span style="background:#dcfce7; color:#14532d; padding:4px 10px; border-radius:6px; font-weight:800; display:inline-block; margin-bottom:4px;">✓ Enviada ${fechaGuardada ? '(' + fechaGuardada + ')' : ''}</span>`
+    : '<span style="color:#92400e; font-weight:700;">En edición</span>';
 
   const textoComentarios = reg.comentarios ? `<div style="font-size:17px; color:#444;">${reg.comentarios}</div>` : '';
 
@@ -1009,7 +1009,7 @@ function crearFilaPlanillaHTML(reg, trab, calc) {
       <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
         <button class="btn btn-secondary" style="padding:8px 12px; font-size:16px;"
           onclick="abrirPlanillaGuardada('${reg.semanaLunes}', '${reg.trabajadorId}')">
-          ?? Abrir
+          📂 Abrir
         </button>
         <button class="btn btn-danger" style="padding:8px 12px; font-size:16px;"
           onclick="solicitarEliminarPlanilla('${reg.semanaLunes}', '${reg.trabajadorId}')">
@@ -1034,7 +1034,7 @@ function renderizarHistorialPlanillas() {
     theadAct.innerHTML = `<tr><th>Semana Actual</th><th>Trabajador</th>${thSectores}<th>Total Horas</th><th>Total Pagado ($)</th><th>Estado / Comentarios</th><th>Acciones</th></tr>`;
   }
   if (theadHist) {
-    theadHist.innerHTML = `<tr><th>Fechas (Lunes - S�bado)</th><th>Trabajador</th>${thSectores}<th>Total Horas</th><th>Total Pagado ($)</th><th>Estado / Comentarios</th><th>Acciones</th></tr>`;
+    theadHist.innerHTML = `<tr><th>Fechas (Lunes - Sábado)</th><th>Trabajador</th>${thSectores}<th>Total Horas</th><th>Total Pagado ($)</th><th>Estado / Comentarios</th><th>Acciones</th></tr>`;
   }
 
   const pieAct = document.getElementById('pieCeldaTotalSemanaActual');
@@ -1099,7 +1099,7 @@ function renderizarHistorialPlanillas() {
     if (elPagoAct) elPagoAct.textContent = formatoDinero(sumaPagoActual);
   }
 
-  // 2. RENDERIZAR LAS HOJAS DE OTRAS SEMANAS (OCULTAS POR DEFECTO CON OPCI�N DE EXPANDIR)
+  // 2. RENDERIZAR LAS HOJAS DE OTRAS SEMANAS (OCULTAS POR DEFECTO CON OPCIÓN DE EXPANDIR)
   const filtroTrab = document.getElementById('filtroHistTrabajador').value || 'TODOS';
   const filtroAnio = document.getElementById('filtroHistAnio').value || 'TODOS';
   const filtroFecha = document.getElementById('filtroHistFecha').value || '';
@@ -1140,13 +1140,13 @@ function renderizarHistorialPlanillas() {
   }
   if (tituloOcultas) {
     tituloOcultas.textContent = hojasAnterioresExpandidas
-      ? `?? Hojas Guardadas de Otras Semanas (${todasLasOtrasHojas.length} hoja(s) � Expandidas)`
-      : `?? Hojas Guardadas de Otras Semanas (${todasLasOtrasHojas.length} hoja(s) ocultas)`;
+      ? `📂 Hojas Guardadas de Otras Semanas (${todasLasOtrasHojas.length} hoja(s) • Expandidas)`
+      : `📂 Hojas Guardadas de Otras Semanas (${todasLasOtrasHojas.length} hoja(s) ocultas)`;
   }
   if (btnToggle) {
     btnToggle.textContent = hojasAnterioresExpandidas
-      ? '? Ocultar Hojas de Otras Semanas'
-      : `? Expandir Hojas de Otras Semanas (${todasLasOtrasHojas.length})`;
+      ? '➖ Ocultar Hojas de Otras Semanas'
+      : `➕ Expandir Hojas de Otras Semanas (${todasLasOtrasHojas.length})`;
   }
 
   tbodyAnteriores.innerHTML = '';
@@ -1157,7 +1157,7 @@ function renderizarHistorialPlanillas() {
     tbodyAnteriores.innerHTML = `
       <tr>
         <td colspan="${6 + SECTORES.length}" style="text-align:center; padding:24px; color:#666;">
-          No hay planillas de otras semanas para esa b�squeda.
+          No hay planillas de otras semanas para esa búsqueda.
         </td>
       </tr>
     `;
@@ -1187,7 +1187,7 @@ function abrirPlanillaGuardada(semanaLunes, trabId) {
 }
 
 // ============================================================================
-// LISTA DE TRABAJADORES Y TARIFAS (BAJO LA PESTA�A #1 DE EMPLEADOS)
+// LISTA DE TRABAJADORES Y TARIFAS (BAJO LA PESTAÑA #1 DE EMPLEADOS)
 // ============================================================================
 
 function crearTrabajadorDesdeFormulario() {
@@ -1241,7 +1241,7 @@ function eliminarTrabajador(trabId) {
   const trab = estadoFinca.trabajadores.find(t => t.id === trabId);
   if (!trab) return;
   mostrarModalConfirmacionEliminar(
-    `�Est�s seguro de que deseas quitar a "${trab.nombre}" de la lista de trabajadores?`,
+    `¿Estás seguro de que deseas quitar a "${trab.nombre}" de la lista de trabajadores?`,
     () => {
       estadoFinca.trabajadores = estadoFinca.trabajadores.filter(t => t.id !== trabId);
       if (trabajadorSeleccionadoId === trabId) {
@@ -1282,7 +1282,7 @@ function renderizarTablaTrabajadores() {
           onchange="actualizarTarifaTrabajador('${trab.id}', 'tarifaMedioDia', this.value)" />
       </td>
       <td>
-        <input type="text" value="${trab.telefono || ''}" placeholder="Tel�fono / Nota" style="width:100%;"
+        <input type="text" value="${trab.telefono || ''}" placeholder="Teléfono / Nota" style="width:100%;"
           onchange="actualizarTarifaTrabajador('${trab.id}', 'telefono', this.value)" />
       </td>
       <td style="color:#14532d; font-weight:900; font-size:21px;">
@@ -1297,7 +1297,7 @@ function renderizarTablaTrabajadores() {
 }
 
 // ============================================================================
-// PESTA�A #2 (ROJO CLARO): REPORTE COMPLETO DE GASTOS
+// PESTAÑA #2 (ROJO CLARO): REPORTE COMPLETO DE GASTOS
 // ============================================================================
 
 function guardarOtroGasto() {
@@ -1310,11 +1310,11 @@ function guardarOtroGasto() {
   const monto = parseFloat(document.getElementById('gastoMonto').value) || 0;
 
   if (!concepto) {
-    alert('Por favor escribe la descripci�n del gasto (por ejemplo: 10 sacos de abono, Flete cami�n, Machetes).');
+    alert('Por favor escribe la descripción del gasto (por ejemplo: 10 sacos de abono, Flete camión, Machetes).');
     return;
   }
   if (monto <= 0) {
-    alert('Por favor escribe el monto gastado en d�lares ($).');
+    alert('Por favor escribe el monto gastado en dólares ($).');
     return;
   }
 
@@ -1339,7 +1339,7 @@ function eliminarOtroGasto(gastoId) {
   const g = estadoFinca.gastos.find(item => item.id === gastoId);
   const desc = g ? `"${g.concepto}" (${formatoDinero(g.monto)})` : 'este gasto';
   mostrarModalConfirmacionEliminar(
-    `�Est�s seguro de que deseas borrar el registro de gasto ${desc}? Esta acci�n no se puede deshacer.`,
+    `¿Estás seguro de que deseas borrar el registro de gasto ${desc}? Esta acción no se puede deshacer.`,
     () => {
       estadoFinca.gastos = estadoFinca.gastos.filter(item => item.id !== gastoId);
       guardarDatos();
@@ -1435,33 +1435,33 @@ function renderizarReporteCompletoGastos() {
 
   const filasCategorias = [
     {
-      nombre: '?? Pago a Trabajadores (Mano de Obra)',
-      origen: 'Transferido autom�ticamente desde Horario Semanal (Pesta�a 1)',
+      nombre: '👷 Pago a Trabajadores (Mano de Obra)',
+      origen: 'Transferido automáticamente desde Horario Semanal (Pestaña 1)',
       monto: totalGastoTrabajadores,
       destacado: true
     },
     {
-      nombre: '?? Materiales y Herramientas',
+      nombre: '🛠️ Materiales y Herramientas',
       origen: 'Machetes, sacos, herramientas, materiales de finca',
       monto: sumaPorCategoria['Materiales y Herramientas']
     },
     {
-      nombre: '?? Abono y Fertilizantes',
+      nombre: '🌱 Abono y Fertilizantes',
       origen: 'Abonos, fertilizantes, cuidado de plantas de cacao',
       monto: sumaPorCategoria['Abono y Fertilizantes']
     },
     {
-      nombre: '?? Transporte y Combustible',
-      origen: 'Fletes de cacao, gasolina, di�sel, movilizaci�n',
+      nombre: '🚚 Transporte y Combustible',
+      origen: 'Fletes de cacao, gasolina, diésel, movilización',
       monto: sumaPorCategoria['Transporte y Combustible']
     },
     {
-      nombre: '?? Mantenimiento y Reparaciones',
-      origen: 'Arreglo de equipos, guada�as, bombas, infraestructura',
+      nombre: '🔧 Mantenimiento y Reparaciones',
+      origen: 'Arreglo de equipos, guadañas, bombas, infraestructura',
       monto: sumaPorCategoria['Mantenimiento y Reparaciones']
     },
     {
-      nombre: '?? Otros Gastos Generales',
+      nombre: '📦 Otros Gastos Generales',
       origen: 'Gastos varios de la finca',
       monto: sumaPorCategoria['Otros Gastos']
     }
@@ -1538,7 +1538,7 @@ function renderizarReporteCompletoGastos() {
     tbodyGastos.innerHTML = `
       <tr>
         <td colspan="6" style="text-align:center; padding:20px; color:#666;">
-          No se encontraron gastos con esos filtros o palabra clave. Presiona "?? Ver Todos" para limpiar la b�squeda.
+          No se encontraron gastos con esos filtros o palabra clave. Presiona "🔄 Ver Todos" para limpiar la búsqueda.
         </td>
       </tr>
     `;
@@ -1582,8 +1582,8 @@ function limpiarFiltrosTablaGastos() {
 }
 
 // ============================================================================
-// PESTA�A #3 (AMARILLO CLARO): ESTAD�STICAS DE COSECHA
-// (REGISTRO MANUAL POR SECTOR: PESO EN LA FINCA Y PESO DESPU�S DE SECAR)
+// PESTAÑA #3 (AMARILLO CLARO): ESTADÍSTICAS DE COSECHA
+// (REGISTRO MANUAL POR SECTOR: PESO EN LA FINCA Y PESO DESPUÉS DE SECAR)
 // ============================================================================
 
 function calcularVistaPreviaCosecha() {
@@ -1608,7 +1608,7 @@ function calcularVistaPreviaCosecha() {
   if (prevSeco) {
     prevSeco.textContent = totalSecoQQ > 0
       ? formatoPeso(totalSecoQQ)
-      : '? Pendiente de secar (Se puede editar abajo)';
+      : '⏳ Pendiente de secar (Se puede editar abajo)';
   }
 
   if (prevRend) {
@@ -1617,7 +1617,7 @@ function calcularVistaPreviaCosecha() {
       const reduccionQQ = Math.max(0, totalFincaQQ - totalSecoQQ);
       prevRend.textContent = `${pctSeco}% seco (Merma: -${formatoPeso(reduccionQQ)})`;
     } else {
-      prevRend.textContent = '? Pendiente de secar';
+      prevRend.textContent = '⏳ Pendiente de secar';
     }
   }
 
@@ -1688,7 +1688,7 @@ function eliminarRegistroCosecha(cosechaId) {
   const c = (estadoFinca.cosechas || []).find(item => item.id === cosechaId);
   const desc = c ? `cosecha del sector "${c.sector}" del ${formatearFechaCorta(c.fecha)} (${formatoPeso(c.totalFincaQQ)})` : 'este registro de cosecha';
   mostrarModalConfirmacionEliminar(
-    `�Est�s seguro de que deseas borrar el registro de ${desc}? Esta acci�n no se puede deshacer.`,
+    `¿Estás seguro de que deseas borrar el registro de ${desc}? Esta acción no se puede deshacer.`,
     () => {
       estadoFinca.cosechas = (estadoFinca.cosechas || []).filter(item => item.id !== cosechaId);
       guardarDatos();
@@ -1801,7 +1801,7 @@ function renderizarEstadisticasCosecha() {
 }
 
 // ============================================================================
-// PESTA�A #4 (VERDE CLARO): REPORTE DE VENTAS (SOLO CACAO SECO + D�A/SEMANA/MES/A�O/5 A�OS)
+// PESTAÑA #4 (VERDE CLARO): REPORTE DE VENTAS (SOLO CACAO SECO + DÍA/SEMANA/MES/AÑO/5 AÑOS)
 // ============================================================================
 
 function obtenerDatosSuministroCacaoSeco() {
@@ -1867,7 +1867,7 @@ function renderizarSuministroCacaoSecoEnVentas() {
 
   if (elSubPend) {
     if (info.registrosPendientesSecar > 0) {
-      elSubPend.innerHTML = `? +${formatoPeso(info.totalFincaSinSecarQQ)} en finca pendientes de secar`;
+      elSubPend.innerHTML = `⏳ +${formatoPeso(info.totalFincaSinSecarQQ)} en finca pendientes de secar`;
     } else {
       elSubPend.textContent = 'Todo el cacao cosechado ya tiene su peso seco';
     }
@@ -1876,13 +1876,13 @@ function renderizarSuministroCacaoSecoEnVentas() {
   if (cardDisp && elEstado) {
     if (info.totalDisponibleSecoQQ > 0.005) {
       cardDisp.classList.remove('negative');
-      elEstado.textContent = '? Cacao seco en bodega listo para vender';
+      elEstado.textContent = '📦 Cacao seco en bodega listo para vender';
     } else if (Math.abs(info.totalDisponibleSecoQQ) <= 0.005) {
       cardDisp.classList.remove('negative');
-      elEstado.textContent = '?? Todo el cacao seco cosechado ya fue vendido (0.00 qq en bodega)';
+      elEstado.textContent = '✅ Todo el cacao seco cosechado ya fue vendido (0.00 qq en bodega)';
     } else {
       cardDisp.classList.add('negative');
-      elEstado.textContent = `?? Se ha vendido ${formatoPeso(Math.abs(info.totalDisponibleSecoQQ))} m�s de lo registrado como seco en Pesta�a #3`;
+      elEstado.textContent = `⚠️ Se ha vendido ${formatoPeso(Math.abs(info.totalDisponibleSecoQQ))} más de lo registrado como seco en Pestaña #3`;
     }
   }
 
@@ -1896,17 +1896,17 @@ function renderizarSuministroCacaoSecoEnVentas() {
 
       let badgeDisp = '';
       if (dispQQ > 0.005) {
-        badgeDisp = `<span style="color:#14532d; font-weight:900; font-size:21px;">? ${formatoPeso(dispQQ)}</span>`;
+        badgeDisp = `<span style="color:#14532d; font-weight:900; font-size:21px;">📦 ${formatoPeso(dispQQ)}</span>`;
       } else if (Math.abs(dispQQ) <= 0.005) {
-        badgeDisp = `<span style="color:#6b7280; font-weight:800;">0.00 qq (0 lb) � Todo vendido</span>`;
+        badgeDisp = `<span style="color:#6b7280; font-weight:800;">0.00 qq (0 lb) • Todo vendido</span>`;
       } else {
-        badgeDisp = `<span style="color:#b91c1c; font-weight:900;">?? ${formatoPeso(dispQQ)} (Falta anotar cosecha seca)</span>`;
+        badgeDisp = `<span style="color:#b91c1c; font-weight:900;">📦 ${formatoPeso(dispQQ)} (Falta anotar cosecha seca)</span>`;
       }
 
       const btnAccion = dispQQ > 0.005
         ? `<button type="button" class="btn btn-primary" style="padding:8px 14px; font-size:16px;"
              onclick="seleccionarSuministroSectorParaVenta('${sec}', ${dispQQ.toFixed(4)})">
-             ?? Vender este disponible
+             💰 Vender este disponible
            </button>`
         : `<button type="button" class="btn btn-outline" style="padding:6px 12px; font-size:15px;"
              onclick="seleccionarSectorEnFormularioVenta('${sec}')">
@@ -1983,7 +1983,7 @@ function calcularVistaPreviaVenta() {
   document.getElementById('previewPrecioLibra').textContent = `${formatoDinero(precioPorLibra)} / lb`;
   document.getElementById('previewTotalVenta').textContent = formatoDinero(totalDinero);
 
-  // Mostrar el suministro de cacao seco disponible para el sector seleccionado y cu�nto quedar� despu�s de esta venta
+  // Mostrar el suministro de cacao seco disponible para el sector seleccionado y cuánto quedará después de esta venta
   const infoSum = obtenerDatosSuministroCacaoSeco();
   const sectorSel = document.getElementById('ventaSector') ? document.getElementById('ventaSector').value : 'Toda la Finca';
   const dispActualQQ = sectorSel === 'Toda la Finca'
@@ -2003,13 +2003,13 @@ function calcularVistaPreviaVenta() {
     const restanteDespuesQQ = dispActualQQ - totalQuintales;
     if (totalQuintales <= 0) {
       elRestante.style.color = '#166534';
-      elRestante.textContent = `?? Suministro disponible actual (${sectorSel}): ${formatoPeso(dispActualQQ)}`;
+      elRestante.textContent = `📦 Suministro disponible actual (${sectorSel}): ${formatoPeso(dispActualQQ)}`;
     } else if (restanteDespuesQQ >= -0.005) {
       elRestante.style.color = '#166534';
-      elRestante.textContent = `?? Suministro restante en ${sectorSel} despu�s de esta venta: ${formatoPeso(Math.max(0, restanteDespuesQQ))}`;
+      elRestante.textContent = `📦 Suministro restante en ${sectorSel} después de esta venta: ${formatoPeso(Math.max(0, restanteDespuesQQ))}`;
     } else {
       elRestante.style.color = '#b91c1c';
-      elRestante.textContent = `?? Atenci�n: Esta venta supera el cacao seco cosechado disponible en ${sectorSel} por ${formatoPeso(Math.abs(restanteDespuesQQ))}`;
+      elRestante.textContent = `⚠️ Atención: Esta venta supera el cacao seco cosechado disponible en ${sectorSel} por ${formatoPeso(Math.abs(restanteDespuesQQ))}`;
     }
   }
 
@@ -2063,7 +2063,7 @@ function eliminarVenta(ventaId) {
   const v = (estadoFinca.ventas || []).find(item => item.id === ventaId);
   const desc = v ? `la venta de ${formatoPeso(v.totalQuintales)} (${formatoDinero(v.totalDinero)}) del ${formatearFechaCorta(v.fecha)}` : 'esta venta';
   mostrarModalConfirmacionEliminar(
-    `�Est�s seguro de que deseas borrar ${desc}? Esta acci�n no se puede deshacer.`,
+    `¿Estás seguro de que deseas borrar ${desc}? Esta acción no se puede deshacer.`,
     () => {
       estadoFinca.ventas = estadoFinca.ventas.filter(item => item.id !== ventaId);
       guardarDatos();
@@ -2096,7 +2096,7 @@ function renderizarTablaVentas() {
     tbody.innerHTML = `
       <tr>
         <td colspan="7" style="text-align:center; padding:24px; color:#666;">
-          A�n no hay ventas de cacao seco registradas en este periodo.
+          Aún no hay ventas de cacao seco registradas en este periodo.
         </td>
       </tr>
     `;
@@ -2105,7 +2105,7 @@ function renderizarTablaVentas() {
       sumaQuintales += Number(v.totalQuintales || 0);
       sumaDinero += Number(v.totalDinero || 0);
 
-      const detalleCliente = [v.comprador, v.notas].filter(Boolean).join(' � ') || '�';
+      const detalleCliente = [v.comprador, v.notas].filter(Boolean).join(' • ') || '—';
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td><b>${formatearFechaCorta(v.fecha)}</b></td>
@@ -2200,7 +2200,7 @@ function actualizarSelectoresDeAnios() {
     const sel = document.getElementById(id);
     if (!sel) return;
     const valorPrevio = sel.value;
-    sel.innerHTML = `<option value="TODOS">Todos los A�os</option>`;
+    sel.innerHTML = `<option value="TODOS">Todos los Años</option>`;
     anios.forEach(anio => {
       const opt = document.createElement('option');
       opt.value = anio;
@@ -2325,7 +2325,7 @@ function renderizarGanancias() {
   document.getElementById('kpiVentasDinero').textContent = formatoDinero(totalVentasDinero);
   document.getElementById('kpiVentasPeso').textContent = `Peso vendido: ${formatoPeso(totalVentasQQ)}`;
   document.getElementById('kpiPagoTrabajadores').textContent = formatoDinero(totalPagoTrabajadores);
-  document.getElementById('kpiHorasTrabajadores').textContent = `${totalDiasEquivalentes} d�as trabajados`;
+  document.getElementById('kpiHorasTrabajadores').textContent = `${totalDiasEquivalentes} días trabajados`;
   document.getElementById('kpiOtrosGastos').textContent = formatoDinero(totalOtrosGastos);
   document.getElementById('kpiGananciaNeta').textContent = formatoDinero(gananciaNeta);
 
@@ -2333,10 +2333,10 @@ function renderizarGanancias() {
   const subGanancia = document.getElementById('kpiGananciaSub');
   if (gananciaNeta >= 0) {
     cardGanancia.classList.remove('negative');
-    subGanancia.textContent = '? Ganancia positiva para la finca';
+    subGanancia.textContent = '📈 Ganancia positiva para la finca';
   } else {
     cardGanancia.classList.add('negative');
-    subGanancia.textContent = '?? Los gastos superan a las ventas en este periodo';
+    subGanancia.textContent = '⚠️ Los gastos superan a las ventas en este periodo';
   }
 
   renderizarTablaDesglosePorModo(coincidePeriodo, anioFiltro, movimientosHorarios);
@@ -2350,8 +2350,8 @@ function renderizarTablaDesglosePorModo(coincidePeriodo, anioFiltro, movimientos
   tbody.innerHTML = '';
 
   if (modoReporteActual === 'DIARIO') {
-    tituloPeriodo.textContent = '?? Reporte de Ventas por D�a: Ventas, Pagos de Trabajadores, Gastos y Ganancias';
-    tituloTabla.textContent = '?? Historial D�a por D�a';
+    tituloPeriodo.textContent = '📊 Reporte de Ventas por Día: Ventas, Pagos de Trabajadores, Gastos y Ganancias';
+    tituloTabla.textContent = '📜 Historial Día por Día';
     colNombre.textContent = 'Fecha';
 
     const diasMap = {};
@@ -2409,8 +2409,8 @@ function renderizarTablaDesglosePorModo(coincidePeriodo, anioFiltro, movimientos
   }
 
   if (modoReporteActual === 'SEMANAL') {
-    tituloPeriodo.textContent = '?? Reporte de Ventas por Semana: Ventas, Pagos de Trabajadores, Gastos y Ganancias';
-    tituloTabla.textContent = '?? Historial Semana por Semana';
+    tituloPeriodo.textContent = '📊 Reporte de Ventas por Semana: Ventas, Pagos de Trabajadores, Gastos y Ganancias';
+    tituloTabla.textContent = '📜 Historial Semana por Semana';
     colNombre.textContent = 'Semana (Fechas)';
 
     const semanasMap = {};
@@ -2473,9 +2473,9 @@ function renderizarTablaDesglosePorModo(coincidePeriodo, anioFiltro, movimientos
   }
 
   if (modoReporteActual === 'MENSUAL') {
-    const anioTexto = anioFiltro === 'TODOS' ? 'Todos los A�os' : `${anioFiltro}`;
-    tituloPeriodo.textContent = `??? Reporte de Ventas por Mes (${anioTexto}): Ventas, Gastos y Ganancias Mes por Mes`;
-    tituloTabla.textContent = `??? Resumen Mes por Mes (${anioTexto})`;
+    const anioTexto = anioFiltro === 'TODOS' ? 'Todos los Años' : `${anioFiltro}`;
+    tituloPeriodo.textContent = `📊 Reporte de Ventas por Mes (${anioTexto}): Ventas, Gastos y Ganancias Mes por Mes`;
+    tituloTabla.textContent = `🗓️ Resumen Mes por Mes (${anioTexto})`;
     colNombre.textContent = 'Mes';
 
     const mesesMap = {};
@@ -2538,9 +2538,9 @@ function renderizarTablaDesglosePorModo(coincidePeriodo, anioFiltro, movimientos
   }
 
   if (modoReporteActual === 'ANUAL') {
-    tituloPeriodo.textContent = '?? Reporte de Ventas por A�o: Resultados de la Finca A�o por A�o';
-    tituloTabla.textContent = '?? Resumen Hist�rico A�o por A�o';
-    colNombre.textContent = 'A�o';
+    tituloPeriodo.textContent = '📊 Reporte de Ventas por Año: Resultados de la Finca Año por Año';
+    tituloTabla.textContent = '📜 Resumen Histórico Año por Año';
+    colNombre.textContent = 'Año';
 
     const anios = obtenerTodosLosAniosDisponibles();
     anios.forEach(anio => {
@@ -2563,9 +2563,9 @@ function renderizarTablaDesglosePorModo(coincidePeriodo, anioFiltro, movimientos
   }
 
   if (modoReporteActual === 'CINCO_ANIOS') {
-    tituloPeriodo.textContent = '?? Reporte de Ventas de 5 A�os: Acumulado por Ciclos de 5 A�os';
-    tituloTabla.textContent = '?? Resumen por Bloques de 5 A�os y Desglose del Ciclo';
-    colNombre.textContent = 'Ciclo de 5 A�os / A�o';
+    tituloPeriodo.textContent = '📊 Reporte de Ventas de 5 Años: Acumulado por Ciclos de 5 Años';
+    tituloTabla.textContent = '📜 Resumen por Bloques de 5 Años y Desglose del Ciclo';
+    colNombre.textContent = 'Ciclo de 5 Años / Año';
 
     const aniosNum = obtenerTodosLosAniosDisponibles().map(Number).sort((a, b) => a - b);
     const minAnio = aniosNum[0] || new Date().getFullYear();
@@ -2592,7 +2592,7 @@ function renderizarTablaDesglosePorModo(coincidePeriodo, anioFiltro, movimientos
       const trBloque = document.createElement('tr');
       trBloque.style.backgroundColor = '#dcfce7';
       trBloque.innerHTML = `
-        <td><b style="font-size:23px; color:#14532d;">?? CICLO 5 A�OS: ${inicio} - ${fin}</b></td>
+        <td><b style="font-size:23px; color:#14532d;">🏆 CICLO 5 AÑOS: ${inicio} - ${fin}</b></td>
         <td><b>${formatoPeso(qqBloque)}</b></td>
         <td style="color:#15803d; font-weight:900;">${formatoDinero(ventasBloque)}</td>
         <td style="color:#b45309; font-weight:900;">${formatoDinero(nominaBloque)}</td>
@@ -2608,7 +2608,7 @@ function renderizarTablaDesglosePorModo(coincidePeriodo, anioFiltro, movimientos
 
         const trAnio = document.createElement('tr');
         trAnio.innerHTML = `
-          <td style="padding-left:36px;">? ${y} (${y - inicio + 1}/5)</td>
+          <td style="padding-left:36px;">📅 ${y} (${y - inicio + 1}/5)</td>
           <td>${formatoPeso(dAnio.qq)}</td>
           <td>${formatoDinero(dAnio.ventas)}</td>
           <td>${formatoDinero(dAnio.nomina)}</td>
@@ -2652,7 +2652,7 @@ function calcularTotalesDeAnioEspecifico(anioStr) {
 }
 
 // ============================================================================
-// MOTOR DE PREDICCIONES Y RECONOCIMIENTO DE PATRONES EN CADA PESTA�A (#1, #2, #3, #4)
+// MOTOR DE PREDICCIONES Y RECONOCIMIENTO DE PATRONES EN CADA PESTAÑA (#1, #2, #3, #4)
 // ============================================================================
 
 function renderizarPrediccionesYPatronesEnCadaPestana() {
@@ -2804,27 +2804,27 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
   const promSemanalGanancia = promSemanalVentas - promSemanalGastoTotal;
 
   const horizontes = [
-    { titulo: '?? Por D�a', factor: 1 / 6 },
-    { titulo: '?? Pr�xima Semana', factor: 1 },
-    { titulo: '??? Pr�ximo Mes', factor: 52 / 12 },
-    { titulo: '?? Pr�ximo A�o', factor: 52 },
-    { titulo: '?? Pr�ximos 5 A�os', factor: 52 * 5 }
+    { titulo: '📅 Por Día', factor: 1 / 6 },
+    { titulo: '📆 Próxima Semana', factor: 1 },
+    { titulo: '🗓️ Próximo Mes', factor: 52 / 12 },
+    { titulo: '📆 Próximo Año', factor: 52 },
+    { titulo: '🏆 Próximos 5 Años', factor: 52 * 5 }
   ];
 
   // =========================================================================
-  // 1. PESTA�A #1: PATRONES Y PREDICCIONES DE EMPLEADOS Y HORARIO
+  // 1. PESTAÑA #1: PATRONES Y PREDICCIONES DE EMPLEADOS Y HORARIO
   // =========================================================================
   const sectorMasTrabajo = obtenerMaximoDeObjeto(diasTrabPorSector) || 'El Guineo';
   const diaMasTrabajo = obtenerMaximoDeObjeto(horasPorDiaSemana) || 'Lunes';
-  const empleadoMasHoras = obtenerMaximoDeObjeto(horasPorTrabajador) || (estadoFinca.trabajadores[0] ? estadoFinca.trabajadores[0].nombre : '�');
+  const empleadoMasHoras = obtenerMaximoDeObjeto(horasPorTrabajador) || (estadoFinca.trabajadores[0] ? estadoFinca.trabajadores[0].nombre : '—');
 
   const ulPatronesEmp = document.getElementById('patronesEmpleadosLista');
   if (ulPatronesEmp) {
     ulPatronesEmp.innerHTML = `
-      <li class="pattern-item">?? <b>Sector con Mayor Demanda Laboral:</b><br/>${totalDiasEq > 0 ? `${sectorMasTrabajo} (${diasTrabPorSector[sectorMasTrabajo]} d�as trabajados)` : 'Registra turnos para detectar el lote con m�s trabajo'}</li>
-      <li class="pattern-item">?? <b>D�a de Mayor Asistencia:</b><br/>${totalHoras > 0 ? `${diaMasTrabajo} (${horasPorDiaSemana[diaMasTrabajo]} hrs acumuladas)` : 'Sin turnos registrados a�n'}</li>
-      <li class="pattern-item">?? <b>Trabajador con M�s Horas:</b><br/>${totalHoras > 0 ? `${empleadoMasHoras} (${horasPorTrabajador[empleadoMasHoras]} hrs)` : 'Registra una planilla semanal'}</li>
-      <li class="pattern-item">?? <b>Promedio Semanal de N�mina:</b><br/>${formatoDinero(promSemanalNomina)} por semana (${promSemanalHoras.toFixed(1)} hrs/sem)</li>
+      <li class="pattern-item">🌱 <b>Sector con Mayor Demanda Laboral:</b><br/>${totalDiasEq > 0 ? `${sectorMasTrabajo} (${diasTrabPorSector[sectorMasTrabajo]} días trabajados)` : 'Registra turnos para detectar el lote con más trabajo'}</li>
+      <li class="pattern-item">📅 <b>Día de Mayor Asistencia:</b><br/>${totalHoras > 0 ? `${diaMasTrabajo} (${horasPorDiaSemana[diaMasTrabajo]} hrs acumuladas)` : 'Sin turnos registrados aún'}</li>
+      <li class="pattern-item">👷 <b>Trabajador con Más Horas:</b><br/>${totalHoras > 0 ? `${empleadoMasHoras} (${horasPorTrabajador[empleadoMasHoras]} hrs)` : 'Registra una planilla semanal'}</li>
+      <li class="pattern-item">💰 <b>Promedio Semanal de Nómina:</b><br/>${formatoDinero(promSemanalNomina)} por semana (${promSemanalHoras.toFixed(1)} hrs/sem)</li>
     `;
   }
 
@@ -2834,15 +2834,15 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
       <div class="pred-card">
         <h3>${h.titulo}</h3>
         <div class="pred-row">
-          <span>?? D�as de Trabajo:</span>
-          <b>${(promSemanalDias * h.factor).toFixed(1)} d�as</b>
+          <span>🗓️ Días de Trabajo:</span>
+          <b>${(promSemanalDias * h.factor).toFixed(1)} días</b>
         </div>
         <div class="pred-row">
-          <span>?? Horas Estimadas:</span>
+          <span>⏱️ Horas Estimadas:</span>
           <b>${Math.round(promSemanalHoras * h.factor)} hrs</b>
         </div>
         <div class="pred-row pred-profit-row">
-          <span>?? Pago Previsto:</span>
+          <span>💰 Pago Previsto:</span>
           <span style="color:#b45309;">${formatoDinero(promSemanalNomina * h.factor)}</span>
         </div>
       </div>
@@ -2850,7 +2850,7 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
   }
 
   // =========================================================================
-  // 2. PESTA�A #2: PATRONES Y PREDICCIONES DE GASTOS
+  // 2. PESTAÑA #2: PATRONES Y PREDICCIONES DE GASTOS
   // =========================================================================
   const granTotalGastoHist = totalNomina + totalGastosOtros;
   const catMayorGasto = obtenerMaximoDeObjeto(gastoPorCategoria) || 'Mano de Obra (Trabajadores)';
@@ -2860,10 +2860,10 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
   const ulPatronesGastos = document.getElementById('patronesGastosLista');
   if (ulPatronesGastos) {
     ulPatronesGastos.innerHTML = `
-      <li class="pattern-item">?? <b>Principal Categor�a de Gasto:</b><br/>${granTotalGastoHist > 0 ? `${catMayorGasto} (${pctCatMayor} del gasto total)` : 'Sin gastos registrados a�n'}</li>
-      <li class="pattern-item">?? <b>Peso de la Mano de Obra:</b><br/>Los trabajadores representan el <b>${pctManoObra}</b> de todos los gastos de la finca</li>
-      <li class="pattern-item">?? <b>Materiales y Abono vs. Transporte:</b><br/>Materiales/Abono: ${formatoDinero(totalMatAbono)} | Transporte/Otros: ${formatoDinero(totalTranspOtros)}</li>
-      <li class="pattern-item">?? <b>Ritmo de Gasto Total:</b><br/>Promedio de <b>${formatoDinero(promSemanalGastoTotal)}</b> por semana (${formatoDinero(promSemanalGastoTotal * (52/12))} al mes)</li>
+      <li class="pattern-item">📊 <b>Principal Categoría de Gasto:</b><br/>${granTotalGastoHist > 0 ? `${catMayorGasto} (${pctCatMayor} del gasto total)` : 'Sin gastos registrados aún'}</li>
+      <li class="pattern-item">⚖️ <b>Peso de la Mano de Obra:</b><br/>Los trabajadores representan el <b>${pctManoObra}</b> de todos los gastos de la finca</li>
+      <li class="pattern-item">🌱 <b>Materiales y Abono vs. Transporte:</b><br/>Materiales/Abono: ${formatoDinero(totalMatAbono)} | Transporte/Otros: ${formatoDinero(totalTranspOtros)}</li>
+      <li class="pattern-item">📈 <b>Ritmo de Gasto Total:</b><br/>Promedio de <b>${formatoDinero(promSemanalGastoTotal)}</b> por semana (${formatoDinero(promSemanalGastoTotal * (52/12))} al mes)</li>
     `;
   }
 
@@ -2873,19 +2873,19 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
       <div class="pred-card">
         <h3>${h.titulo}</h3>
         <div class="pred-row">
-          <span>?? Trabajadores:</span>
+          <span>👷 Trabajadores:</span>
           <b style="color:#b45309;">${formatoDinero(promSemanalNomina * h.factor)}</b>
         </div>
         <div class="pred-row">
-          <span>?? Materiales/Abono:</span>
+          <span>🌱 Materiales/Abono:</span>
           <b style="color:#b91c1c;">${formatoDinero(promSemanalMatAbono * h.factor)}</b>
         </div>
         <div class="pred-row">
-          <span>?? Transporte/Otros:</span>
+          <span>🚚 Transporte/Otros:</span>
           <b style="color:#b91c1c;">${formatoDinero(promSemanalTranspOtros * h.factor)}</b>
         </div>
         <div class="pred-row pred-profit-row">
-          <span>?? Gasto Total:</span>
+          <span>💸 Gasto Total:</span>
           <span style="color:#991b1b;">${formatoDinero(promSemanalGastoTotal * h.factor)}</span>
         </div>
       </div>
@@ -2893,21 +2893,21 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
   }
 
   // =========================================================================
-  // 3. PESTA�A #3: PATRONES Y PREDICCIONES DE COSECHA (PESO EN FINCA Y PESO SECO)
+  // 3. PESTAÑA #3: PATRONES Y PREDICCIONES DE COSECHA (PESO EN FINCA Y PESO SECO)
   // =========================================================================
   const mejorSectorCosecha = obtenerMaximoDeObjeto(cosechaSecoPorSector) || obtenerMaximoDeObjeto(cosechaFincaPorSector) || 'El Guineo';
   const mesMejorCosechaNum = obtenerMaximoDeObjeto(cosechaSecoPorMes);
-  const nombreMesMejor = mesMejorCosechaNum ? NOMBRES_MESES[parseInt(mesMejorCosechaNum, 10) - 1] : '�';
-  const pctRendimientoHist = totalCosechaFincaQQ > 0 ? ((totalCosechaSecoQQ / totalCosechaFincaQQ) * 100).toFixed(1) + '%' : '�';
+  const nombreMesMejor = mesMejorCosechaNum ? NOMBRES_MESES[parseInt(mesMejorCosechaNum, 10) - 1] : '—';
+  const pctRendimientoHist = totalCosechaFincaQQ > 0 ? ((totalCosechaSecoQQ / totalCosechaFincaQQ) * 100).toFixed(1) + '%' : '—';
   const lbSecasPorDiaHist = totalDiasEq > 0 ? Math.round((totalCosechaSecoQQ * 100) / totalDiasEq) : 0;
 
   const ulPatronesCosecha = document.getElementById('patronesCosechaLista');
   if (ulPatronesCosecha) {
     ulPatronesCosecha.innerHTML = `
-      <li class="pattern-item">?? <b>Sector M�s Productivo:</b><br/>${totalCosechaSecoQQ > 0 ? `${mejorSectorCosecha} (Finca: ${cosechaFincaPorSector[mejorSectorCosecha].toFixed(2)} qq | Seco: ${cosechaSecoPorSector[mejorSectorCosecha].toFixed(2)} qq)` : 'Registra una cosecha arriba para ver el lote l�der'}</li>
-      <li class="pattern-item">?? <b>Rendimiento Promedio de Secado:</b><br/>${totalCosechaFincaQQ > 0 ? `El cacao seco conserva el <b>${pctRendimientoHist}</b> del peso cosechado en finca` : 'Ingresa peso en finca y peso seco para calcular merma'}</li>
-      <li class="pattern-item">??? <b>Mejor Mes de Cosecha:</b><br/>${mesMejorCosechaNum ? `${nombreMesMejor} (${cosechaSecoPorMes[mesMejorCosechaNum].toFixed(2)} qq secos)` : 'Registra cosechas para detectar temporada alta'}</li>
-      <li class="pattern-item">? <b>Productividad por D�a Trabajado:</b><br/><b>${lbSecasPorDiaHist} libras de cacao seco</b> producidas por cada d�a de trabajo</li>
+      <li class="pattern-item">🏆 <b>Sector Más Productivo:</b><br/>${totalCosechaSecoQQ > 0 ? `${mejorSectorCosecha} (Finca: ${cosechaFincaPorSector[mejorSectorCosecha].toFixed(2)} qq | Seco: ${cosechaSecoPorSector[mejorSectorCosecha].toFixed(2)} qq)` : 'Registra una cosecha arriba para ver el lote líder'}</li>
+      <li class="pattern-item">☀️ <b>Rendimiento Promedio de Secado:</b><br/>${totalCosechaFincaQQ > 0 ? `El cacao seco conserva el <b>${pctRendimientoHist}</b> del peso cosechado en finca` : 'Ingresa peso en finca y peso seco para calcular merma'}</li>
+      <li class="pattern-item">🗓️ <b>Mejor Mes de Cosecha:</b><br/>${mesMejorCosechaNum ? `${nombreMesMejor} (${cosechaSecoPorMes[mesMejorCosechaNum].toFixed(2)} qq secos)` : 'Registra cosechas para detectar temporada alta'}</li>
+      <li class="pattern-item">? <b>Productividad por Día Trabajado:</b><br/><b>${lbSecasPorDiaHist} libras de cacao seco</b> producidas por cada día de trabajo</li>
     `;
   }
 
@@ -2921,15 +2921,15 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
         <div class="pred-card">
           <h3>${h.titulo}</h3>
           <div class="pred-row">
-            <span>?? Peso en Finca:</span>
+            <span>🌿 Peso en Finca:</span>
             <b style="color:#854d0e;">${fincaEstQQ.toFixed(2)} qq</b>
           </div>
           <div class="pred-row">
-            <span>?? Peso Seco (qq):</span>
+            <span>☀️ Peso Seco (qq):</span>
             <b style="color:#14532d;">${secoEstQQ.toFixed(2)} qq</b>
           </div>
           <div class="pred-row pred-profit-row">
-            <span>?? Libras Secas:</span>
+            <span>⚖️ Libras Secas:</span>
             <span style="color:#14532d;">${secoEstLB.toLocaleString('en-US')} lb</span>
           </div>
         </div>
@@ -2956,7 +2956,7 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
   }
 
   // =========================================================================
-  // 4. PESTA�A #4: PATRONES Y PREDICCIONES DE VENTAS Y GANANCIAS
+  // 4. PESTAÑA #4: PATRONES Y PREDICCIONES DE VENTAS Y GANANCIAS
   // =========================================================================
   const precioPromQQ = totalQQ > 0 ? (totalVentas / totalQQ) : 0;
   const mejorSectorVentas = obtenerMaximoDeObjeto(ventasPorSector) || 'El Guineo';
@@ -2966,10 +2966,10 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
   const ulPatronesVentas = document.getElementById('patronesVentasLista');
   if (ulPatronesVentas) {
     ulPatronesVentas.innerHTML = `
-      <li class="pattern-item">?? <b>Precio Promedio y M�ximo por Quintal:</b><br/>Promedio: <b>${formatoDinero(precioPromQQ)}/qq</b> | M�ximo alcanzado: <b>${formatoDinero(precioMaximoQQ)}/qq</b></li>
-      <li class="pattern-item">?? <b>Sector con Mayores Ingresos:</b><br/>${totalVentas > 0 ? `${mejorSectorVentas} (${formatoDinero(ventasPorSector[mejorSectorVentas])} vendidos)` : 'Registra tu primera venta arriba'}</li>
-      <li class="pattern-item">?? <b>Margen de Ganancia de la Finca:</b><br/><b>${margenGananciaPct}</b> de las ventas queda como ganancia libre despu�s de pagar todo</li>
-      <li class="pattern-item">?? <b>Promedio Semanal de Ganancia Libre:</b><br/><b>${formatoDinero(promSemanalGanancia)}</b> libres por semana (${formatoDinero(promSemanalGanancia * (52/12))} al mes)</li>
+      <li class="pattern-item">📈 <b>Precio Promedio y Máximo por Quintal:</b><br/>Promedio: <b>${formatoDinero(precioPromQQ)}/qq</b> | Máximo alcanzado: <b>${formatoDinero(precioMaximoQQ)}/qq</b></li>
+      <li class="pattern-item">🏆 <b>Sector con Mayores Ingresos:</b><br/>${totalVentas > 0 ? `${mejorSectorVentas} (${formatoDinero(ventasPorSector[mejorSectorVentas])} vendidos)` : 'Registra tu primera venta arriba'}</li>
+      <li class="pattern-item">💰 <b>Margen de Ganancia de la Finca:</b><br/><b>${margenGananciaPct}</b> de las ventas queda como ganancia libre después de pagar todo</li>
+      <li class="pattern-item">💵 <b>Promedio Semanal de Ganancia Libre:</b><br/><b>${formatoDinero(promSemanalGanancia)}</b> libres por semana (${formatoDinero(promSemanalGanancia * (52/12))} al mes)</li>
     `;
   }
 
@@ -2984,19 +2984,19 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
         <div class="pred-card">
           <h3>${h.titulo}</h3>
           <div class="pred-row">
-            <span>?? Peso Estimado:</span>
+            <span>⚖️ Peso Estimado:</span>
             <b>${(promSemanalQQ * h.factor).toFixed(2)} qq</b>
           </div>
           <div class="pred-row">
-            <span>?? Ventas Estimadas:</span>
+            <span>💰 Ventas Estimadas:</span>
             <b style="color:#15803d;">${formatoDinero(vEst)}</b>
           </div>
           <div class="pred-row">
-            <span>?? Gastos Totales:</span>
+            <span>💸 Gastos Totales:</span>
             <b style="color:#b91c1c;">${formatoDinero(gEst)}</b>
           </div>
           <div class="pred-row pred-profit-row">
-            <span>?? Ganancia Libre:</span>
+            <span>💵 Ganancia Libre:</span>
             <span style="color:${colorGan};">${formatoDinero(ganEst)}</span>
           </div>
         </div>
@@ -3035,7 +3035,7 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
     trTotal5.style.backgroundColor = '#dcfce7';
     const colorTotal5 = (gananciaAnual * 5) >= 0 ? '#14532d' : '#991b1b';
     trTotal5.innerHTML = `
-      <td><b style="font-size:22px; color:#14532d;">?? TOTAL 5 A�OS (${anioActual + 1} - ${anioActual + 5})</b></td>
+      <td><b style="font-size:22px; color:#14532d;">🏆 TOTAL 5 AÑOS (${anioActual + 1} - ${anioActual + 5})</b></td>
       <td><b>${formatoPeso(qqAnual * 5)}</b></td>
       <td style="color:#15803d; font-weight:900; font-size:22px;">${formatoDinero(ventasAnual * 5)}</td>
       <td style="color:#b45309; font-weight:900; font-size:22px;">${formatoDinero(nominaAnual * 5)}</td>
@@ -3059,7 +3059,7 @@ function obtenerMaximoDeObjeto(obj) {
 }
 
 // ============================================================================
-// DETECCI�N DE ANOMAL�AS Y N�MEROS QUE NO CUADRAN EN CADA PESTA�A (#1, #2, #3, #4, #5)
+// DETECCIÓN DE ANOMALÍAS Y NÚMEROS QUE NO CUADRAN EN CADA PESTAÑA (#1, #2, #3, #4, #5)
 // ============================================================================
 
 const seccionesReconocidasExpandidas = {};
@@ -3090,7 +3090,7 @@ function alternarSeccionAnomaliasReconocidas(contenedorId) {
   seccionesReconocidasExpandidas[contenedorId] = !estaVisible;
   const btn = sec.previousElementSibling ? sec.previousElementSibling.querySelector('.btn-toggle-acknowledged') : null;
   if (btn) {
-    btn.textContent = !estaVisible ? '? Ocultar Lista' : '? Ver Anomal�as Ocultas';
+    btn.textContent = !estaVisible ? '➖ Ocultar Lista' : '➕ Ver Anomalías Ocultas';
   }
 }
 
@@ -3108,15 +3108,15 @@ function renderizarListaAnomaliasConReconocimiento(contenedorId, listaAlertas, t
     if (listaAlertas.length === 0) {
       htmlActivas = `
         <li class="abnormality-item abnormality-ok">
-          <span class="abnormality-title">? Todo en Orden</span>
+          <span class="abnormality-title">✓ Todo en Orden</span>
           ${textoTodoOk}
         </li>
       `;
     } else {
       htmlActivas = `
         <li class="abnormality-item abnormality-ok">
-          <span class="abnormality-title">? Todas las anomal�as han sido reconocidas</span>
-          Has revisado y reconocido todas las alertas detectadas en esta secci�n. Puedes consultarlas o reactivarlas en la secci�n oculta abajo.
+          <span class="abnormality-title">✅ Todas las anomalías han sido reconocidas</span>
+          Has revisado y reconocido todas las alertas detectadas en esta sección. Puedes consultarlas o reactivarlas en la sección oculta abajo.
         </li>
       `;
     }
@@ -3130,8 +3130,8 @@ function renderizarListaAnomaliasConReconocimiento(contenedorId, listaAlertas, t
               <span class="abnormality-title">${a.titulo}</span>
               <div>${a.detalle}</div>
             </div>
-            <button type="button" class="btn-acknowledge" onclick="reconocerAnomalia('${a.id}')" title="Marcar como revisado y mover a la secci�n oculta">
-              ??? Reconocer y Ocultar
+            <button type="button" class="btn-acknowledge" onclick="reconocerAnomalia('${a.id}')" title="Marcar como revisado y mover a la sección oculta">
+              👁️ Reconocer y Ocultar
             </button>
           </div>
         </li>
@@ -3148,14 +3148,14 @@ function renderizarListaAnomaliasConReconocimiento(contenedorId, listaAlertas, t
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
             <div>
               <span style="font-weight:900; color:#475569; font-size:19px;">
-                ?? Anomal�as Reconocidas y Ocultas (${reconocidas.length})
+                📂 Anomalías Reconocidas y Ocultas (${reconocidas.length})
               </span>
               <div style="font-size:16px; color:#64748b; font-weight:600;">
                 Alertas que ya revisaste y decidiste ocultar de la vista principal.
               </div>
             </div>
             <button type="button" class="btn-toggle-acknowledged" onclick="alternarSeccionAnomaliasReconocidas('${contenedorId}')">
-              ${estaExpandida ? '? Ocultar Lista' : '? Ver Anomal�as Ocultas'}
+              ${estaExpandida ? '➖ Ocultar Lista' : '➕ Ver Anomalías Ocultas'}
             </button>
           </div>
           <div id="${contenedorId}_seccionReconocidas" class="acknowledged-section" style="display:${estaExpandida ? 'block' : 'none'}; margin-top:14px;">
@@ -3166,7 +3166,7 @@ function renderizarListaAnomaliasConReconocimiento(contenedorId, listaAlertas, t
                   <div style="font-size:16px; color:#64748b;">${r.detalle}</div>
                 </div>
                 <button type="button" class="btn-reactivate" style="background:#e0f2fe; color:#0369a1; border:2px solid #0284c7; padding:8px 14px; font-size:16px; border-radius:8px; font-weight:800; cursor:pointer;" onclick="reactivarAnomalia('${r.id}')" title="Volver a mostrar esta alerta en la lista principal">
-                  ?? Reactivar
+                  🔄 Reactivar
                 </button>
               </div>
             `).join('')}
@@ -3183,13 +3183,13 @@ function renderizarAnomaliasEnCadaPestana() {
   const movimientosHorarios = obtenerMovimientosDiariosDeHorarios();
 
   // =========================================================================
-  // 1. ANOMAL�AS EN PESTA�A #1: EMPLEADOS Y HORARIO SEMANAL
+  // 1. ANOMALÍAS EN PESTAÑA #1: EMPLEADOS Y HORARIO SEMANAL
   // =========================================================================
   const ulAnomEmp = document.getElementById('anomaliasEmpleadosLista');
   if (ulAnomEmp) {
     const alertasEmp = [];
 
-    // A) Detectar si un mismo trabajador tiene m�s de 1 D�a Completo (o > 8 horas) el mismo d�a en distintos sectores
+    // A) Detectar si un mismo trabajador tiene más de 1 Día Completo (o > 8 horas) el mismo día en distintos sectores
     const horasPorTrabYFecha = {};
     movimientosHorarios.forEach(mov => {
       const clave = `${mov.trabajadorId}__${mov.fecha}`;
@@ -3214,13 +3214,13 @@ function renderizarAnomaliasEnCadaPestana() {
         alertasEmp.push({
           id: `emp_dup_${item.trabajadorId}_${item.fecha}`,
           tipo: 'warning',
-          titulo: `?? Turno Duplicado en el Mismo D�a (${item.nombre})`,
-          detalle: `El d�a <b>${formatearFechaCorta(item.fecha)}</b> aparece con <b>${item.diasEq} d�as (${item.horas} hrs)</b> en varios sectores al mismo tiempo (${item.sectores.join(', ')}). Revisa si se marc� dos veces por error.`
+          titulo: `⚠️ Turno Duplicado en el Mismo Día (${item.nombre})`,
+          detalle: `El día <b>${formatearFechaCorta(item.fecha)}</b> aparece con <b>${item.diasEq} días (${item.horas} hrs)</b> en varios sectores al mismo tiempo (${item.sectores.join(', ')}). Revisa si se marcó dos veces por error.`
         });
       }
     });
 
-    // B) Comparar horas y pago total por semana para detectar ca�das o subidas bruscas entre semanas
+    // B) Comparar horas y pago total por semana para detectar caídas o subidas bruscas entre semanas
     const resumenPorSemanaEmp = {};
     Object.values(estadoFinca.horarios).forEach(reg => {
       const trab = estadoFinca.trabajadores.find(t => t.id === reg.trabajadorId);
@@ -3253,22 +3253,22 @@ function renderizarAnomaliasEnCadaPestana() {
           alertasEmp.push({
             id: `emp_caida_${semAct}`,
             tipo: 'warning',
-            titulo: `?? Ca�da Brusca de Trabajo Semanal (-${pctCaida}%)`,
-            detalle: `En la semana <b>${formatearRangoSemanaNumerico(semAnt)}</b> se trabajaron <b>${hAnt} hrs (${formatoDinero(pAnt)})</b>, pero en la semana siguiente <b>${formatearRangoSemanaNumerico(semAct)}</b> baj� a solo <b>${hAct} hrs (${formatoDinero(pAct)})</b>. Verifica si faltan planillas por registrar.`
+            titulo: `📉 Caída Brusca de Trabajo Semanal (-${pctCaida}%)`,
+            detalle: `En la semana <b>${formatearRangoSemanaNumerico(semAnt)}</b> se trabajaron <b>${hAnt} hrs (${formatoDinero(pAnt)})</b>, pero en la semana siguiente <b>${formatearRangoSemanaNumerico(semAct)}</b> bajó a solo <b>${hAct} hrs (${formatoDinero(pAct)})</b>. Verifica si faltan planillas por registrar.`
           });
         } else if (hAnt > 0 && hAct > hAnt * 1.5) {
           const pctSubida = Math.round(((hAct - hAnt) / hAnt) * 100);
           alertasEmp.push({
             id: `emp_subida_${semAct}`,
             tipo: 'warning',
-            titulo: `?? Aumento Inusual de N�mina Semanal (+${pctSubida}%)`,
-            detalle: `En la semana <b>${formatearRangoSemanaNumerico(semAct)}</b> el trabajo subi� a <b>${hAct} hrs (${formatoDinero(pAct)})</b> comparado con <b>${hAnt} hrs (${formatoDinero(pAnt)})</b> de la semana anterior (promedio habitual: ${promHorasSem.toFixed(0)} hrs/sem).`
+            titulo: `⚠️ Aumento Inusual de Nómina Semanal (+${pctSubida}%)`,
+            detalle: `En la semana <b>${formatearRangoSemanaNumerico(semAct)}</b> el trabajo subió a <b>${hAct} hrs (${formatoDinero(pAct)})</b> comparado con <b>${hAnt} hrs (${formatoDinero(pAnt)})</b> de la semana anterior (promedio habitual: ${promHorasSem.toFixed(0)} hrs/sem).`
           });
         }
       }
     }
 
-    // C) Detectar sectores con d�as trabajados pero 0 cosecha registrada
+    // C) Detectar sectores con días trabajados pero 0 cosecha registrada
     const diasPorSector = {};
     const cosechaPorSector = {};
     SECTORES.forEach(s => {
@@ -3288,13 +3288,13 @@ function renderizarAnomaliasEnCadaPestana() {
         alertasEmp.push({
           id: `emp_sin_cos_${s}`,
           tipo: 'warning',
-          titulo: `?? Trabajo Registrado sin Cosecha en "${s}"`,
-          detalle: `Se han pagado <b>${diasPorSector[s]} d�as de trabajo</b> en el sector <b>${s}</b>, pero en Estad�sticas de Cosecha aparece con <b>0.00 qq cosechados</b>. Verifica si falta anotar la cosecha de ese lote.`
+          titulo: `⚠️ Trabajo Registrado sin Cosecha en "${s}"`,
+          detalle: `Se han pagado <b>${diasPorSector[s]} días de trabajo</b> en el sector <b>${s}</b>, pero en Estadísticas de Cosecha aparece con <b>0.00 qq cosechados</b>. Verifica si falta anotar la cosecha de ese lote.`
         });
       }
     });
 
-    // D) Detectar tarifas incoherentes (Medio d�a mayor o igual a D�a completo)
+    // D) Detectar tarifas incoherentes (Medio día mayor o igual a Día completo)
     estadoFinca.trabajadores.forEach(t => {
       const full = Number(t.tarifaDiaCompleto || 0);
       const half = Number(t.tarifaMedioDia || 0);
@@ -3302,27 +3302,27 @@ function renderizarAnomaliasEnCadaPestana() {
         alertasEmp.push({
           id: `emp_tarifa_cero_${t.id}`,
           tipo: 'warning',
-          titulo: `?? Tarifa en $0.00 para ${t.nombre}`,
-          detalle: `El trabajador <b>${t.nombre}</b> tiene una tarifa en cero (D�a: ${formatoDinero(full)} / Medio D�a: ${formatoDinero(half)}).`
+          titulo: `⚠️ Tarifa en $0.00 para ${t.nombre}`,
+          detalle: `El trabajador <b>${t.nombre}</b> tiene una tarifa en cero (Día: ${formatoDinero(full)} / Medio Día: ${formatoDinero(half)}).`
         });
       } else if (half >= full) {
         alertasEmp.push({
           id: `emp_tarifa_medio_${t.id}`,
           tipo: 'warning',
-          titulo: `?? Tarifa de Medio D�a no cuadra (${t.nombre})`,
-          detalle: `La tarifa de Medio D�a (${formatoDinero(half)}) es igual o mayor que la de D�a Completo (${formatoDinero(full)}).`
+          titulo: `⚠️ Tarifa de Medio Día no cuadra (${t.nombre})`,
+          detalle: `La tarifa de Medio Día (${formatoDinero(half)}) es igual o mayor que la de Día Completo (${formatoDinero(full)}).`
         });
       } else if (Math.abs(half - full / 2) > 2) {
         alertasEmp.push({
           id: `emp_tarifa_rev_${t.id}`,
           tipo: 'info',
-          titulo: `?? Revisi�n de Tarifa (${t.nombre})`,
-          detalle: `D�a Completo es <b>${formatoDinero(full)}</b> y Medio D�a es <b>${formatoDinero(half)}</b> (la mitad exacta ser�a ${formatoDinero(full / 2)}).`
+          titulo: `⚠️ Revisión de Tarifa (${t.nombre})`,
+          detalle: `Día Completo es <b>${formatoDinero(full)}</b> y Medio Día es <b>${formatoDinero(half)}</b> (la mitad exacta sería ${formatoDinero(full / 2)}).`
         });
       }
     });
 
-    // E) Planillas con horas anotadas pero que a�n no se han enviado con el bot�n de guardar
+    // E) Planillas con horas anotadas pero que aún no se han enviado con el botón de guardar
     let sinEnviar = 0;
     Object.values(estadoFinca.horarios).forEach(reg => {
       const trab = estadoFinca.trabajadores.find(t => t.id === reg.trabajadorId);
@@ -3336,20 +3336,20 @@ function renderizarAnomaliasEnCadaPestana() {
       alertasEmp.push({
         id: 'emp_sin_enviar',
         tipo: 'info',
-        titulo: `?? ${sinEnviar} Planilla(s) en Edici�n sin Enviar`,
-        detalle: `Hay <b>${sinEnviar} hoja(s) de horario</b> con turnos marcados que a�n dicen "En edici�n". Recuerda presionar <b>"? ENVIAR Y GUARDAR PLANILLA"</b> cuando termines la semana.`
+        titulo: `⚠️ ${sinEnviar} Planilla(s) en Edición sin Enviar`,
+        detalle: `Hay <b>${sinEnviar} hoja(s) de horario</b> con turnos marcados que aún dicen "En edición". Recuerda presionar <b>"✅ ENVIAR Y GUARDAR PLANILLA"</b> cuando termines la semana.`
       });
     }
 
     renderizarListaAnomaliasConReconocimiento(
       'anomaliasEmpleadosLista',
       alertasEmp,
-      'No se detectaron turnos duplicados, tarifas err�neas ni ca�das bruscas de horas entre semanas.'
+      'No se detectaron turnos duplicados, tarifas erróneas ni caídas bruscas de horas entre semanas.'
     );
   }
 
   // =========================================================================
-  // 2. ANOMAL�AS EN PESTA�A #2: GASTOS (TRABAJADORES, MATERIALES, TRANSPORTE, ETC.)
+  // 2. ANOMALÍAS EN PESTAÑA #2: GASTOS (TRABAJADORES, MATERIALES, TRANSPORTE, ETC.)
   // =========================================================================
   const ulAnomGas = document.getElementById('anomaliasGastosLista');
   if (ulAnomGas) {
@@ -3365,12 +3365,12 @@ function renderizarAnomaliasEnCadaPestana() {
       alertasGas.push({
         id: 'gas_sup_ventas',
         tipo: 'warning',
-        titulo: `?? Gastos Totales Superan a las Ventas (${formatoDinero(granTotalGastos)} vs ${formatoDinero(totalVentasDinero)})`,
-        detalle: `El total de gastos acumulados (N�mina: ${formatoDinero(totalNomina)} + Materiales/Otros: ${formatoDinero(totalOtrosGastos)}) es mayor que los ingresos por ventas de cacao seco. D�ficit actual: <b>${formatoDinero(totalVentasDinero - granTotalGastos)}</b>.`
+        titulo: `⚠️ Gastos Totales Superan a las Ventas (${formatoDinero(granTotalGastos)} vs ${formatoDinero(totalVentasDinero)})`,
+        detalle: `El total de gastos acumulados (Nómina: ${formatoDinero(totalNomina)} + Materiales/Otros: ${formatoDinero(totalOtrosGastos)}) es mayor que los ingresos por ventas de cacao seco. Déficit actual: <b>${formatoDinero(totalVentasDinero - granTotalGastos)}</b>.`
       });
     }
 
-    // B) Comparar gasto semanal para detectar semanas donde el gasto se dispar�
+    // B) Comparar gasto semanal para detectar semanas donde el gasto se disparó
     const gastosPorSemana = {};
     movimientosHorarios.forEach(m => {
       gastosPorSemana[m.semanaLunes] = (gastosPorSemana[m.semanaLunes] || 0) + m.costo;
@@ -3390,14 +3390,14 @@ function renderizarAnomaliasEnCadaPestana() {
           alertasGas.push({
             id: `gas_pico_${sem}`,
             tipo: 'warning',
-            titulo: `?? Pico Inusual de Gastos en la Semana ${formatearRangoSemanaNumerico(sem)} (+${pctExtra}%)`,
-            detalle: `En esa semana se gastaron <b>${formatoDinero(montoSem)}</b>, mientras que el gasto promedio por semana es de <b>${formatoDinero(promSemGas)}</b>. Revisa qu� compras o pagos extraordinarios ocurrieron.`
+            titulo: `⚠️ Pico Inusual de Gastos en la Semana ${formatearRangoSemanaNumerico(sem)} (+${pctExtra}%)`,
+            detalle: `En esa semana se gastaron <b>${formatoDinero(montoSem)}</b>, mientras que el gasto promedio por semana es de <b>${formatoDinero(promSemGas)}</b>. Revisa qué compras o pagos extraordinarios ocurrieron.`
           });
         }
       });
     }
 
-    // C) Detectar compras individuales fuera de lo com�n (m�s del doble del gasto promedio por compra)
+    // C) Detectar compras individuales fuera de lo común (más del doble del gasto promedio por compra)
     if (estadoFinca.gastos.length >= 2) {
       const promCompra = totalOtrosGastos / estadoFinca.gastos.length;
       estadoFinca.gastos.forEach(g => {
@@ -3406,8 +3406,8 @@ function renderizarAnomaliasEnCadaPestana() {
           alertasGas.push({
             id: `gas_alto_${g.id}`,
             tipo: 'warning',
-            titulo: `?? Gasto Individual Muy Alto: ${formatoDinero(m)} (${g.categoria})`,
-            detalle: `El <b>${formatearFechaCorta(g.fecha)}</b> en <b>${g.sector || 'Toda la Finca'}</b> se registr� <b>"${g.descripcion || g.concepto || g.categoria}"</b> por <b>${formatoDinero(m)}</b>, casi el doble del promedio por gasto (${formatoDinero(promCompra)}).`
+            titulo: `⚠️ Gasto Individual Muy Alto: ${formatoDinero(m)} (${g.categoria})`,
+            detalle: `El <b>${formatearFechaCorta(g.fecha)}</b> en <b>${g.sector || 'Toda la Finca'}</b> se registró <b>"${g.descripcion || g.concepto || g.categoria}"</b> por <b>${formatoDinero(m)}</b>, casi el doble del promedio por gasto (${formatoDinero(promCompra)}).`
           });
         }
       });
@@ -3428,8 +3428,8 @@ function renderizarAnomaliasEnCadaPestana() {
         alertasGas.push({
           id: `gas_sin_cos_${sec}`,
           tipo: 'info',
-          titulo: `?? Gastos en "${sec}" (${formatoDinero(gastoPorSector[sec])}) sin Cosecha Registrada`,
-          detalle: `Se han invertido <b>${formatoDinero(gastoPorSector[sec])}</b> en materiales/insumos para <b>${sec}</b>, pero ese sector a�n tiene <b>0.00 qq</b> de cosecha registrada.`
+          titulo: `⚠️ Gastos en "${sec}" (${formatoDinero(gastoPorSector[sec])}) sin Cosecha Registrada`,
+          detalle: `Se han invertido <b>${formatoDinero(gastoPorSector[sec])}</b> en materiales/insumos para <b>${sec}</b>, pero ese sector aún tiene <b>0.00 qq</b> de cosecha registrada.`
         });
       }
     });
@@ -3442,7 +3442,7 @@ function renderizarAnomaliasEnCadaPestana() {
   }
 
   // =========================================================================
-  // 3. ANOMAL�AS EN PESTA�A #3: ESTAD�STICAS DE COSECHA (CA�DAS DE PRODUCCI�N Y SECADO)
+  // 3. ANOMALÍAS EN PESTAÑA #3: ESTADÍSTICAS DE COSECHA (CAÍDAS DE PRODUCCIÓN Y SECADO)
   // =========================================================================
   const ulAnomCos = document.getElementById('anomaliasCosechaLista');
   if (ulAnomCos) {
@@ -3479,22 +3479,22 @@ function renderizarAnomaliasEnCadaPestana() {
           alertasCos.push({
             id: `cos_caida_${semAct}`,
             tipo: 'warning',
-            titulo: `?? Ca�da Brusca de Cosecha Entre Semanas (-${pctCaida}%)`,
-            detalle: `En la semana <b>${formatearRangoSemanaNumerico(semAnt)}</b> se cosecharon <b>${formatoPeso(fAnt)} (~${tonAnt} Toneladas)</b> en finca, pero en la semana siguiente <b>${formatearRangoSemanaNumerico(semAct)}</b> cay� a solo <b>${formatoPeso(fAct)} (~${tonAct} Toneladas)</b>. (Promedio habitual: ${promFincaSem.toFixed(2)} qq/semana). Revisa si falt� anotar alg�n sector o si hubo plaga/clima adverso.`
+            titulo: `📉 Caída Brusca de Cosecha Entre Semanas (-${pctCaida}%)`,
+            detalle: `En la semana <b>${formatearRangoSemanaNumerico(semAnt)}</b> se cosecharon <b>${formatoPeso(fAnt)} (~${tonAnt} Toneladas)</b> en finca, pero en la semana siguiente <b>${formatearRangoSemanaNumerico(semAct)}</b> cayó a solo <b>${formatoPeso(fAct)} (~${tonAct} Toneladas)</b>. (Promedio habitual: ${promFincaSem.toFixed(2)} qq/semana). Revisa si faltó anotar algún sector o si hubo plaga/clima adverso.`
           });
         } else if (fAnt > 0 && fAct > fAnt * 1.50) {
           const pctSubida = Math.round(((fAct - fAnt) / fAnt) * 100);
           alertasCos.push({
             id: `cos_subida_${semAct}`,
             tipo: 'info',
-            titulo: `?? Subida Fuerte de Cosecha Semanal (+${pctSubida}%)`,
-            detalle: `En la semana <b>${formatearRangoSemanaNumerico(semAct)}</b> la cosecha subi� a <b>${formatoPeso(fAct)}</b> frente a <b>${formatoPeso(fAnt)}</b> de la semana previa.`
+            titulo: `⚠️ Subida Fuerte de Cosecha Semanal (+${pctSubida}%)`,
+            detalle: `En la semana <b>${formatearRangoSemanaNumerico(semAct)}</b> la cosecha subió a <b>${formatoPeso(fAct)}</b> frente a <b>${formatoPeso(fAnt)}</b> de la semana previa.`
           });
         }
       }
     }
 
-    // B) Revisar cada registro de cosecha para detectar n�meros imposibles o mermas anormales en el secado
+    // B) Revisar cada registro de cosecha para detectar números imposibles o mermas anormales en el secado
     listaCosechas.forEach(c => {
       const fQQ = Number(c.totalFincaQQ || 0);
       const sQQ = Number(c.totalSecoQQ || 0);
@@ -3503,8 +3503,8 @@ function renderizarAnomaliasEnCadaPestana() {
         alertasCos.push({
           id: `cos_err_peso_${c.id}`,
           tipo: 'warning',
-          titulo: `? Error de Peso en "${c.sector}" (${formatearFechaCorta(c.fecha)}): Peso Seco Mayor que Peso en Finca`,
-          detalle: `El peso despu�s de secar (<b>${formatoPeso(sQQ)}</b>) es mayor que el peso cosechado en la finca (<b>${formatoPeso(fQQ)}</b>). Eso no es posible f�sicamente porque el cacao pierde agua al secarse. Corrige el peso en la tabla de abajo.`
+          titulo: `⚠️ Error de Peso en "${c.sector}" (${formatearFechaCorta(c.fecha)}): Peso Seco Mayor que Peso en Finca`,
+          detalle: `El peso después de secar (<b>${formatoPeso(sQQ)}</b>) es mayor que el peso cosechado en la finca (<b>${formatoPeso(fQQ)}</b>). Eso no es posible físicamente porque el cacao pierde agua al secarse. Corrige el peso en la tabla de abajo.`
         });
       } else if (sQQ > 0 && fQQ > 0) {
         const pctSeco = (sQQ / fQQ) * 100;
@@ -3512,21 +3512,21 @@ function renderizarAnomaliasEnCadaPestana() {
           alertasCos.push({
             id: `cos_perd_exc_${c.id}`,
             tipo: 'warning',
-            titulo: `?? P�rdida Excesiva al Secar en "${c.sector}" (${formatearFechaCorta(c.fecha)}): Solo rindi� ${pctSeco.toFixed(1)}%`,
-            detalle: `De <b>${formatoPeso(fQQ)}</b> en finca solo quedaron <b>${formatoPeso(sQQ)}</b> secos (lo normal es entre 33% y 48%). Se perdi� demasiado peso; revisa si hubo cacao da�ado, p�rdida en tendal o error al anotar.`
+            titulo: `⚠️ Pérdida Excesiva al Secar en "${c.sector}" (${formatearFechaCorta(c.fecha)}): Solo rindió ${pctSeco.toFixed(1)}%`,
+            detalle: `De <b>${formatoPeso(fQQ)}</b> en finca solo quedaron <b>${formatoPeso(sQQ)}</b> secos (lo normal es entre 33% y 48%). Se perdió demasiado peso; revisa si hubo cacao dañado, pérdida en tendal o error al anotar.`
           });
         } else if (pctSeco > 68) {
           alertasCos.push({
             id: `cos_rend_alto_${c.id}`,
             tipo: 'warning',
-            titulo: `?? Rendimiento de Secado Inusualmente Alto en "${c.sector}" (${formatearFechaCorta(c.fecha)}): ${pctSeco.toFixed(1)}%`,
-            detalle: `De <b>${formatoPeso(fQQ)}</b> en finca se anotaron <b>${formatoPeso(sQQ)}</b> secos (${pctSeco.toFixed(1)}%). Verifica si el cacao a�n estaba h�medo al pesarlo o si el peso en finca fue mayor.`
+            titulo: `⚠️ Rendimiento de Secado Inusualmente Alto en "${c.sector}" (${formatearFechaCorta(c.fecha)}): ${pctSeco.toFixed(1)}%`,
+            detalle: `De <b>${formatoPeso(fQQ)}</b> en finca se anotaron <b>${formatoPeso(sQQ)}</b> secos (${pctSeco.toFixed(1)}%). Verifica si el cacao aún estaba húmedo al pesarlo o si el peso en finca fue mayor.`
           });
         }
       }
     });
 
-    // C) Comparar producci�n entre sectores para avisar si un lote est� rindiendo muy por debajo del promedio
+    // C) Comparar producción entre sectores para avisar si un lote está rindiendo muy por debajo del promedio
     const fincaPorSector = {};
     SECTORES.forEach(s => { fincaPorSector[s] = 0; });
     listaCosechas.forEach(c => {
@@ -3543,15 +3543,15 @@ function renderizarAnomaliasEnCadaPestana() {
           alertasCos.push({
             id: `cos_cero_${sec}`,
             tipo: 'warning',
-            titulo: `?? Sector "${sec}" Tiene 0.00 qq de Cosecha Registrada`,
-            detalle: `Mientras que el promedio por lote es de <b>${formatoPeso(promPorSector)}</b>, en <b>${sec}</b> no se ha registrado ninguna cosecha todav�a.`
+            titulo: `⚠️ Sector "${sec}" Tiene 0.00 qq de Cosecha Registrada`,
+            detalle: `Mientras que el promedio por lote es de <b>${formatoPeso(promPorSector)}</b>, en <b>${sec}</b> no se ha registrado ninguna cosecha todavía.`
           });
         } else if (val < promPorSector * 0.55) {
           const pctBajo = Math.round(((promPorSector - val) / promPorSector) * 100);
           alertasCos.push({
             id: `cos_baja_${sec}`,
             tipo: 'warning',
-            titulo: `?? Baja Producci�n en Sector "${sec}" (-${pctBajo}% debajo del promedio)`,
+            titulo: `⚠️ Baja Producción en Sector "${sec}" (-${pctBajo}% debajo del promedio)`,
             detalle: `El sector <b>${sec}</b> solo ha cosechado <b>${formatoPeso(val)}</b> en finca, muy por debajo del promedio de los lotes (<b>${formatoPeso(promPorSector)}</b>).`
           });
         }
@@ -3565,20 +3565,20 @@ function renderizarAnomaliasEnCadaPestana() {
       alertasCos.push({
         id: 'cos_pend_secado',
         tipo: 'info',
-        titulo: `? ${pendientesSecado.length} Cosecha(s) Pendiente(s) de Anotar Peso Seco`,
-        detalle: `Hay <b>${formatoPeso(qqPendientesFinca)}</b> cosechados en finca que a�n tienen el Peso Seco en <b>0.00 qq</b>. Cuando terminen de secarse en el tendal, ed�talos en la tabla de abajo.`
+        titulo: `⏳ ${pendientesSecado.length} Cosecha(s) Pendiente(s) de Anotar Peso Seco`,
+        detalle: `Hay <b>${formatoPeso(qqPendientesFinca)}</b> cosechados en finca que aún tienen el Peso Seco en <b>0.00 qq</b>. Cuando terminen de secarse en el tendal, edítalos en la tabla de abajo.`
       });
     }
 
     renderizarListaAnomaliasConReconocimiento(
       'anomaliasCosechaLista',
       alertasCos,
-      'Los pesos en finca, pesos secos y rendimientos por sector cuadran correctamente sin ca�das anormales.'
+      'Los pesos en finca, pesos secos y rendimientos por sector cuadran correctamente sin caídas anormales.'
     );
   }
 
   // =========================================================================
-  // 4. ANOMAL�AS EN PESTA�A #4: VENTAS DE CACAO SECO vs. COSECHA SECA
+  // 4. ANOMALÍAS EN PESTAÑA #4: VENTAS DE CACAO SECO vs. COSECHA SECA
   // =========================================================================
   const ulAnomVen = document.getElementById('anomaliasVentasLista');
   if (ulAnomVen) {
@@ -3596,16 +3596,16 @@ function renderizarAnomaliasEnCadaPestana() {
       alertasVen.push({
         id: 'ven_supera_cosecha',
         tipo: 'warning',
-        titulo: `?? Ventas Superan al Cacao Seco Cosechado (+${formatoPeso(excesoQQ)} de diferencia)`,
-        detalle: `En Ventas figuran <b>${formatoPeso(totalVentasQQ)}</b> vendidos, pero en Estad�sticas de Cosecha solo hay <b>${formatoPeso(totalCosechaSecoQQ)}</b> de cacao seco registrado. Falta anotar peso seco en la Pesta�a #3 o se duplic� una venta.`
+        titulo: `⚠️ Ventas Superan al Cacao Seco Cosechado (+${formatoPeso(excesoQQ)} de diferencia)`,
+        detalle: `En Ventas figuran <b>${formatoPeso(totalVentasQQ)}</b> vendidos, pero en Estadísticas de Cosecha solo hay <b>${formatoPeso(totalCosechaSecoQQ)}</b> de cacao seco registrado. Falta anotar peso seco en la Pestaña #3 o se duplicó una venta.`
       });
     } else if (totalCosechaSecoQQ > totalVentasQQ + 0.05) {
       const sobranteQQ = totalCosechaSecoQQ - totalVentasQQ;
       alertasVen.push({
         id: 'ven_sobrante_bodega',
         tipo: 'info',
-        titulo: `?? Cacao Seco en Bodega Sin Vender: ${formatoPeso(sobranteQQ)}`,
-        detalle: `Se han cosechado y secado <b>${formatoPeso(totalCosechaSecoQQ)}</b> en la Pesta�a #3, y hasta ahora se han vendido <b>${formatoPeso(totalVentasQQ)}</b>. Quedan <b>${formatoPeso(sobranteQQ)}</b> disponibles o pendientes de registrar en ventas.`
+        titulo: `📦 Cacao Seco en Bodega Sin Vender: ${formatoPeso(sobranteQQ)}`,
+        detalle: `Se han cosechado y secado <b>${formatoPeso(totalCosechaSecoQQ)}</b> en la Pestaña #3, y hasta ahora se han vendido <b>${formatoPeso(totalVentasQQ)}</b>. Quedan <b>${formatoPeso(sobranteQQ)}</b> disponibles o pendientes de registrar en ventas.`
       });
     }
 
@@ -3623,8 +3623,8 @@ function renderizarAnomaliasEnCadaPestana() {
         alertasVen.push({
           id: `ven_descuadre_${sec}`,
           tipo: 'warning',
-          titulo: `?? Descuadre en Sector "${sec}": Se vendi� m�s de lo cosechado (+${formatoPeso(dif)})`,
-          detalle: `Del sector <b>${sec}</b> aparecen vendidos <b>${formatoPeso(secoVenSec)}</b> de cacao seco, pero en la Pesta�a #3 ese lote solo tiene <b>${formatoPeso(secoCosSec)}</b> secos registrados.`
+          titulo: `⚠️ Descuadre en Sector "${sec}": Se vendió más de lo cosechado (+${formatoPeso(dif)})`,
+          detalle: `Del sector <b>${sec}</b> aparecen vendidos <b>${formatoPeso(secoVenSec)}</b> de cacao seco, pero en la Pestaña #3 ese lote solo tiene <b>${formatoPeso(secoCosSec)}</b> secos registrados.`
         });
       }
     });
@@ -3639,22 +3639,22 @@ function renderizarAnomaliasEnCadaPestana() {
           alertasVen.push({
             id: `ven_precio_bajo_${v.id}`,
             tipo: 'warning',
-            titulo: `?? Precio de Venta Bajo el Promedio (${formatoDinero(p)}/qq el ${formatearFechaCorta(v.fecha)})`,
-            detalle: `La venta de <b>${formatoPeso(v.totalQuintales)}</b> a <b>${v.comprador || 'Comprador'}</b> se registr� a <b>${formatoDinero(p)}/qq</b>, que es un <b>${pctBajo}% menor</b> al precio promedio de la finca (${formatoDinero(precioProm)}/qq).`
+            titulo: `⚠️ Precio de Venta Bajo el Promedio (${formatoDinero(p)}/qq el ${formatearFechaCorta(v.fecha)})`,
+            detalle: `La venta de <b>${formatoPeso(v.totalQuintales)}</b> a <b>${v.comprador || 'Comprador'}</b> se registró a <b>${formatoDinero(p)}/qq</b>, que es un <b>${pctBajo}% menor</b> al precio promedio de la finca (${formatoDinero(precioProm)}/qq).`
           });
         } else if (p > precioProm * 1.25) {
           const pctAlto = Math.round(((p - precioProm) / precioProm) * 100);
           alertasVen.push({
             id: `ven_precio_alto_${v.id}`,
             tipo: 'info',
-            titulo: `?? Precio de Venta Superior al Promedio (${formatoDinero(p)}/qq el ${formatearFechaCorta(v.fecha)})`,
+            titulo: `📈 Precio de Venta Superior al Promedio (${formatoDinero(p)}/qq el ${formatearFechaCorta(v.fecha)})`,
             detalle: `Venta registrada un <b>+${pctAlto}%</b> por encima del promedio habitual (${formatoDinero(precioProm)}/qq).`
           });
         }
       });
     }
 
-    // D) Comparar ventas semana a semana para detectar ca�das bruscas de ingresos
+    // D) Comparar ventas semana a semana para detectar caídas bruscas de ingresos
     const ventasPorSem = {};
     listaVentas.forEach(v => {
       const lun = obtenerLunesDeFecha(v.fecha);
@@ -3674,8 +3674,8 @@ function renderizarAnomaliasEnCadaPestana() {
           alertasVen.push({
             id: `ven_caida_${sAct}`,
             tipo: 'warning',
-            titulo: `?? Ca�da de Ventas Semanales (-${pctCaida}%)`,
-            detalle: `En la semana <b>${formatearRangoSemanaNumerico(sAnt)}</b> se vendieron <b>${formatoPeso(qAnt)} (${formatoDinero(ventasPorSem[sAnt].dinero)})</b>, pero en la semana <b>${formatearRangoSemanaNumerico(sAct)}</b> baj� a <b>${formatoPeso(qAct)} (${formatoDinero(ventasPorSem[sAct].dinero)})</b>.`
+            titulo: `📉 Caída de Ventas Semanales (-${pctCaida}%)`,
+            detalle: `En la semana <b>${formatearRangoSemanaNumerico(sAnt)}</b> se vendieron <b>${formatoPeso(qAnt)} (${formatoDinero(ventasPorSem[sAnt].dinero)})</b>, pero en la semana <b>${formatearRangoSemanaNumerico(sAct)}</b> bajó a <b>${formatoPeso(qAct)} (${formatoDinero(ventasPorSem[sAct].dinero)})</b>.`
           });
         }
       }
@@ -3684,12 +3684,12 @@ function renderizarAnomaliasEnCadaPestana() {
     renderizarListaAnomaliasConReconocimiento(
       'anomaliasVentasLista',
       alertasVen,
-      'El peso de cacao seco vendido coincide con la cosecha seca y los precios est�n dentro del rango normal.'
+      'El peso de cacao seco vendido coincide con la cosecha seca y los precios están dentro del rango normal.'
     );
   }
 
   // =========================================================================
-  // 5. ANOMAL�AS EN PESTA�A #5: BALANCE POR SECTOR (COSTOS, INGRESOS Y GANANCIAS)
+  // 5. ANOMALÍAS EN PESTAÑA #5: BALANCE POR SECTOR (COSTOS, INGRESOS Y GANANCIAS)
   // =========================================================================
   const ulAnomSec = document.getElementById('anomaliasSectoresLista');
   if (ulAnomSec) {
@@ -3700,23 +3700,23 @@ function renderizarAnomaliasEnCadaPestana() {
       const st = infoSectores[sec];
       if (!st) return;
 
-      // A) Sector con balance negativo (p�rdidas)
+      // A) Sector con balance negativo (pérdidas)
       if (st.ganancia < 0) {
         alertasSec.push({
           id: `sec_perdida_${sec}`,
           tipo: 'warning',
-          titulo: `?? Sector "${sec}" est� Operando a P�rdida (${formatoDinero(st.ganancia)})`,
-          detalle: `En <b>${sec}</b> los costos totales (${formatoDinero(st.costoTotal)}: Mano de obra ${formatoDinero(st.costoManoObra)} + Insumos ${formatoDinero(st.costoInsumos)}) superan a las ventas de cacao seco (${formatoDinero(st.ingresosVentas)}). Hay un d�ficit de <b>${formatoDinero(Math.abs(st.ganancia))}</b>.`
+          titulo: `⚠️ Sector "${sec}" está Operando a Pérdida (${formatoDinero(st.ganancia)})`,
+          detalle: `En <b>${sec}</b> los costos totales (${formatoDinero(st.costoTotal)}: Mano de obra ${formatoDinero(st.costoManoObra)} + Insumos ${formatoDinero(st.costoInsumos)}) superan a las ventas de cacao seco (${formatoDinero(st.ingresosVentas)}). Hay un déficit de <b>${formatoDinero(Math.abs(st.ganancia))}</b>.`
         });
       }
 
-      // B) Sector con muchos d�as de trabajo pero sin ventas ni cosecha
+      // B) Sector con muchos días de trabajo pero sin ventas ni cosecha
       if (st.diasEquivalentes >= 2 && st.cacaoSecoVendidoQQ === 0 && st.cacaoSecoCosechadoQQ === 0) {
         alertasSec.push({
           id: `sec_trab_sin_prod_${sec}`,
           tipo: 'warning',
-          titulo: `?? Mucho Trabajo sin Producci�n en "${sec}" (${st.diasEquivalentes} d�as trabajados)`,
-          detalle: `Se han invertido <b>${st.diasEquivalentes} d�as de trabajo (${formatoDinero(st.costoManoObra)})</b> en <b>${sec}</b>, pero tiene <b>0.00 qq cosechados</b> y <b>$0.00 en ventas</b>.`
+          titulo: `⚠️ Mucho Trabajo sin Producción en "${sec}" (${st.diasEquivalentes} días trabajados)`,
+          detalle: `Se han invertido <b>${st.diasEquivalentes} días de trabajo (${formatoDinero(st.costoManoObra)})</b> en <b>${sec}</b>, pero tiene <b>0.00 qq cosechados</b> y <b>$0.00 en ventas</b>.`
         });
       }
 
@@ -3725,18 +3725,18 @@ function renderizarAnomaliasEnCadaPestana() {
         alertasSec.push({
           id: `sec_listo_sin_ven_${sec}`,
           tipo: 'info',
-          titulo: `?? Cacao Seco Listo Sin Vender en "${sec}" (${formatoPeso(st.cacaoSecoCosechadoQQ)})`,
-          detalle: `El sector <b>${sec}</b> tiene <b>${formatoPeso(st.cacaoSecoCosechadoQQ)}</b> de cacao seco cosechado listo para generar ingresos, pero a�n no se ha registrado ninguna venta para este lote.`
+          titulo: `📦 Cacao Seco Listo Sin Vender en "${sec}" (${formatoPeso(st.cacaoSecoCosechadoQQ)})`,
+          detalle: `El sector <b>${sec}</b> tiene <b>${formatoPeso(st.cacaoSecoCosechadoQQ)}</b> de cacao seco cosechado listo para generar ingresos, pero aún no se ha registrado ninguna venta para este lote.`
         });
       }
 
-      // D) Costos de mano de obra representan m�s del 80% de los ingresos
+      // D) Costos de mano de obra representan más del 80% de los ingresos
       if (st.ingresosVentas > 0 && st.costoManoObra > st.ingresosVentas * 0.8) {
         const pctMano = Math.round((st.costoManoObra / st.ingresosVentas) * 100);
         alertasSec.push({
           id: `sec_costo_mano_${sec}`,
           tipo: 'warning',
-          titulo: `?? Alto Costo de Mano de Obra en "${sec}" (${pctMano}% de las ventas)`,
+          titulo: `⚠️ Alto Costo de Mano de Obra en "${sec}" (${pctMano}% de las ventas)`,
           detalle: `De <b>${formatoDinero(st.ingresosVentas)}</b> vendidos en <b>${sec}</b>, <b>${formatoDinero(st.costoManoObra)}</b> se fueron en pago a trabajadores, dejando poco margen libre.`
         });
       }
@@ -3745,13 +3745,13 @@ function renderizarAnomaliasEnCadaPestana() {
     renderizarListaAnomaliasConReconocimiento(
       'anomaliasSectoresLista',
       alertasSec,
-      'Todos los lotes (El Guineo, La Fortuna, El Guabo 1, Guabo 2) presentan balances positivos o dentro de rangos normales de operaci�n.'
+      'Todos los lotes (El Guineo, La Fortuna, El Guabo 1, Guabo 2) presentan balances positivos o dentro de rangos normales de operación.'
     );
   }
 }
 
 // ============================================================================
-// PESTA�A #5 (VERDE CLARO): BALANCE POR SECTOR (COSTOS, INGRESOS Y GANANCIAS)
+// PESTAÑA #5 (VERDE CLARO): BALANCE POR SECTOR (COSTOS, INGRESOS Y GANANCIAS)
 // ============================================================================
 
 let modoReporteSectorActual = 'HISTORIAL'; // 'HISTORIAL' | 'DIARIO' | 'SEMANAL' | 'MENSUAL' | 'ANUAL'
@@ -3877,7 +3877,7 @@ function calcularEstadisticasDetalladasPorSector(filtroFechaFn) {
       const monto = Number(g.monto || 0);
       const sec = g.sector || 'Toda la Finca';
       if (sec === 'Toda la Finca' || !info[sec]) {
-        // Gasto general para Toda la Finca: se reparte proporcionalmente a cada sector seg�n su % de tama�o (acres)
+        // Gasto general para Toda la Finca: se reparte proporcionalmente a cada sector según su % de tamaño (acres)
         sectoresObj.forEach(s => {
           const cuota = monto * (s.porcentaje / 100);
           info[s.nombre].costoInsumosCompartido += cuota;
@@ -3929,15 +3929,15 @@ function renderizarBalanceSectores() {
   const tituloEl = document.getElementById('tituloPeriodoBalanceSector');
   if (tituloEl) {
     if (modoReporteSectorActual === 'HISTORIAL') {
-      tituloEl.textContent = '?? Resumen de Ingresos, Costos y Ganancias por Sector (Todo el Historial)';
+      tituloEl.textContent = '📊 Resumen de Ingresos, Costos y Ganancias por Sector (Todo el Historial)';
     } else if (modoReporteSectorActual === 'DIARIO') {
-      tituloEl.textContent = `?? Resumen por Sector � D�a: ${diaFiltro ? formatearFechaCorta(diaFiltro) : 'Todos los d�as'}`;
+      tituloEl.textContent = `🌱 Resumen por Sector • Día: ${diaFiltro ? formatearFechaCorta(diaFiltro) : 'Todos los días'}`;
     } else if (modoReporteSectorActual === 'SEMANAL') {
-      tituloEl.textContent = `?? Resumen por Sector � Semana / Mes (${mesFiltro !== 'TODOS' ? mesFiltro + '/' : ''}${anioFiltro})`;
+      tituloEl.textContent = `🌱 Resumen por Sector • Semana / Mes (${mesFiltro !== 'TODOS' ? mesFiltro + '/' : ''}${anioFiltro})`;
     } else if (modoReporteSectorActual === 'MENSUAL') {
-      tituloEl.textContent = `??? Resumen por Sector � Mes ${mesFiltro} de ${anioFiltro}`;
+      tituloEl.textContent = `🌱 Resumen por Sector • Mes ${mesFiltro} de ${anioFiltro}`;
     } else if (modoReporteSectorActual === 'ANUAL') {
-      tituloEl.textContent = `?? Resumen por Sector � A�o ${anioFiltro}`;
+      tituloEl.textContent = `🌱 Resumen por Sector • Año ${anioFiltro}`;
     }
   }
 
@@ -3963,15 +3963,15 @@ function renderizarBalanceSectores() {
       div.style.boxShadow = '0 6px 16px rgba(0,0,0,0.06)';
 
       const textoInsumos = st.costoInsumosCompartido > 0
-        ? `<span>?? Insumos / Gastos Lote (${formatoDinero(st.costoInsumosDirecto)} directo + ${formatoDinero(st.costoInsumosCompartido)} compartido):</span>`
-        : `<span>?? Insumos / Gastos Lote:</span>`;
+        ? `<span>🌱 Insumos / Gastos Lote (${formatoDinero(st.costoInsumosDirecto)} directo + ${formatoDinero(st.costoInsumosCompartido)} compartido):</span>`
+        : `<span>🌱 Insumos / Gastos Lote:</span>`;
 
       div.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid ${borderCard}; padding-bottom:12px; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
           <div>
-            <h3 style="margin:0; font-size:25px; color:#14532d; font-weight:900;">?? ${sec}</h3>
+            <h3 style="margin:0; font-size:25px; color:#14532d; font-weight:900;">🌱 ${sec}</h3>
             <span style="font-size:16px; font-weight:800; color:#1e40af; background:#dbeafe; padding:2px 8px; border-radius:6px; border:1px solid #93c5fd; display:inline-block; margin-top:4px;">
-              ?? ${st.acres} acres � ${st.porcentaje ? st.porcentaje.toFixed(1) : 0}% de la finca
+              🌱 ${st.acres} acres • ${st.porcentaje ? st.porcentaje.toFixed(1) : 0}% de la finca
             </span>
           </div>
           <span style="font-size:16px; font-weight:800; background:#fff; padding:4px 10px; border-radius:6px; border:1px solid ${borderCard}; color:${colorGanancia};">
@@ -3981,17 +3981,17 @@ function renderizarBalanceSectores() {
 
         <div style="display:flex; flex-direction:column; gap:10px; font-size:19px;">
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="color:#4b5563;">?? Cacao Seco Vendido:</span>
+            <span style="color:#4b5563;">☀️ Cacao Seco Vendido:</span>
             <b style="color:#14532d;">${formatoPeso(st.cacaoSecoVendidoQQ)}</b>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span style="color:#4b5563;">?? Ingresos por Ventas:</span>
+            <span style="color:#4b5563;">💰 Ingresos por Ventas:</span>
             <b style="color:#15803d; font-size:22px;">${formatoDinero(st.ingresosVentas)}</b>
           </div>
 
           <div style="border-top:1px dashed #cbd5e1; padding-top:8px; margin-top:2px;">
             <div style="display:flex; justify-content:space-between; align-items:center; font-size:17px; color:#6b7280;">
-              <span>?? Mano de Obra (${st.diasEquivalentes} d�as):</span>
+              <span>👷 Mano de Obra (${st.diasEquivalentes} días):</span>
               <span style="font-weight:700; color:#b45309;">${formatoDinero(st.costoManoObra)}</span>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; font-size:16px; color:#6b7280; margin-top:4px;">
@@ -4001,12 +4001,12 @@ function renderizarBalanceSectores() {
           </div>
 
           <div style="display:flex; justify-content:space-between; align-items:center; font-weight:800; border-top:1px solid #cbd5e1; padding-top:8px;">
-            <span style="color:#991b1b;">?? Costo Total del Sector:</span>
+            <span style="color:#991b1b;">💸 Costo Total del Sector:</span>
             <span style="color:#991b1b; font-size:21px;">${formatoDinero(st.costoTotal)}</span>
           </div>
 
           <div style="display:flex; justify-content:space-between; align-items:center; background:#ffffff; border:2px solid ${borderCard}; padding:10px 14px; border-radius:10px; margin-top:6px;">
-            <span style="font-weight:900; color:#1f2937; font-size:20px;">?? Ganancia Neta:</span>
+            <span style="font-weight:900; color:#1f2937; font-size:20px;">💵 Ganancia Neta:</span>
             <span style="font-weight:900; font-size:26px; color:${colorGanancia};">${formatoDinero(st.ganancia)}</span>
           </div>
         </div>
@@ -4048,7 +4048,7 @@ function renderizarBalanceSectores() {
         : '';
 
       tr.innerHTML = `
-        <td><b style="font-size:22px;">?? ${sec}</b></td>
+        <td><b style="font-size:22px;">🌱 ${sec}</b></td>
         <td style="color:#1e40af; font-weight:800; font-size:19px;">${st.acres} acres <span style="font-size:15px; color:#475569;">(${st.porcentaje ? st.porcentaje.toFixed(1) : 0}%)</span></td>
         <td style="color:#15803d; font-weight:800;">${formatoPeso(st.cacaoSecoCosechadoQQ)}</td>
         <td style="color:#14532d; font-weight:800;">${formatoPeso(st.cacaoSecoVendidoQQ)}</td>
@@ -4118,7 +4118,7 @@ function renderizarDetalleMovimientosSector() {
         fecha: m.fecha,
         sector: m.sector,
         tipo: 'Mano de Obra (Trabajador)',
-        concepto: `${trab ? trab.nombre : 'Trabajador'} (${m.diasEq} d�a / ${m.horas} hrs)`,
+        concepto: `${trab ? trab.nombre : 'Trabajador'} (${m.diasEq} día / ${m.horas} hrs)`,
         pesoSeco: 0,
         monto: m.costo,
         esIngreso: false,
@@ -4137,7 +4137,7 @@ function renderizarDetalleMovimientosSector() {
         fecha: g.fecha,
         sector: secG,
         tipo: g.categoria || 'Gasto',
-        concepto: secG === 'Toda la Finca' ? `${g.descripcion || g.concepto || g.categoria} (Compartido entre todos los sectores seg�n acres)` : (g.descripcion || g.concepto || g.categoria),
+        concepto: secG === 'Toda la Finca' ? `${g.descripcion || g.concepto || g.categoria} (Compartido entre todos los sectores según acres)` : (g.descripcion || g.concepto || g.categoria),
         pesoSeco: 0,
         monto: Number(g.monto || 0),
         esIngreso: false,
@@ -4159,7 +4159,7 @@ function renderizarDetalleMovimientosSector() {
         });
       }
     } else {
-      // Sector espec�fico seleccionado
+      // Sector específico seleccionado
       if (secG === sectorFiltro) {
         todosMovimientos.push({
           fecha: g.fecha,
@@ -4182,7 +4182,7 @@ function renderizarDetalleMovimientosSector() {
             fecha: g.fecha,
             sector: `${sectorFiltro} (Cuota Finca)`,
             tipo: `${g.categoria || 'Gasto'} (${pct.toFixed(1)}%)`,
-            concepto: `${g.descripcion || g.concepto || g.categoria} [Gasto Toda la Finca: ${formatoDinero(g.monto)} � Cuota ${pct.toFixed(1)}%]`,
+            concepto: `${g.descripcion || g.concepto || g.categoria} [Gasto Toda la Finca: ${formatoDinero(g.monto)} • [Gasto Toda la Finca: ${formatoDinero(g.monto)} • Cuota ${pct.toFixed(1)}%]`,
             pesoSeco: 0,
             monto: cuota,
             esIngreso: false,
@@ -4223,7 +4223,7 @@ function renderizarDetalleMovimientosSector() {
       tbodyActual.innerHTML = `
         <tr>
           <td colspan="8" style="text-align:center; padding:22px; color:#666; font-size:18px;">
-            ?? No hay movimientos de ventas ni costos registrados en la semana actual (${formatearFechaCorta(lunesSemanaActual)} al ${formatearFechaCorta(domingoSemanaActual)}).
+            ℹ️ No hay movimientos de ventas ni costos registrados en la semana actual (${formatearFechaCorta(lunesSemanaActual)} al ${formatearFechaCorta(domingoSemanaActual)}).
           </td>
         </tr>
       `;
@@ -4242,7 +4242,7 @@ function renderizarDetalleMovimientosSector() {
       tbodyAnteriores.innerHTML = `
         <tr>
           <td colspan="8" style="text-align:center; padding:22px; color:#666; font-size:18px;">
-            ?? No hay movimientos registrados en semanas anteriores.
+            ℹ️ No hay movimientos registrados en semanas anteriores.
           </td>
         </tr>
       `;
@@ -4253,18 +4253,18 @@ function renderizarDetalleMovimientosSector() {
     }
   }
 
-  // Actualizar textos del bot�n y banner de expansi�n
+  // Actualizar textos del botón y banner de expansión
   const btnToggle = document.getElementById('btnToggleHistorialSector');
   const titResumen = document.getElementById('tituloResumenHistorialSector');
   if (btnToggle) {
     btnToggle.textContent = historialSectorExpandido
-      ? `? Ocultar Resto del Historial (${movsAnteriores.length} registros)`
-      : `? Expandir Resto del Historial (${movsAnteriores.length} registros)`;
+      ? `➖ Ocultar Resto del Historial (${movsAnteriores.length} registros)`
+      : `➕ Expandir Resto del Historial (${movsAnteriores.length} registros)`;
   }
   if (titResumen) {
     titResumen.textContent = historialSectorExpandido
-      ? `?? Resto del Historial / Semanas Anteriores (${movsAnteriores.length} registros - Visible)`
-      : `?? Resto del Historial / Semanas Anteriores (${movsAnteriores.length} registros - Oculto)`;
+      ? `📂 Resto del Historial / Semanas Anteriores (${movsAnteriores.length} registros - Visible)`
+      : `📂 Resto del Historial / Semanas Anteriores (${movsAnteriores.length} registros - Oculto)`;
   }
 }
 
@@ -4274,11 +4274,11 @@ function crearFilaMovimientoDetalleSector(m) {
 
   let botonAccion = '';
   if (m.origenTipo === 'venta') {
-    botonAccion = `<button class="btn btn-danger" style="padding:6px 12px; font-size:16px;" onclick="eliminarVenta('${m.origenId}')">??? Borrar</button>`;
+    botonAccion = `<button class="btn btn-danger" style="padding:6px 12px; font-size:16px;" onclick="eliminarVenta('${m.origenId}')">🗑️ Borrar</button>`;
   } else if (m.origenTipo === 'gasto') {
-    botonAccion = `<button class="btn btn-danger" style="padding:6px 12px; font-size:16px;" onclick="eliminarOtroGasto('${m.origenId}')">??? Borrar</button>`;
+    botonAccion = `<button class="btn btn-danger" style="padding:6px 12px; font-size:16px;" onclick="eliminarOtroGasto('${m.origenId}')">🗑️ Borrar</button>`;
   } else if (m.origenTipo === 'horario') {
-    botonAccion = `<button class="btn btn-danger" style="padding:6px 12px; font-size:16px;" onclick="solicitarEliminarPlanilla('${m.semanaLunes}', '${m.trabajadorId}')">??? Borrar</button>`;
+    botonAccion = `<button class="btn btn-danger" style="padding:6px 12px; font-size:16px;" onclick="solicitarEliminarPlanilla('${m.semanaLunes}', '${m.trabajadorId}')">🗑️ Borrar</button>`;
   }
 
   const tr = document.createElement('tr');
@@ -4287,7 +4287,7 @@ function crearFilaMovimientoDetalleSector(m) {
     <td><b>${m.sector}</b></td>
     <td><span style="font-weight:700; color:${m.esIngreso ? '#15803d' : '#9a3412'};">${m.tipo}</span></td>
     <td>${m.concepto}</td>
-    <td>${m.pesoSeco > 0 ? formatoPeso(m.pesoSeco) : '�'}</td>
+    <td>${m.pesoSeco > 0 ? formatoPeso(m.pesoSeco) : '—'}</td>
     <td style="font-weight:800;">${formatoDinero(m.monto)}</td>
     <td style="color:${colorImpacto}; font-weight:900; font-size:20px;">${signo}${formatoDinero(m.monto)}</td>
     <td>${botonAccion}</td>
@@ -4319,17 +4319,17 @@ function renderizarPrediccionesSectores() {
   });
 
   ulPatronesSec.innerHTML = `
-    <li class="pattern-item">?? <b>Sector M�s Rentable:</b><br/><b>${secMasRentable}</b> lidera las ganancias netas de la finca con <b>${formatoDinero(maxGanancia)}</b> libres (${infoTotal[secMasRentable].margenPct.toFixed(1)}% margen).</li>
-    <li class="pattern-item">?? <b>Sector con Mayor Inversi�n / Costo:</b><br/><b>${secMayorCosto}</b> tiene el costo acumulado m�s alto (<b>${formatoDinero(maxCosto)}</b> en mano de obra e insumos).</li>
-    <li class="pattern-item">?? <b>Eficiencia Laboral por Lote:</b><br/>En <b>${secMasRentable}</b> cada d�a de trabajo ha generado <b>${infoTotal[secMasRentable].diasEquivalentes > 0 ? formatoDinero(infoTotal[secMasRentable].ingresosVentas / infoTotal[secMasRentable].diasEquivalentes) : '$0.00'}</b> en ventas de cacao seco.</li>
+    <li class="pattern-item">🏆 <b>Sector Más Rentable:</b><br/><b>${secMasRentable}</b> lidera las ganancias netas de la finca con <b>${formatoDinero(maxGanancia)}</b> libres (${infoTotal[secMasRentable].margenPct.toFixed(1)}% margen).</li>
+    <li class="pattern-item">💸 <b>Sector con Mayor Inversión / Costo:</b><br/><b>${secMayorCosto}</b> tiene el costo acumulado más alto (<b>${formatoDinero(maxCosto)}</b> en mano de obra e insumos).</li>
+    <li class="pattern-item">⚡ <b>Eficiencia Laboral por Lote:</b><br/>En <b>${secMasRentable}</b> cada día de trabajo ha generado <b>${infoTotal[secMasRentable].diasEquivalentes > 0 ? formatoDinero(infoTotal[secMasRentable].ingresosVentas / infoTotal[secMasRentable].diasEquivalentes) : '$0.00'}</b> en ventas de cacao seco.</li>
   `;
 
   const horizontes = [
-    { titulo: '?? Por D�a', factor: 1 / 6 },
-    { titulo: '?? Pr�xima Semana', factor: 1 },
-    { titulo: '??? Pr�ximo Mes', factor: 52 / 12 },
-    { titulo: '?? Pr�ximo A�o', factor: 52 },
-    { titulo: '?? Pr�ximos 5 A�os', factor: 52 * 5 }
+    { titulo: '📅 Por Día', factor: 1 / 6 },
+    { titulo: '📆 Próxima Semana', factor: 1 },
+    { titulo: '🗓️ Próximo Mes', factor: 52 / 12 },
+    { titulo: '📆 Próximo Año', factor: 52 },
+    { titulo: '🏆 Próximos 5 Años', factor: 52 * 5 }
   ];
 
   // Estimar ganancia semanal por sector
@@ -4346,7 +4346,7 @@ function renderizarPrediccionesSectores() {
         const color = ganSec >= 0 ? '#14532d' : '#991b1b';
         return `
           <div class="pred-row">
-            <span>?? ${sec}:</span>
+            <span>🌱 ${sec}:</span>
             <b style="color:${color};">${formatoDinero(ganSec)}</b>
           </div>
         `;
@@ -4356,7 +4356,7 @@ function renderizarPrediccionesSectores() {
 }
 
 // ============================================================================
-// MODAL DE CONFIRMACI�N DE ELIMINACI�N Y GESTI�N DE BORRADOS
+// MODAL DE CONFIRMACIÓN DE ELIMINACIÓN Y GESTIÓN DE BORRADOS
 // ============================================================================
 
 let accionConfirmarEliminacionPendiente = null;
@@ -4405,7 +4405,7 @@ function solicitarEliminarPlanilla(semanaLunes, trabId) {
   const rango = formatearRangoSemanaNumerico(semanaLunes);
 
   mostrarModalConfirmacionEliminar(
-    `�Est�s seguro de que deseas eliminar permanentemente la planilla de la semana ${rango} para "${nombreTrab}"? Se borrar�n todos los turnos marcados y notas asociadas.`,
+    `¿Estás seguro de que deseas eliminar permanentemente la planilla de la semana ${rango} para "${nombreTrab}"? Se borrarán todos los turnos marcados y notas asociadas.`,
     () => {
       const clave = `${semanaLunes}__${trabId}`;
       if (estadoFinca.horarios[clave]) {
@@ -4418,7 +4418,7 @@ function solicitarEliminarPlanilla(semanaLunes, trabId) {
 }
 
 // ============================================================================
-// CONTROL EXPANDIR / OCULTAR HISTORIAL DETALLADO DEL SECTOR (PESTA�A #5)
+// CONTROL EXPANDIR / OCULTAR HISTORIAL DETALLADO DEL SECTOR (PESTAÑA #5)
 // ============================================================================
 
 let historialSectorExpandido = false;
