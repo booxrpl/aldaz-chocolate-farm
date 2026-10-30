@@ -12,7 +12,43 @@
   <header class="app-header">
     <div class="brand-box">
       <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
-        <h1 style="color:#1f2937;">🍫 ALDAZ CHOCOLATE FARM</h1>
+        <h1 style="color:#4a2511; display:flex; align-items:center; gap:10px;"><svg class="cracked-cocoa-icon" width="38" height="38" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Cracked Cocoa Bean" style="flex-shrink:0; vertical-align:middle;">
+          <defs>
+            <linearGradient id="beanGradientTop" x1="12" y1="8" x2="36" y2="24" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#733619" />
+              <stop offset="100%" stop-color="#4a210d" />
+            </linearGradient>
+            <linearGradient id="beanGradientBottom" x1="12" y1="24" x2="36" y2="40" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#5a2711" />
+              <stop offset="100%" stop-color="#361406" />
+            </linearGradient>
+            <radialGradient id="nibGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#c2632b" />
+              <stop offset="100%" stop-color="#7a3713" />
+            </radialGradient>
+          </defs>
+
+          <!-- Bean Top Half -->
+          <path d="M9 22C7 15 13 8 21 6C28 4 36 8 39 14C41 18 40 22 38 23L33 21L28 25L23 21L18 25L13 21L9 22Z" fill="url(#beanGradientTop)" stroke="#2b1104" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M13 16C16 11 22 7.5 28 7C33 6.8 36 9 37.5 12" stroke="#9e4e24" stroke-width="2" stroke-linecap="round"/>
+          <path d="M12 20C17 14 26 11 34 16" stroke="#3d1606" stroke-width="1.5" stroke-linecap="round"/>
+
+          <!-- Bean Bottom Half -->
+          <path d="M10 27L14 25L19 29L24 25L29 29L34 25C37 28 39 33 36 38C32 43 24 44 17 42C11 40 7 34 10 27Z" fill="url(#beanGradientBottom)" stroke="#2b1104" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M14 36C18 40 25 41 31 38" stroke="#873e19" stroke-width="2" stroke-linecap="round"/>
+          <path d="M13 29C20 34 27 34 33 29" stroke="#2b1004" stroke-width="1.5" stroke-linecap="round"/>
+
+          <!-- Jagged Crack Gap -->
+          <polygon points="13,21 18,25 23,21 28,25 33,21 38,23 34,25 29,29 24,25 19,29 14,25 10,27 9,22" fill="#1f0a02"/>
+
+          <!-- Exposed Cocoa Nibs Inside Crack -->
+          <circle cx="16" cy="24" r="2.2" fill="url(#nibGlow)" stroke="#1a0701" stroke-width="0.8"/>
+          <circle cx="21" cy="24.5" r="2.5" fill="url(#nibGlow)" stroke="#1a0701" stroke-width="0.8"/>
+          <circle cx="26" cy="24" r="2.3" fill="url(#nibGlow)" stroke="#1a0701" stroke-width="0.8"/>
+          <circle cx="31" cy="24.5" r="2.1" fill="url(#nibGlow)" stroke="#1a0701" stroke-width="0.8"/>
+          <circle cx="20.5" cy="23.8" r="0.8" fill="#e08246"/>
+          <circle cx="25.5" cy="23.3" r="0.7" fill="#e08246"/>
+        </svg><span>ALDAZ CHOCOLATE FARM</span></h1>
         <span id="headerTituloPrecioBadge" style="background:#dcfce7; color:#14532d; font-size:21px; font-weight:900; padding:6px 16px; border-radius:10px; border:2px solid #86efac; display:inline-block;">
           📈 Mercado Cacao Hoy: <span id="tituloPrecioTonelada" style="color:#1f2937;">$5,686.00 / Ton</span> (<span id="tituloPrecioQuintal" style="color:#15803d;">$257.91 / qq</span>)
         </span>
@@ -79,7 +115,7 @@
           <button class="btn btn-outline" onclick="cambiarSemana(-1)">◀ Anterior</button>
           <input type="date" id="weekDatePicker" onchange="alCambiarFechaSemana(this.value)" />
           <button class="btn btn-outline" onclick="cambiarSemana(1)">Siguiente ▶</button>
-          <button class="btn btn-primary" style="background:#dc2626; border-color:#991b1b;" onclick="restablecerHojaPorDefecto()">
+          <button class="btn btn-primary" style="background:#16a34a; border-color:#14532d;" onclick="restablecerHojaPorDefecto()">
             🔄 Restablecer a Hoja Actual (Semana Actual)
           </button>
         </div>
@@ -89,7 +125,7 @@
       </div>
 
       <!-- AVISO CUANDO SE ABRE UNA HOJA DEL HISTORIAL (CON BOTÓN GRANDE DE RESTABLECER) -->
-      <div id="avisoHojaHistorialAbierta" class="no-print" style="display:none; background:#fef3c7; border:4px solid #d97706; padding:18px 24px; border-radius:14px; margin-bottom:18px; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+      <div id="avisoHojaHistorialAbierta" class="no-print" style="display:none; background:#f0fdf4; border:3px solid #86efac; color:#14532d; padding:18px 24px; border-radius:14px; margin-bottom:18px; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
         <div>
           <div style="font-size:23px; font-weight:900; color:#92400e;" id="textoAvisoHojaHistorial">
             📂 Estás viendo una planilla guardada del historial
@@ -98,15 +134,15 @@
             Cuando termines de revisarla o editarla, presiona el botón de al lado para volver a la hoja de la semana actual.
           </div>
         </div>
-        <button type="button" class="btn btn-primary" style="background:#dc2626; border-color:#991b1b; font-size:22px; padding:16px 28px;" onclick="restablecerHojaPorDefecto()">
+        <button type="button" class="btn btn-primary" style="background:#16a34a; border-color:#14532d; font-size:22px; padding:16px 28px;" onclick="restablecerHojaPorDefecto()">
           🔄 Volver a la Hoja de la Semana Actual
         </button>
       </div>
 
       <!-- CARTEL DE LA SEMANA SELECCIONADA (SOLO NÚMEROS) -->
-      <div style="background:#3b1c0e; color:#fff; padding:14px 22px; border-radius:12px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div style="background:#f8fafc; color:#1f2937; border:2px solid #86efac; padding:14px 22px; border-radius:12px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
         <div style="font-size:26px; font-weight:900; letter-spacing:1px;" id="textoRangoSemana">00/00/0000 - 00/00/0000</div>
-        <div style="font-size:19px; color:#fde68a;">Marca los días trabajados y presiona el botón verde <b>ENVIAR Y GUARDAR PLANILLA</b></div>
+        <div style="font-size:19px; color:#475569;">Marca los días trabajados y presiona el botón verde <b>ENVIAR Y GUARDAR PLANILLA</b></div>
       </div>
 
       <!-- HOJA DE ASISTENCIA IDÉNTICA AL FORMATO DE ALDAZ CHOCOLATE FARM -->
@@ -179,7 +215,7 @@
           Agrega aquí a tus empleados y cuánto gana cada uno por <b>Día Completo</b> y por <b>Medio Día</b>. Todo lo que ganen en sus horarios semanales se transfiere automáticamente a la pestaña <b>2. Reporte de Gastos</b>.
         </p>
 
-        <div class="form-grid" style="margin-bottom:24px; background:#fee2e2; padding:20px; border-radius:12px; border:2px solid #dc2626;">
+        <div class="form-grid" style="margin-bottom:24px; background:#f8fafc; padding:20px; border-radius:12px; border:2px solid #cbd5e1;">
           <div class="form-field">
             <label for="nuevoTrabNombre">Nombre del Trabajador:</label>
             <input type="text" id="nuevoTrabNombre" placeholder="Ej: Juan Pérez" />
@@ -262,7 +298,7 @@
         </div>
 
         <!-- 2. BOTÓN GRANDE PARA EXPANDIR / OCULTAR TODAS LAS DEMÁS HOJAS DEL HISTORIAL -->
-        <div style="background:#fef3c7; border:3px solid #d97706; border-radius:12px; padding:18px 22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;">
+        <div style="background:#f0fdf4; border:2px solid #86efac; border-radius:12px; padding:18px 22px; color:#14532d; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;">
           <div>
             <div style="font-size:22px; font-weight:900; color:#92400e;" id="tituloResumenHojasOcultas">
               📁 Hojas Guardadas de Otras Semanas (Ocultas)
@@ -277,8 +313,8 @@
         </div>
 
         <!-- CONTENEDOR OCULTO POR DEFECTO CON TODAS LAS DEMÁS HOJAS GUARDADAS -->
-        <div id="contenedorHojasAnterioresExpandible" style="display:none; margin-top:20px; border:3px solid #6b3a20; border-radius:12px; padding:20px; background:#fffdf9;">
-          <div class="control-bar" style="background:#f5ebe1; border-color:#6b3a20; margin-bottom:20px;">
+        <div id="contenedorHojasAnterioresExpandible" style="display:none; margin-top:20px; border:2px solid #cbd5e1; border-radius:12px; padding:20px; background:#ffffff;">
+          <div class="control-bar" style="background:#f8fafc; border-color:#cbd5e1; margin-bottom:20px;">
             <div class="control-group">
               <label for="filtroHistTrabajador">👷 Buscar por Trabajador:</label>
               <select id="filtroHistTrabajador" onchange="renderizarHistorialPlanillas()"></select>
@@ -336,8 +372,8 @@
     <section id="panel-cosecha" class="tab-panel">
 
       <!-- FORMULARIO PARA REGISTRAR COSECHA POR SECTOR (LATAS EN BABA Y QUINTALES SECOS) -->
-      <div class="card" style="border-color:#ca8a04; background:#fffef5;">
-        <h2 style="color:#854d0e; border-bottom-color:#fde047;">🌱 Registrar Cosecha por Sector (Latas en Baba y Quintales Secos)</h2>
+      <div class="card" style="border-color:#e2e8f0; background:#ffffff;">
+        <h2 style="color:#1f2937; border-bottom-color:#86efac;">🌱 Registrar Cosecha por Sector (Latas en Baba y Quintales Secos)</h2>
         <p style="margin-bottom:18px; color:#4b4b4b;">
           Elige qué sector de la finca cosechó e ingresa la cantidad de <b>Latas Cosechadas en la Finca</b> (cacao en baba) y los <b>Quintales Secos (qq)</b> después de secar.
         </p>
@@ -367,8 +403,8 @@
         <!-- DOS CUADROS CLAROS: 1) LATAS EN LA FINCA Y 2) QUINTALES SECOS -->
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(340px, 1fr)); gap:22px; margin-bottom:18px;">
           <!-- CUADRO 1: LATAS EN LA FINCA (CACAO EN BABA) -->
-          <div style="background:#fef9c3; border:3px solid #ca8a04; border-radius:12px; padding:20px;">
-            <h3 style="font-size:23px; color:#713f12; margin-bottom:14px;">🪣 1. Latas Cosechadas en la Finca (Cacao en Baba)</h3>
+          <div style="background:#f0fdf4; border:2px solid #86efac; border-radius:12px; padding:20px;">
+            <h3 style="font-size:23px; color:#14532d; margin-bottom:14px;">🪣 1. Latas Cosechadas en la Finca (Cacao en Baba)</h3>
             <div class="form-field">
               <label for="cosechaLatas">🪣 Cantidad de Latas Cosechadas:</label>
               <input type="number" id="cosechaLatas" min="0" step="0.5" placeholder="Ej: 15" oninput="calcularVistaPreviaCosecha()" />
@@ -391,9 +427,9 @@
         </div>
 
         <!-- VISTA PREVIA AUTOMÁTICA DE LA COSECHA -->
-        <div class="auto-calc-preview" style="background:#fef9c3; border-color:#ca8a04;">
+        <div class="auto-calc-preview" style="background:#f0fdf4; border-color:#86efac;">
           <div>
-            <div style="font-size:20px; font-weight:800; color:#713f12;">
+            <div style="font-size:20px; font-weight:800; color:#14532d;">
               🪣 Cosecha en la Finca: <span id="previewCosechaFinca">0 latas</span>
             </div>
             <div style="font-size:20px; font-weight:800; color:#14532d; margin-top:4px;">
@@ -404,7 +440,7 @@
             <div style="font-size:19px; font-weight:800; color:#4b5563;">
               Rendimiento de Secado:
             </div>
-            <div style="font-size:24px; font-weight:900; color:#854d0e;" id="previewCosechaRendimiento">
+            <div style="font-size:24px; font-weight:900; color:#16a34a;" id="previewCosechaRendimiento">
               ⏳ Pendiente de secar
             </div>
           </div>
@@ -449,9 +485,9 @@
             </thead>
             <tbody id="tablaHistorialCosechasBody"></tbody>
             <tfoot>
-              <tr style="background:#fef9c3; font-weight:900; font-size:22px;">
+              <tr style="background:#f0fdf4; font-weight:900; font-size:22px; color:#14532d;">
                 <td colspan="2">TOTALES DE COSECHAS EN LA LISTA:</td>
-                <td id="pieTotalCosechaFinca" style="color:#854d0e;">0 latas</td>
+                <td id="pieTotalCosechaFinca" style="color:#14532d;">0 latas</td>
                 <td id="pieTotalCosechaSeco" style="color:#14532d; font-size:24px;">0.00 qq</td>
                 <td>—</td>
                 <td id="pieTotalCosechaRendimiento">—</td>
@@ -468,12 +504,12 @@
 
   <!-- MODAL DE SINCRONIZACIÓN Y GUARDADO EN CUALQUIER DISPOSITIVO -->
   <div id="modalSincronizacionDispositivos" class="modal-overlay" style="display:none;">
-    <div class="modal-box" style="max-width:840px; border-color:#0284c7; max-height:92vh; overflow-y:auto; text-align:left; padding:28px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid #0284c7; padding-bottom:14px; margin-bottom:20px;">
+    <div class="modal-box" style="max-width:840px; border-color:#86efac; max-height:92vh; overflow-y:auto; text-align:left; padding:28px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:3px solid #86efac; padding-bottom:14px; margin-bottom:20px;">
         <div style="display:flex; align-items:center; gap:12px;">
           <span style="font-size:34px;">📲</span>
           <div>
-            <h2 style="margin:0; font-size:26px; color:#0369a1;">Guardado en Cualquier Dispositivo</h2>
+            <h2 style="margin:0; font-size:26px; color:#14532d;">Guardado en Cualquier Dispositivo</h2>
             <p style="margin:4px 0 0; color:#0c4a6e; font-size:16px; font-weight:700;">
               Todos tus registros se guardan en la memoria de este equipo y se sincronizan con cualquier teléfono, tablet o computadora.
             </p>
@@ -501,8 +537,8 @@
       </div>
 
       <!-- CONEXIÓN DESDE TELÉFONOS CELULARES U OTROS DISPOSITIVOS -->
-      <div style="background:#f0f9ff; border:2px solid #0284c7; border-radius:12px; padding:18px; margin-bottom:20px;">
-        <h3 style="margin-top:0; font-size:21px; color:#0369a1; display:flex; align-items:center; gap:8px;">
+      <div style="background:#f0fdf4; border:2px solid #86efac; border-radius:12px; padding:18px; margin-bottom:20px;">
+        <h3 style="margin-top:0; font-size:21px; color:#14532d; display:flex; align-items:center; gap:8px;">
           <span>📱</span> <span>Cómo Acceder y Guardar desde tu Celular o Tablet:</span>
         </h3>
         <p style="margin:0 0 12px; color:#0c4a6e; font-size:16px;">
@@ -511,8 +547,8 @@
 
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
           <input type="text" id="inputUrlCelularSincronizacion" readonly value="http://10.0.0.127:5357/"
-            style="flex:1; min-width:260px; font-size:20px; font-weight:900; color:#0369a1; background:#ffffff; border:2px solid #38bdf8; padding:10px 14px; border-radius:8px; text-align:center;" />
-          <button type="button" class="btn btn-primary" onclick="copiarUrlCelular()" style="background:#0284c7; border-color:#0369a1; font-size:18px; padding:10px 20px;">
+            style="flex:1; min-width:260px; font-size:20px; font-weight:900; color:#14532d; background:#ffffff; border:2px solid #86efac; padding:10px 14px; border-radius:8px; text-align:center;" />
+          <button type="button" class="btn btn-primary" onclick="copiarUrlCelular()" style="background:#16a34a; border-color:#14532d; font-size:18px; padding:10px 20px;">
             📋 Copiar Enlace
           </button>
         </div>
@@ -534,7 +570,7 @@
       </div>
 
       <!-- RESPALDOS PORTÁTILES (DESCARGAR / RESTAURAR ARCHIVO JSON) -->
-      <div style="background:#fef3c7; border:2px solid #d97706; border-radius:12px; padding:18px;">
+      <div style="background:#f8fafc; border:2px solid #cbd5e1; border-radius:12px; padding:18px; color:#374151;">
         <h3 style="margin-top:0; font-size:20px; color:#92400e; display:flex; align-items:center; gap:8px;">
           <span>📦</span> <span>Copia de Respaldo Portátil (Descargar / Restaurar):</span>
         </h3>

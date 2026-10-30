@@ -197,9 +197,9 @@ function actualizarEstadoGuardadoBadge(estado, horaPersonalizada = '') {
   } else if (estado === 'offline') {
     if (badge) badge.innerHTML = `<span>💾 Guardado Localmente en este Dispositivo (${hora})</span>`;
     if (badgeModal) {
-      badgeModal.style.background = '#fef3c7';
-      badgeModal.style.color = '#92400e';
-      badgeModal.style.borderColor = '#f59e0b';
+      badgeModal.style.background = '#f0fdf4';
+      badgeModal.style.color = '#14532d';
+      badgeModal.style.borderColor = '#86efac';
       badgeModal.textContent = `💾 Guardado Local (Sin conexión momentánea con el servidor central)`;
     }
   }
@@ -986,20 +986,20 @@ function crearFilaPlanillaHTML(reg, trab, calc) {
   const fechaGuardada = reg.fechaEnvio || reg.fechaFirma || '';
   const badgeEstado = fueEnviado
     ? `<span style="background:#dcfce7; color:#14532d; padding:4px 10px; border-radius:6px; font-weight:800; display:inline-block; margin-bottom:4px;">✓ Enviada ${fechaGuardada ? '(' + fechaGuardada + ')' : ''}</span>`
-    : '<span style="color:#92400e; font-weight:700;">En edición</span>';
+    : '<span style="color:#64748b; font-weight:700;">En edición</span>';
 
   const textoComentarios = reg.comentarios ? `<div style="font-size:17px; color:#444;">${reg.comentarios}</div>` : '';
 
   const tr = document.createElement('tr');
   if (reg.semanaLunes === semanaActualLunes && reg.trabajadorId === trabajadorSeleccionadoId) {
-    tr.style.backgroundColor = '#fef3c7';
+    tr.style.backgroundColor = '#f0fdf4';
   }
 
   const celdasSectores = SECTORES.map(sec => `<td>${formatearCeldaSector(sec)}</td>`).join('');
 
   tr.innerHTML = `
     <td><b style="font-size:21px;">${formatearRangoSemanaNumerico(reg.semanaLunes)}</b></td>
-    <td><b style="font-size:21px; color:#3b1c0e;">${trab ? trab.nombre : 'Trabajador'}</b></td>
+    <td><b style="font-size:21px; color:#1f2937;">${trab ? trab.nombre : 'Trabajador'}</b></td>
     ${celdasSectores}
     <td><b>${calc.totalHoras} hrs</b></td>
     <td style="color:#14532d; font-weight:900; font-size:22px;">${formatoDinero(calc.totalPagar)}</td>
@@ -1470,7 +1470,7 @@ function renderizarReporteCompletoGastos() {
     const pct = granTotalGastos > 0 ? ((item.monto / granTotalGastos) * 100).toFixed(1) + '%' : '0.0%';
     const tr = document.createElement('tr');
     if (item.destacado) {
-      tr.style.backgroundColor = '#fffbeb';
+      tr.style.backgroundColor = '#f8fafc';
     }
     tr.innerHTML = `
       <td><b>${item.nombre}</b></td>
@@ -1492,7 +1492,7 @@ function renderizarReporteCompletoGastos() {
       <td>${rt.diasCompletos}</td>
       <td>${rt.mediosDias}</td>
       <td><b>${rt.horas} hrs</b></td>
-      <td style="color:#b45309; font-weight:900; font-size:21px;">${formatoDinero(rt.totalPagado)}</td>
+      <td style="color:#1f2937; font-weight:900; font-size:21px;">${formatoDinero(rt.totalPagado)}</td>
     `;
     tbodyTrab.appendChild(tr);
   });
@@ -1726,23 +1726,23 @@ function renderizarEstadisticasCosecha() {
         const celdaPesoSecoActual = sQQ > 0
           ? `<div style="color:#14532d; font-weight:900; font-size:22px;">☀️ ${sQQ.toFixed(2)} qq</div>
              <span style="background:#dcfce7; color:#166534; font-size:15px; font-weight:800; padding:2px 8px; border-radius:6px;">✅ Ya secado</span>`
-          : `<div style="background:#fef3c7; color:#92400e; border:2px solid #f59e0b; padding:8px 12px; border-radius:8px; font-weight:800; font-size:18px;">
+          : `<div style="background:#fef3c7; color:#64748b; border:2px solid #f59e0b; padding:8px 12px; border-radius:8px; font-weight:800; font-size:18px;">
                ⏳ Pendiente de secar<br/>
                <span style="font-size:15px; font-weight:600;">Anótalo al lado cuando se seque ➡️</span>
              </div>`;
 
         const celdaRendimiento = sQQ > 0 && latas > 0
           ? `<b>${(latas / sQQ).toFixed(1)} latas / qq</b><br/><span style="color:#666; font-size:16px;">(${(sQQ / latas).toFixed(2)} qq / lata)</span>`
-          : '<span style="color:#92400e; font-weight:700;">⏳ En secado</span>';
+          : '<span style="color:#64748b; font-weight:700;">⏳ En secado</span>';
 
         const tr = document.createElement('tr');
         if (sQQ === 0) {
-          tr.style.backgroundColor = '#fffbeb';
+          tr.style.backgroundColor = '#f8fafc';
         }
         tr.innerHTML = `
           <td><b>${formatearFechaCorta(c.fecha)}</b></td>
           <td><b>${c.sector}</b></td>
-          <td style="color:#854d0e; font-weight:800; font-size:20px;">🪣 ${latas} ${latas === 1 ? 'lata' : 'latas'}</td>
+          <td style="color:#14532d; font-weight:800; font-size:20px;">🪣 ${latas} ${latas === 1 ? 'lata' : 'latas'}</td>
           <td>${celdaPesoSecoActual}</td>
           <td style="background:#f0fdf4; border-left:2px solid #86efac; border-right:2px solid #86efac;">
             <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
@@ -1897,7 +1897,7 @@ function renderizarSuministroCacaoSecoEnVentas() {
       tr.innerHTML = `
         <td><b>${sec}</b></td>
         <td style="color:#15803d; font-weight:800;">${formatoPeso(cosQQ)}</td>
-        <td style="color:#0369a1; font-weight:800;">${formatoPeso(venQQ)}</td>
+        <td style="color:#15803d; font-weight:800;">${formatoPeso(venQQ)}</td>
         <td>${badgeDisp}</td>
         <td>${btnAccion}</td>
       `;
@@ -2379,7 +2379,7 @@ function renderizarTablaDesglosePorModo(coincidePeriodo, anioFiltro, movimientos
         <td><b>${formatearFechaConDiaEspanol(fecha)}</b></td>
         <td><b>${formatoPeso(d.qq)}</b></td>
         <td style="color:#15803d; font-weight:800;">${formatoDinero(d.ventas)}</td>
-        <td style="color:#b45309; font-weight:800;">${formatoDinero(d.nomina)}</td>
+        <td style="color:#1f2937; font-weight:800;">${formatoDinero(d.nomina)}</td>
         <td style="color:#b91c1c; font-weight:800;">${formatoDinero(d.gastos)}</td>
         <td style="color:${colorG}; font-weight:900; font-size:22px;">${formatoDinero(ganancia)}</td>
       `;
@@ -2443,7 +2443,7 @@ function renderizarTablaDesglosePorModo(coincidePeriodo, anioFiltro, movimientos
         <td><b>${formatearRangoSemanaNumerico(lun)}</b></td>
         <td><b>${formatoPeso(d.qq)}</b></td>
         <td style="color:#15803d; font-weight:800;">${formatoDinero(d.ventas)}</td>
-        <td style="color:#b45309; font-weight:800;">${formatoDinero(d.nomina)}</td>
+        <td style="color:#1f2937; font-weight:800;">${formatoDinero(d.nomina)}</td>
         <td style="color:#b91c1c; font-weight:800;">${formatoDinero(d.gastos)}</td>
         <td style="color:${colorG}; font-weight:900; font-size:22px;">${formatoDinero(ganancia)}</td>
       `;
@@ -2508,7 +2508,7 @@ function renderizarTablaDesglosePorModo(coincidePeriodo, anioFiltro, movimientos
         <td><b>${mStr}/${y} (${nombreMes})</b></td>
         <td><b>${formatoPeso(d.qq)}</b></td>
         <td style="color:#15803d; font-weight:800;">${formatoDinero(d.ventas)}</td>
-        <td style="color:#b45309; font-weight:800;">${formatoDinero(d.nomina)}</td>
+        <td style="color:#1f2937; font-weight:800;">${formatoDinero(d.nomina)}</td>
         <td style="color:#b91c1c; font-weight:800;">${formatoDinero(d.gastos)}</td>
         <td style="color:${colorG}; font-weight:900; font-size:22px;">${formatoDinero(ganancia)}</td>
       `;
@@ -2533,7 +2533,7 @@ function renderizarTablaDesglosePorModo(coincidePeriodo, anioFiltro, movimientos
         <td><b style="font-size:22px;">${anio}</b></td>
         <td><b>${formatoPeso(d.qq)}</b></td>
         <td style="color:#15803d; font-weight:800;">${formatoDinero(d.ventas)}</td>
-        <td style="color:#b45309; font-weight:800;">${formatoDinero(d.nomina)}</td>
+        <td style="color:#1f2937; font-weight:800;">${formatoDinero(d.nomina)}</td>
         <td style="color:#b91c1c; font-weight:800;">${formatoDinero(d.gastos)}</td>
         <td style="color:${colorG}; font-weight:900; font-size:24px;">${formatoDinero(ganancia)}</td>
       `;
@@ -2575,7 +2575,7 @@ function renderizarTablaDesglosePorModo(coincidePeriodo, anioFiltro, movimientos
         <td><b style="font-size:23px; color:#14532d;">🏆 CICLO 5 AÑOS: ${inicio} - ${fin}</b></td>
         <td><b>${formatoPeso(qqBloque)}</b></td>
         <td style="color:#15803d; font-weight:900;">${formatoDinero(ventasBloque)}</td>
-        <td style="color:#b45309; font-weight:900;">${formatoDinero(nominaBloque)}</td>
+        <td style="color:#1f2937; font-weight:900;">${formatoDinero(nominaBloque)}</td>
         <td style="color:#b91c1c; font-weight:900;">${formatoDinero(gastosBloque)}</td>
         <td style="color:${colorB}; font-weight:900; font-size:25px;">${formatoDinero(gananciaBloque)}</td>
       `;
@@ -2823,7 +2823,7 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
         </div>
         <div class="pred-row pred-profit-row">
           <span>💰 Pago Previsto:</span>
-          <span style="color:#b45309;">${formatoDinero(promSemanalNomina * h.factor)}</span>
+          <span style="color:#1f2937;">${formatoDinero(promSemanalNomina * h.factor)}</span>
         </div>
       </div>
     `).join('');
@@ -2854,7 +2854,7 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
         <h3>${h.titulo}</h3>
         <div class="pred-row">
           <span>👷 Trabajadores:</span>
-          <b style="color:#b45309;">${formatoDinero(promSemanalNomina * h.factor)}</b>
+          <b style="color:#1f2937;">${formatoDinero(promSemanalNomina * h.factor)}</b>
         </div>
         <div class="pred-row">
           <span>🌱 Materiales/Abono:</span>
@@ -2902,7 +2902,7 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
           <h3>${h.titulo}</h3>
           <div class="pred-row">
             <span>🌿 Peso en Finca:</span>
-            <b style="color:#854d0e;">${fincaEstQQ.toFixed(2)} qq</b>
+            <b style="color:#14532d;">${fincaEstQQ.toFixed(2)} qq</b>
           </div>
           <div class="pred-row">
             <span>☀️ Peso Seco (qq):</span>
@@ -2926,9 +2926,9 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td><b>${sec}</b></td>
-        <td style="color:#854d0e; font-weight:800;">${formatoPeso(fincaSemSec * 52)}</td>
+        <td style="color:#14532d; font-weight:800;">${formatoPeso(fincaSemSec * 52)}</td>
         <td style="color:#14532d; font-weight:900;">${formatoPeso(secoSemSec * 52)}</td>
-        <td style="color:#854d0e; font-weight:800;">${formatoPeso(fincaSemSec * 52 * 5)}</td>
+        <td style="color:#14532d; font-weight:800;">${formatoPeso(fincaSemSec * 52 * 5)}</td>
         <td style="color:#14532d; font-weight:900; font-size:21px;">${formatoPeso(secoSemSec * 52 * 5)}</td>
       `;
       tbodyPredCosSec.appendChild(tr);
@@ -3004,7 +3004,7 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
         <td><b>${anioFuturo}</b></td>
         <td><b>${formatoPeso(qqAnual)}</b></td>
         <td style="color:#15803d; font-weight:800;">${formatoDinero(ventasAnual)}</td>
-        <td style="color:#b45309; font-weight:800;">${formatoDinero(nominaAnual)}</td>
+        <td style="color:#1f2937; font-weight:800;">${formatoDinero(nominaAnual)}</td>
         <td style="color:#b91c1c; font-weight:800;">${formatoDinero(gastosAnual)}</td>
         <td style="color:${colorG}; font-weight:900; font-size:22px;">${formatoDinero(gananciaAnual)}</td>
       `;
@@ -3018,7 +3018,7 @@ function renderizarPrediccionesYPatronesEnCadaPestana() {
       <td><b style="font-size:22px; color:#14532d;">🏆 TOTAL 5 AÑOS (${anioActual + 1} - ${anioActual + 5})</b></td>
       <td><b>${formatoPeso(qqAnual * 5)}</b></td>
       <td style="color:#15803d; font-weight:900; font-size:22px;">${formatoDinero(ventasAnual * 5)}</td>
-      <td style="color:#b45309; font-weight:900; font-size:22px;">${formatoDinero(nominaAnual * 5)}</td>
+      <td style="color:#1f2937; font-weight:900; font-size:22px;">${formatoDinero(nominaAnual * 5)}</td>
       <td style="color:#b91c1c; font-weight:900; font-size:22px;">${formatoDinero(gastosAnual * 5)}</td>
       <td style="color:${colorTotal5}; font-weight:900; font-size:26px;">${formatoDinero(gananciaAnual * 5)}</td>
     `;
@@ -3145,7 +3145,7 @@ function renderizarListaAnomaliasConReconocimiento(contenedorId, listaAlertas, t
                   <b style="color:#475569; font-size:18px; display:block; margin-bottom:4px;">${r.titulo}</b>
                   <div style="font-size:16px; color:#64748b;">${r.detalle}</div>
                 </div>
-                <button type="button" class="btn-reactivate" style="background:#e0f2fe; color:#0369a1; border:2px solid #0284c7; padding:8px 14px; font-size:16px; border-radius:8px; font-weight:800; cursor:pointer;" onclick="reactivarAnomalia('${r.id}')" title="Volver a mostrar esta alerta en la lista principal">
+                <button type="button" class="btn-reactivate" style="background:#e0f2fe; color:#15803d; border:2px solid #0284c7; padding:8px 14px; font-size:16px; border-radius:8px; font-weight:800; cursor:pointer;" onclick="reactivarAnomalia('${r.id}')" title="Volver a mostrar esta alerta en la lista principal">
                   🔄 Reactivar
                 </button>
               </div>
@@ -3948,7 +3948,7 @@ function renderizarBalanceSectores() {
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid ${borderCard}; padding-bottom:12px; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
           <div>
             <h3 style="margin:0; font-size:25px; color:#14532d; font-weight:900;">🌱 ${sec}</h3>
-            <span style="font-size:16px; font-weight:800; color:#1e40af; background:#dbeafe; padding:2px 8px; border-radius:6px; border:1px solid #93c5fd; display:inline-block; margin-top:4px;">
+            <span style="font-size:16px; font-weight:800; color:#14532d; background:#dcfce7; padding:2px 8px; border-radius:6px; border:1px solid #86efac; display:inline-block; margin-top:4px;">
               🌱 ${st.acres} acres • ${st.porcentaje ? st.porcentaje.toFixed(1) : 0}% de la finca
             </span>
           </div>
@@ -3970,7 +3970,7 @@ function renderizarBalanceSectores() {
           <div style="border-top:1px dashed #cbd5e1; padding-top:8px; margin-top:2px;">
             <div style="display:flex; justify-content:space-between; align-items:center; font-size:17px; color:#6b7280;">
               <span>👷 Mano de Obra (${st.diasEquivalentes} días):</span>
-              <span style="font-weight:700; color:#b45309;">${formatoDinero(st.costoManoObra)}</span>
+              <span style="font-weight:700; color:#1f2937;">${formatoDinero(st.costoManoObra)}</span>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; font-size:16px; color:#6b7280; margin-top:4px;">
               ${textoInsumos}
@@ -4027,11 +4027,11 @@ function renderizarBalanceSectores() {
 
       tr.innerHTML = `
         <td><b style="font-size:22px;">🌱 ${sec}</b></td>
-        <td style="color:#1e40af; font-weight:800; font-size:19px;">${st.acres} acres <span style="font-size:15px; color:#475569;">(${st.porcentaje ? st.porcentaje.toFixed(1) : 0}%)</span></td>
+        <td style="color:#14532d; font-weight:800; font-size:19px;">${st.acres} acres <span style="font-size:15px; color:#475569;">(${st.porcentaje ? st.porcentaje.toFixed(1) : 0}%)</span></td>
         <td style="color:#15803d; font-weight:800;">${formatoPeso(st.cacaoSecoCosechadoQQ)}</td>
         <td style="color:#14532d; font-weight:800;">${formatoPeso(st.cacaoSecoVendidoQQ)}</td>
         <td style="color:#15803d; font-weight:900; font-size:22px;">${formatoDinero(st.ingresosVentas)}</td>
-        <td style="color:#b45309; font-weight:800;">${formatoDinero(st.costoManoObra)} <span style="font-size:15px; color:#6b7280;">(${st.diasEquivalentes}d)</span></td>
+        <td style="color:#1f2937; font-weight:800;">${formatoDinero(st.costoManoObra)} <span style="font-size:15px; color:#6b7280;">(${st.diasEquivalentes}d)</span></td>
         <td style="color:#b91c1c; font-weight:800;">${formatoDinero(st.costoInsumos)}${desgloseInsumos}</td>
         <td style="color:#991b1b; font-weight:900; font-size:22px;">${formatoDinero(st.costoTotal)}</td>
         <td style="color:${colorG}; font-weight:900; font-size:24px;">${formatoDinero(st.ganancia)}</td>
@@ -4045,7 +4045,7 @@ function renderizarBalanceSectores() {
       const margenTotal = sumaIngresos > 0 ? ((sumaGanancia / sumaIngresos) * 100).toFixed(1) : '0.0';
       pie.innerHTML = `
         <td>TOTAL GENERAL:</td>
-        <td style="color:#1e40af; font-size:20px;">${sumaAcres.toFixed(1)} acres (100.0%)</td>
+        <td style="color:#14532d; font-size:20px;">${sumaAcres.toFixed(1)} acres (100.0%)</td>
         <td>${formatoPeso(sumaCosSecQQ)}</td>
         <td>${formatoPeso(sumaVenSecQQ)}</td>
         <td style="color:#14532d; font-size:24px;">${formatoDinero(sumaIngresos)}</td>
