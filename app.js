@@ -36,10 +36,19 @@ const NOMBRES_DIAS_DOM_SAB = [
 const HORAS_DIA_COMPLETO = 8;
 const HORAS_MEDIO_DIA = 4;
 
+const TRABAJADORES_POR_DEFECTO = [
+  { id: 'trab_1792373853758', nombre: 'Mohamed', tarifaDiaCompleto: 20.00, tarifaMedioDia: 10.00, telefono: '' },
+  { id: 'trab_1792373859776', nombre: 'Selina', tarifaDiaCompleto: 20.00, tarifaMedioDia: 10.00, telefono: '' },
+  { id: 'trab_1792373870123', nombre: 'Franklin', tarifaDiaCompleto: 20.00, tarifaMedioDia: 10.00, telefono: '' },
+  { id: 'trab_1792373876261', nombre: 'Edwin', tarifaDiaCompleto: 20.00, tarifaMedioDia: 10.00, telefono: '' }
+];
+
 let estadoFinca = {
   trabajadores: [
-    { id: 'trab_1', nombre: 'Trabajador 1', tarifaDiaCompleto: 20.00, tarifaMedioDia: 10.00, telefono: '' },
-    { id: 'trab_2', nombre: 'Trabajador 2', tarifaDiaCompleto: 20.00, tarifaMedioDia: 10.00, telefono: '' }
+    { id: 'trab_1792373853758', nombre: 'Mohamed', tarifaDiaCompleto: 20.00, tarifaMedioDia: 10.00, telefono: '' },
+    { id: 'trab_1792373859776', nombre: 'Selina', tarifaDiaCompleto: 20.00, tarifaMedioDia: 10.00, telefono: '' },
+    { id: 'trab_1792373870123', nombre: 'Franklin', tarifaDiaCompleto: 20.00, tarifaMedioDia: 10.00, telefono: '' },
+    { id: 'trab_1792373876261', nombre: 'Edwin', tarifaDiaCompleto: 20.00, tarifaMedioDia: 10.00, telefono: '' }
   ],
   sectores: [
     { id: 'sec_1', nombre: 'El Guineo' },
@@ -206,37 +215,62 @@ function actualizarEstadoGuardadoBadge(estado, horaPersonalizada = '') {
 }
 
 async function cargarDatosIniciales() {
+  let tieneDatosLocalesValidos = false;
+
   // 1. CARGA INMEDIATA DESDE EL ALMACENAMIENTO LOCAL DE ESTE DISPOSITIVO (Offline-First)
   const localRaw = localStorage.getItem(STORAGE_KEY);
   if (localRaw) {
     try {
       const parsed = JSON.parse(localRaw);
-      if (parsed && parsed.trabajadores) {
-        estadoFinca = parsed;
-        actualizarEstadoGuardadoBadge('offline');
+      if (parsed && Array.isArray(parsed.trabajadores) && parsed.trabajadores.length > 0) {
+        const tieneMarcadoresFalsos = parsed.trabajadores.some(t => t.nombre.startsWith('Trabajador '));
+        if (!tieneMarcadoresFalsos) {
+          estadoFinca = parsed;
+          tieneDatosLocalesValidos = true;
+          actualizarEstadoGuardadoBadge('offline');
+        }
       }
     } catch (e) {
       console.error('Error leyendo almacenamiento local del dispositivo:', e);
     }
   }
 
-  // 2. SINCRONIZACIÓN CON EL SERVIDOR CENTRAL DE LA FINCA
+  // 2. SINCRONIZACIÓN CON EL SERVIDOR CENTRAL DE LA FINCA O ARCHIVO ESTÁTICO (FALLBACK VERCEL)
   try {
-    const resp = await fetch('/api/datos?t=' + Date.now(), { cache: 'no-store' });
+    let resp = await fetch('/api/datos?t=' + Date.now(), { cache: 'no-store' });
+    if (!resp.ok) {
+      resp = await fetch('/datos_finca.json?t=' + Date.now(), { cache: 'no-store' });
+    }
     if (resp.ok) {
       const dataDisco = await resp.json();
-      if (dataDisco && !dataDisco.empty && dataDisco.trabajadores) {
-        // Guardar la copia completa en el almacenamiento local de este dispositivo
-        estadoFinca = dataDisco;
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(estadoFinca));
-        actualizarEstadoGuardadoBadge('sincronizado');
-      } else {
-        await guardarDatos();
+      if (dataDisco && !dataDisco.empty && Array.isArray(dataDisco.trabajadores) && dataDisco.trabajadores.length > 0) {
+        if (!tieneDatosLocalesValidos || (dataDisco.version && (!estadoFinca.version || dataDisco.version >= estadoFinca.version))) {
+          estadoFinca = dataDisco;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(estadoFinca));
+          actualizarEstadoGuardadoBadge('sincronizado');
+        }
       }
     }
   } catch (e) {
     // Si no hay conexión momentánea con el servidor central, se mantiene con la copia local de este dispositivo
     actualizarEstadoGuardadoBadge('offline');
+  }
+
+  // 3. ASEGURAR SIEMPRE QUE LOS EMPLEADOS PRINCIPALES DE LA FINCA ESTÉN PRESENTES
+  if (!Array.isArray(estadoFinca.trabajadores) || estadoFinca.trabajadores.length === 0) {
+    estadoFinca.trabajadores = JSON.parse(JSON.stringify(TRABAJADORES_POR_DEFECTO));
+  } else {
+    // Si faltaba alguno de los trabajadores por defecto, agregarlo
+    TRABAJADORES_POR_DEFECTO.forEach(defTrab => {
+      const yaExiste = estadoFinca.trabajadores.some(
+        t => t.nombre.toLowerCase().trim() === defTrab.nombre.toLowerCase().trim()
+      );
+      if (!yaExiste) {
+        estadoFinca.trabajadores.push({ ...defTrab });
+      }
+    });
+    // Limpiar cualquier marcador antiguo de ejemplo "Trabajador 1" o "Trabajador 2"
+    estadoFinca.trabajadores = estadoFinca.trabajadores.filter(t => !t.nombre.startsWith('Trabajador '));
   }
 
   // Validar estructuras mínimas
@@ -253,6 +287,14 @@ async function cargarDatosIniciales() {
     ];
   }
   SECTORES = estadoFinca.sectores.map(s => s.nombre);
+
+  // Asegurar que haya un trabajador seleccionado válido
+  if (!trabajadorSeleccionadoId || !estadoFinca.trabajadores.some(t => t.id === trabajadorSeleccionadoId)) {
+    trabajadorSeleccionadoId = estadoFinca.trabajadores[0] ? estadoFinca.trabajadores[0].id : '';
+  }
+
+  // Guardar copia limpia en almacenamiento local
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(estadoFinca));
 }
 
 async function guardarDatos() {
@@ -665,16 +707,26 @@ function irASemanaActual() {
 function restablecerHojaPorDefecto() {
   semanaActualLunes = obtenerLunesDeFecha(new Date());
   viendoHojaDeHistorial = false;
-  if (estadoFinca.trabajadores.length > 0) {
-    trabajadorSeleccionadoId = estadoFinca.trabajadores[0].id;
+
+  // Asegurar SIEMPRE que los empleados existan y no se borren
+  if (!Array.isArray(estadoFinca.trabajadores) || estadoFinca.trabajadores.length === 0) {
+    estadoFinca.trabajadores = JSON.parse(JSON.stringify(TRABAJADORES_POR_DEFECTO));
   }
+
+  if (!trabajadorSeleccionadoId || !estadoFinca.trabajadores.some(t => t.id === trabajadorSeleccionadoId)) {
+    trabajadorSeleccionadoId = estadoFinca.trabajadores[0] ? estadoFinca.trabajadores[0].id : '';
+  }
+
   if (document.getElementById('weekDatePicker')) {
     document.getElementById('weekDatePicker').value = semanaActualLunes;
   }
+
+  renderizarSelectorTrabajadores();
   if (document.getElementById('selectTrabajadorHorario')) {
     document.getElementById('selectTrabajadorHorario').value = trabajadorSeleccionadoId;
   }
   renderizarHojaHorario();
+  renderizarTablaTrabajadores();
   renderizarHistorialPlanillas();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
